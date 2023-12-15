@@ -18,12 +18,6 @@ const isBlocked = async(req,res,next) =>{
         if(req.session.user_id){
             const id = req.session.user_id;
             const user = await User.findOne({_id: id});
-            console.log(user);
-            console.log(user._id);
-            console.log(req.session._id);
-            console.log(req.session);
-            console.log(req.session.user_id);
-            
             if (user.isBlocked == 1) {
                 delete req.session.user_id;
 
