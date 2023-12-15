@@ -47,13 +47,7 @@ const loadHome = async(req,res) =>{
     }
 }
 
-const loadCategories = async(req,res) =>{
-    try {
-        res.render('categories');
-    } catch (error) {
-        console.log(error.message);
-    }
-}
+
 
 const loadUsers = async(req,res) =>{
     try {
@@ -84,7 +78,7 @@ const blockUser = async(req,res) =>{
         const userData = await User.findById(id);
         await userData.updateOne({$set: {isBlocked: 1}});
 
-        res.redirect('users');
+        res.redirect('/admin/users');
     } catch (error) {
         console.log(error.message);
     }
@@ -96,7 +90,7 @@ const unblockUser = async(req,res) =>{
         const userData = await User.findById(id);
         await userData.updateOne({$set: {isBlocked: 0}});
 
-        res.redirect('users');
+        res.redirect('/admin/users');
     } catch (error) {
         console.log(error.message);
     }
@@ -115,7 +109,6 @@ module.exports = {
     loadLogin,
     verifyLogin,
     loadHome,
-    loadCategories,
     loadUsers,
     blockUser,
     unblockUser,

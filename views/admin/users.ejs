@@ -104,11 +104,11 @@
 
                     <% if (users[i].isBlocked === 0) { %>
                         <td>
-                            <a href="/admin/block-user?id=<%= users[i]._id %>" id="blockbutton" class="btn btn-danger px-3 ">Block</a>
+                            <a href="/admin/users/block-user?id=<%= users[i]._id %>" id="blockbutton" class="btn btn-danger px-3 ">Block</a>
                         </td>
                     <% } else { %>
                         <td>
-                            <a href="/admin/unblock-user?id=<%= users[i]._id %>" id="unblockbutton" class="btn btn-primary px-3 ">Unblock</a>
+                            <a href="/admin/users/unblock-user?id=<%= users[i]._id %>" id="unblockbutton" class="btn btn-primary px-3 ">Unblock</a>
                         </td>
                     <% } %>
                     <!-- <td>
