@@ -84,22 +84,6 @@ const blockUser = async(req,res) =>{
         const userData = await User.findById(id);
         await userData.updateOne({$set: {isBlocked: 1}});
 
-        // Checks if the user is in same browser 
-        if( req.session.user_id === id ){
-            // If user is in same browser it deletes 
-            delete req.session.user_id
-            res.redirect('/');
-        }
-
-        const sessions = req.sessionStore.sessions;
-            for ( const sessionId in sessions ) {
-            const session = JSON.parse( sessions[sessionId] );
-            if ( session.user === id ) {
-                delete sessions[sessionId];
-                break; 
-            }
-            }
-
         res.redirect('users');
     } catch (error) {
         console.log(error.message);

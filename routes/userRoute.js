@@ -30,7 +30,7 @@ userRoute.get('/login',auth.isLogout,userController.loginLoad);
 
 userRoute.post('/login',userController.verifyLogin);
 
-userRoute.get('/home',auth.isLogin,userController.loadHome);
+userRoute.get('/home',auth.isBlocked,auth.isLogin,userController.loadHome);
 
 userRoute.get('/logout',auth.isLogin,userController.userLogout);
 
