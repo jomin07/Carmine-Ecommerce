@@ -24,7 +24,7 @@ const verifyLogin = async(req,res) =>{
                     res.render('login',{message: 'Invalid Username'});
                 } else {
                     
-                    req.session.user_id = userData._id;
+                    req.session.admin_id = userData._id;
                     res.redirect('/admin/home');
                 }
             } else {
