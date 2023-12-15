@@ -1,0 +1,93 @@
+<%- include('../partials/header.ejs') %>
+
+  <section class="vh-80 bg-image"
+    style="background-color: rgb(9, 173, 173);">
+    <div class="mask d-flex align-items-center h-80 gradient-custom-3">
+      <div class="container h-80">
+        <div class="row d-flex justify-content-center align-items-center h-80">
+          <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+            <div class="card" style="border-radius: 15px;">
+              <div class="card-body p-5">
+                <h2 class="text-uppercase text-center mb-5">Sign Up</h2>
+
+                <form id="registrationForm" action="" method="post">
+
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="name">Your Name</label>
+                    <input type="text" name="name" class="form-control form-control-lg" required/>
+                    
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="email">Your Email</label>
+                    <input type="email" name="email" class="form-control form-control-lg" required/>
+                    
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" name="password" class="form-control form-control-lg" required/>
+                    
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="mno">Your Phone</label>
+                    <input type="text" name="mno" class="form-control form-control-lg" required/>
+                    
+                  </div>
+
+                  <% if(typeof message !== 'undefined'){
+                    %>
+                        <p style="color: green;"><%= message %></p>
+                    <%
+                    } %>
+                    <p id="errorMessages" class="text-danger"></p>
+                  <div class="row mt-3">
+                    <input class="btn btn-primary btn-lg" type="submit" value="Register" />
+                    
+                  </div>
+                  <p class="text-center text-muted mt-5 mb-0">Already have an account? <a href="/login"
+                      class="fw-bold text-body"><u>Login here</u></a></p>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/footer.ejs') %>
+
+  <script>
+    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+      const name = document.getElementsByName('name')[0].value;
+      const email = document.getElementsByName('email')[0].value;
+      const password = document.getElementsByName('password')[0].value;
+      const mobile = document.getElementsByName('mno')[0].value;
+      const errorMessages = document.getElementById('errorMessages');   
+  
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isEmailValid = emailRegex.test(email);
+  
+      errorMessages.innerHTML = '';
+  
+      if (name.length < 1) {
+        errorMessages.innerHTML += 'Name should have at least 1 character.<br>';
+      }
+      if (!isEmailValid) {
+        errorMessages.innerHTML += 'Please enter a valid email.<br>';
+      }
+      if (password.length < 6) {
+        errorMessages.innerHTML += 'Password should contain at least 6 characters.<br>';
+      }
+      if (mobile.length !== 10) {
+        errorMessages.innerHTML += 'Mobile number should have 10 digits.<br>';
+      }
+  
+      if (errorMessages.innerHTML !== '') {
+        event.preventDefault();
+      }
+    });
+  </script>

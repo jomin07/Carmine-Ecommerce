@@ -1,0 +1,36 @@
+<body class="bg-warning"></body>
+
+<%- include('../layouts/header.ejs') %>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-1">
+            <img src="userImages/<%= user.image %>" alt="image" class="img-fluid rounded-circle" width="100px" height="100px">
+        </div>
+        <div class="col-md-11">
+            <form action="" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Profile Image</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                </div>
+                <input type="hidden" name="user_id" value="<%= user._id %>">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" placeholder="Enter Name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" placeholder="Enter Email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="mno" class="form-label">Mobile Number</label>
+                    <input type="text" class="form-control" id="mno" name="mno" value="<%= user.mobile %>" placeholder="Enter Mobile Number" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<%- include('../layouts/footer.ejs') %>
