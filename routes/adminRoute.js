@@ -7,7 +7,10 @@ const config = require('../config/config');
 const auth = require('../middleware/adminAuth');
 const adminController = require('../controllers/adminController');
 const categoryController = require('../controllers/categoryController');
+const productController = require('../controllers/productController');
 const flash = require('connect-flash');
+const multer = require('multer');
+
 
 adminRoute.use(session({secret:config.sessionSecret,resave:false,saveUninitialized:true}));
 
@@ -19,12 +22,25 @@ adminRoute.use(flash());
 adminRoute.set('view engine','ejs');
 adminRoute.set('views','./views/admin');
 
+const storage = multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,path.join(__dirname,'../public/admin/productimages'));
+    },
+    filename:function(req,file,cb){
+        const name = Date.now()+'-'+file.originalname;
+        cb(null,name);
+    }
+});
+
+const upload = multer({storage:storage});
+
 // adminRoute.use(express.static('public'));
 // adminRoute.use(express.static(path.join(__dirname, 'public')));
 
 adminRoute.get('/',auth.isLogout,adminController.loadLogin);
 adminRoute.post('/',adminController.verifyLogin);
 adminRoute.get('/home',auth.isLogin,adminController.loadHome);
+
 adminRoute.get('/categories',auth.isLogin,categoryController.loadCategories);
 adminRoute.get('/categories/add-category',auth.isLogin,categoryController.loadAddCategory);
 adminRoute.post('/categories/add-category',categoryController.insertCategory);
@@ -33,9 +49,14 @@ adminRoute.post('/categories/edit-category',categoryController.updateCategory);
 adminRoute.get('/categories/list-category',auth.isLogin,categoryController.listCategory);
 adminRoute.get('/categories/unlist-category',auth.isLogin,categoryController.unListCategory);
 adminRoute.get('/categories/delete-category',auth.isLogin,categoryController.deleteCategory);
+
+adminRoute.get('/products',auth.isLogin,productController.loadProducts);
+adminRoute.get('/products/add-product',auth.isLogin,productController.loadAddProduct);
+
 adminRoute.get('/users',auth.isLogin,adminController.loadUsers);
 adminRoute.get('/users/block-user',auth.isLogin,adminController.blockUser);
 adminRoute.get('/users/unblock-user',auth.isLogin,adminController.unblockUser);
+
 adminRoute.get('/logout',auth.isLogin,adminController.logout);
 
 
