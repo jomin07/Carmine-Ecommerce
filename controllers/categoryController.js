@@ -22,13 +22,14 @@ const loadAddCategory = async(req,res) =>{
 const insertCategory = async(req,res) =>{
     try {
         const existingCategory = await Category.findOne({name: req.body.name});
-        const existingCategoryName = existingCategory.name.toLowerCase();
-        const newCategoryName = req.body.name.toLowerCase();
 
-        if(existingCategoryName === newCategoryName){
-            return res.render('add-category',{message: 'Category already exists'});
-            // req.flash('error','Category already exists');
-            // res.redirect('/admin/categories/add-category');
+        if(existingCategory){ 
+            const existingCategoryName = existingCategory.name.toLowerCase();
+            const newCategoryName = req.body.name.toLowerCase();
+            
+            if(existingCategoryName === newCategoryName){
+                return res.render('add-category',{message: 'Category already exists'});
+            }
         }
 
         const category = new Category({
