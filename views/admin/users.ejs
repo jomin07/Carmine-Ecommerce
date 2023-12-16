@@ -71,6 +71,7 @@
     <table id="example" class="table table-striped" style="width:100%">
         <thead>
             <tr>
+                <th>S.No.</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
@@ -82,6 +83,7 @@
         <tbody>
             <% for (let i = 0; i < users.length; i++) { %>
                 <tr>
+                    <td><%= i+1 %></td>
                     <td><%= users[i].name %></td>
                     <td><%= users[i].email %></td>
                     <td><%= users[i].mobile %></td>
@@ -104,11 +106,11 @@
 
                     <% if (users[i].isBlocked === 0) { %>
                         <td>
-                            <a href="/admin/users/block-user?id=<%= users[i]._id %>" id="blockbutton" class="btn btn-danger px-3 ">Block</a>
+                            <a href="/admin/users/block-user?id=<%= users[i]._id %>" id="blockbutton" class="btn btn-danger px-3 redbutton">Block</a>
                         </td>
                     <% } else { %>
                         <td>
-                            <a href="/admin/users/unblock-user?id=<%= users[i]._id %>" id="unblockbutton" class="btn btn-primary px-3 ">Unblock</a>
+                            <a href="/admin/users/unblock-user?id=<%= users[i]._id %>" id="unblockbutton" class="btn btn-primary px-3 bluebutton ">Unblock</a>
                         </td>
                     <% } %>
                     <!-- <td>
@@ -128,6 +130,7 @@
         </tbody>
         <tfoot>
             <tr>
+                <th>S.No.</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile</th>

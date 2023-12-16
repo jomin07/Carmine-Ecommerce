@@ -7,11 +7,14 @@ const config = require('../config/config');
 const auth = require('../middleware/adminAuth');
 const adminController = require('../controllers/adminController');
 const categoryController = require('../controllers/categoryController');
+const flash = require('connect-flash');
 
 adminRoute.use(session({secret:config.sessionSecret,resave:false,saveUninitialized:true}));
 
 adminRoute.use(bodyParser.json());
 adminRoute.use(bodyParser.urlencoded({extended:true}));
+
+adminRoute.use(flash());
 
 adminRoute.set('view engine','ejs');
 adminRoute.set('views','./views/admin');
@@ -24,10 +27,15 @@ adminRoute.post('/',adminController.verifyLogin);
 adminRoute.get('/home',auth.isLogin,adminController.loadHome);
 adminRoute.get('/categories',auth.isLogin,categoryController.loadCategories);
 adminRoute.get('/categories/add-category',auth.isLogin,categoryController.loadAddCategory);
-adminRoute.get('/categories/edit-category',auth.isLogin,categoryController.loadEditCategory);
+adminRoute.post('/categories/add-category',categoryController.insertCategory);
+adminRoute.get('/categories/edit-category',auth.isLogin,categoryController.editCategory);
+adminRoute.post('/categories/edit-category',categoryController.updateCategory);
+adminRoute.get('/categories/list-category',auth.isLogin,categoryController.listCategory);
+adminRoute.get('/categories/unlist-category',auth.isLogin,categoryController.unListCategory);
+adminRoute.get('/categories/delete-category',auth.isLogin,categoryController.deleteCategory);
 adminRoute.get('/users',auth.isLogin,adminController.loadUsers);
-adminRoute.get('/users/block-user',adminController.blockUser);
-adminRoute.get('/users/unblock-user',adminController.unblockUser);
+adminRoute.get('/users/block-user',auth.isLogin,adminController.blockUser);
+adminRoute.get('/users/unblock-user',auth.isLogin,adminController.unblockUser);
 adminRoute.get('/logout',auth.isLogin,adminController.logout);
 
 

@@ -150,7 +150,6 @@ const insertUser = async(req,res) =>{
         const userData = await user.save();
 
         if (userData) {
-            console.log('Inside insertUser function');
             await sendOtp(req, res);
             res.render('registration-confirmation',{message:'Registration Successfull.Please Verify Your Mail'});
         } else {

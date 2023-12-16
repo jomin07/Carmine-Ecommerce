@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 mongoose.connect(process.env.MONGO);
 const path = require('path');
 const nocache = require('nocache');
+const flash = require('connect-flash');
 
 const express = require("express");
 const app = express();

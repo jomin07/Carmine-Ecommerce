@@ -10,41 +10,31 @@
 </div>
 
 <div class="content-wrapper">
-    <div class="container-fluid">
 
-        <div class="row mt-3">
-            <div class="col-lg-6">
-                <div class="card" style="margin-top: 60px; margin-left: 60px;">
-                    <div class="card-body">
-                        <div class="card-title">EDIT CATEGORY</div>
-                        <hr>
-                        <form method="post">
-                            <div class="form-group mt-3">
-                                <label for="input-1">Category Name</label>
-                                <input type="text" name="category" required class="form-control" id="input-1">
-                            </div>
+    <!-- ======= Form ======== -->
 
-                            <div class="form-group mt-3">
-                                <label for="input-2">Category Status</label>
-                                <select name="status" class="form-control" id="input-2">
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
-                            </div>
+    <div class="col-6 grid-margin stretch-card">
+        <div class="card" style="margin-top: 60px; margin-left: 60px;">
+          <div class="card-body">
+            <div class="card-title mb-3">Edit Category Details</div>
+            <form class="forms-sample my-3" action="/admin/categories/edit-category" method="POST" id="category">
+              <div id="errorContainer" class="alert alert-danger" style="display: none;"></div> <!-- Error container -->
+              <div class="form-group my-3">
+                <label for="category-field">Category Name</label>
+                <input type="text" name="name" class="form-control my-3" value="<%= category.name %>" id="category-field">
+                <!-- <label for="category-status">Category Status</label>
+                <input type="text" name="status" class="form-control" value="<%= category.status ? 'listed' : 'unlisted' %>" id="category-status"> -->
+                <input type="hidden" value="<%= category._id %>" name="categoryId">
+              </div>
+              <button type="submit" class="btn btn-primary  mr-2 ">Update</button>    
+              <button type="submit" class="btn  mr-2"><a class="btn btn-outline-danger" href="/admin/categories/">Cancel</a></button>
 
-                            <div class="form-group mt-3">
-                                <button type="submit" class="btn btn-primary px-5"><i class="icon-lock"></i> UPDATE</button>
-                            </div>
-                        </form>
-                        <% if(typeof message !=='undefined' ){ %>
-                        <h6><br>
-                            <%= message %>
-                        </h6>
-                        <% } %>
-                    </div>
-                </div>
-            </div>
+            </form>
+          </div>
+        </div>
+      </div>
 
-        </div><!--End Row-->
+
+
 </div>
 <%- include('../partials/admin-footer.ejs') %>

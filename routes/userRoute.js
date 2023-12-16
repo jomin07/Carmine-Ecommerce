@@ -7,11 +7,14 @@ const userController = require('../controllers/userController');
 const bodyParser = require('body-parser');
 const config = require('../config/config');
 const auth = require('../middleware/auth');
+const flash = require('connect-flash');
 
 userRoute.use(session({secret:config.sessionSecret,resave:false,saveUninitialized:true}));
 
 userRoute.use(bodyParser.json());
 userRoute.use(bodyParser.urlencoded({extended:true}));
+
+userRoute.use(flash());
 
 userRoute.set('view engine','ejs');
 userRoute.set('views','./views/users');

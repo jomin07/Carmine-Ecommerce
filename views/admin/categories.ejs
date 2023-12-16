@@ -11,17 +11,45 @@
     <table id="example" class="table table-striped" style="width:100%">
         <thead>
             <tr>
-                <th>S.No</th>
+                <th>S.No.</th>
                 <th>Name</th>
                 <th>Status</th>
+                <th>List/Unlist</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Tiger Nixon</td>
-                <td>Edinburgh</td>
-            </tr>
+            <% for (let i = 0; i < categories.length; i++) { %>
+                <tr>
+                    <td><%= i+1 %></td>
+                    <td><%= categories[i].name %></td>
+                    <% if (categories[i].status === true) { %>
+                        <td>Listed</td>
+                    
+                    <% } else { %>
+                        <td>Unlisted</td>
+                    <% } %>
+                    
+
+                    <% if (categories[i].status === true) { %>
+                        <td>
+                            <a href="/admin/categories/unlist-category?id=<%= categories[i]._id %>" id="unlistbutton" class="btn btn-danger px-3 redbutton">Unlist</a>
+                        </td>
+                    <% } else { %>
+                        <td>
+                            <a href="/admin/categories/list-category?id=<%= categories[i]._id %>" id="listbutton" class="btn btn-primary px-3 bluebutton">List</a>
+                        </td>
+                    <% } %>
+                    <td>
+                        <a href="/admin/categories/edit-category?id=<%= categories[i]._id %>">
+                            <i class="fa-solid fa-pen-to-square fa-xl" style="color: #0055ff;margin-right: 20px;"></i>
+                        </a>
+                        <a href="/admin/categories/delete-category?id=<%= categories[i]._id %>">
+                            <i class="fa-solid fa-trash fa-xl" style="color: #ff0000;margin-right: 20px;"></i>
+                        </a>
+                    </td>
+                </tr>
+            <% } %>
             
         </tbody>
         <tfoot>
@@ -29,6 +57,8 @@
                 <th>S.No</th>
                 <th>Name</th>
                 <th>Status</th>
+                <th>List/Unlist</th>
+                <th>Actions</th>
             </tr>
         </tfoot>
     </table>
