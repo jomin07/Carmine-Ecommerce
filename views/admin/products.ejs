@@ -29,12 +29,14 @@
                 <% for (let i = 0; i < products.length; i++) { %>
                     <tr>
                         <td><%= i+1 %></td>
-                        <td><%= products[i].image %></td>
+                        <td>
+                            <img style="width: 80px; height: 80px;" src="/admin/productImages/<%= products[i].image[0] %>" alt="test">
+                        </td>
                         <td><%= products[i].name %></td>
-                        <td><%= products[i].category %></td>
+                        <td><%= products[i].category.name %></td>
                         <td><%= products[i].brand %></td>
                         <td><%= products[i].price %></td>
-                        <td><%= products[i].stock %></td>
+                        <td><%= products[i].quantity %></td>
                         <% if (products[i].status === true) { %>
                             <td>Listed</td>
                         

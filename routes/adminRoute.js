@@ -24,7 +24,7 @@ adminRoute.set('views','./views/admin');
 
 const storage = multer.diskStorage({
     destination:function(req,file,cb){
-        cb(null,path.join(__dirname,'../public/admin/productimages'));
+        cb(null,path.join(__dirname,'../public/admin/productImages'));
     },
     filename:function(req,file,cb){
         const name = Date.now()+'-'+file.originalname;
@@ -52,6 +52,7 @@ adminRoute.get('/categories/delete-category',auth.isLogin,categoryController.del
 
 adminRoute.get('/products',auth.isLogin,productController.loadProducts);
 adminRoute.get('/products/add-product',auth.isLogin,productController.loadAddProduct);
+adminRoute.post('/products/add-product',upload.array('image'),productController.addProduct);
 
 adminRoute.get('/users',auth.isLogin,adminController.loadUsers);
 adminRoute.get('/users/block-user',auth.isLogin,adminController.blockUser);

@@ -13,26 +13,26 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    category : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Category', 
-        required : true
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category', 
+        required: true
     },
-    quantity : {
-        type : Number,
-        required : true
+    quantity: {
+        type: Number,
+        required: true
     },
-    price : {
-        type : Number,
-        required : true
+    price: {
+        type: Number,
+        required: true
     },
-    image : {
-        type : Array,
-        required : true
+    image: {
+        type: Array,
+        required: true
     }, 
-    status : {
-        type : Boolean,
-        default : true
+    status: {
+        type: Boolean,
+        default: true
     },
 });
 
