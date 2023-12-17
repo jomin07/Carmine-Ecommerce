@@ -1,49 +1,106 @@
 <%- include('../partials/admin-header.ejs') %>
-<div class="content-header">
-    <div>
-        <h2 class="content-title card-title">Add Category</h2>
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Edit Product</h2>
+        </div>
+        <div>
+            <a href="/admin/products/" class="btn btn-outline-dark">Go Back</a>
+        </div>
     </div>
-    <div>
-        <a href="/admin/categories/" class="btn btn-outline-dark">Go Back</a>
-    </div>
-</div>
-<div class="content-wrapper">
-    <div class="container-fluid">
+    <div class="content-wrapper">
+        <div class="container-fluid">
+    
+            <div class="row ">
+                <div class="col-lg-6">
+                    <div class="card" style="margin-top: 20px; margin-left: 60px;">
+                        <div class="card-body">
+                            <div class="card-title">Edit Product Details</div>
+                            <hr>
+                            <form method="post" enctype="multipart/form-data">
+                                <div class="form-group mt-3">
+                                    <label for="input-1">Product Name</label>
+                                    <input type="text" name="name" required class="form-control" value="<%= product.name %>" id="input-1">
+                                </div>
+    
+                                <div class="form-group mt-3">
+                                    <label for="input-2">Brand Name</label>
+                                    <input type="text" name="brand" required class="form-control" value="<%= product.brand %>" id="input-2">
+                                </div>
+    
+                                <div class="form-group mt-3">
+                                    <label for="input-3">Price</label>
+                                    <input type="number" name="price" required class="form-control" value="<%= product.price %>" id="input-3">
+                                </div>
+    
+                                <div class="form-group mt-3">
+                                    <label for="input-4">Quantity</label>
+                                    <input type="number" name="quantity" required class="form-control" value="<%= product.quantity %>" id="input-4">
+                                </div>
+    
+                                <div class="form-group mt-3">
+                                    <label for="input-5">Description</label>
+                                    <input type="text" name="description" required class="form-control" value="<%= product.description %>" id="input-5">
+                                </div>
+    
+                                <div class="form-floating mt-3">
+                                    <select name="category" style="background-color:rgb(58,133,169);"
+                                        class="form-select" id="floatingSelect"
+                                        aria-label="Floating label select example">
+                                        <% if(categories.length> 0) {
+                                            for(let i=0; i < categories.length; i++) { %>
+                                                <option value="<%= product.category.name %>"
+                                                    style="background-color:rgb(58,133,169);">
+                                                    <%= categories[i].name %>
+                                                </option>
+                                                <% } } %>
+                                    </select>
+                                    <label for="floatingSelect">Select Category</label>
+                                </div>
+    
+                                <input type="hidden" value="<%= product._id %>" name="productId">
 
-        <div class="row mt-2">
-            <div class="col-lg-6">
-                <div class="card" style="margin-top: 60px; margin-left: 60px;">
-                    <div class="card-body">
-                        <div class="card-title">Add category details</div>
-                        <hr>
-                        <form method="post">
-                            <div class="form-group mt-3">
-                                <label for="input-1">Category Name</label>
-                                <input type="text" name="name" required class="form-control" id="input-1">
-                            </div>
-
-                            <!-- <div class="form-group mt-3">
-                                <label for="input-2">Category Status</label>
-                                <select name="status" class="form-control" id="input-2">
-                                    <option value="active">Listed</option>
-                                    <option value="inactive">Unlisted</option>
-                                </select>
-                            </div> -->
-
-                            <div class="form-group mt-3">
-                                <button type="submit" class="btn btn-primary px-4"><i class="icon-lock"></i> ADD</button>
-                                <button type="submit" class="btn  mr-2"><a class="btn btn-outline-danger" href="/admin/categories/">Cancel</a></button>
-                            </div>
-                        </form>
-                        <% if(typeof message !=='undefined' ){ %>
-                        <h6><br>
-                            <%= message %>
-                        </h6>
-                        <% } %>
+                                <div class="form-floating my-3">
+                                    <div class="d-flex flex-coloum " style="justify-content: space-evenly; ">
+                                        <% if (product.image && product.image.length > 0) { %>
+                                            <% for( let img of product.image ) { %>
+                                                <div class="border border-dark border-2 pt-2">
+                                                    <img src="/admin/productImages/<%= img %>" style="width: auto; height: 100px; margin-inline: 10px; border: 1px solid rgb(193, 193, 193); border-radius: 15px;" alt="Product Images">
+                                                    <div style="padding-left: 1.5em;">
+                                                        <a href="/admin/products/edit-product/delete-image?id=<%= product._id %>&imageId=<%= img %>" class="btn btn-danger my-2">
+                                                        Delete
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                    
+                                </div>
+    
+                                <div class="form-group mt-3">
+                                    <label for="input-7">Image</label>
+                                    <input type="file" multiple name="image" required class="form-control" id="input-7">
+                                </div>
+    
+                                <div class="form-group mt-3">
+                                    <button type="submit" class="btn btn-primary px-5"><i class="icon-lock"></i> Update</button>
+                                    <button type="submit" class="btn  mr-2"><a class="btn btn-outline-danger " href="/admin/products/">Cancel</a></button>
+                                </div>
+                            </form>
+                            <% if(typeof message !=='undefined' ){ %>
+                            <h6><br>
+                                <%= message %>
+                            </h6>
+                            <% } %>
+                        </div>
                     </div>
                 </div>
+    
             </div>
+    </div>
 
-        </div>
-</div>
+</section> <!-- content-main end// -->   
+
 <%- include('../partials/admin-footer.ejs') %>

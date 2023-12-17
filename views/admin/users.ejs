@@ -1,75 +1,82 @@
 <%- include('../partials/admin-header.ejs') %>
 
-<div class="content-header">
-    <div>
-        <h2 class="content-title card-title">Users</h2>
-    </div>
-</div>
+<section class="content-main">
 
-<div class="container pt-5">
-    <div class="table-responsive">
-        <table id="example" class="table table-striped" style="width:100%">
-            <thead>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>Verification Status</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for (let i = 0; i < users.length; i++) { %>
-                    <tr>
-                        <td><%= i+1 %></td>
-                        <td><%= users[i].name %></td>
-                        <td><%= users[i].email %></td>
-                        <td><%= users[i].mobile %></td>
-                        <% if (users[i].isVerified > 0) { %>
-                            <td>Verified</td>
-                        
-                        <% } else { %>
-                            <td>Not Verified</td>
-                        <% } %>
-                        
-                        <% if (users[i].isBlocked === 0) { %>
-                            <td>
-                                Active
-                            </td>
-                        <% } else { %>
-                            <td>
-                                Blocked
-                            </td>
-                        <% } %>
-    
-                        <% if (users[i].isBlocked === 0) { %>
-                            <td>
-                                <a href="/admin/users/block-user?id=<%= users[i]._id %>" id="blockbutton" class="btn btn-danger px-3 redbutton">Block</a>
-                            </td>
-                        <% } else { %>
-                            <td>
-                                <a href="/admin/users/unblock-user?id=<%= users[i]._id %>" id="unblockbutton" class="btn btn-primary px-3 bluebutton ">Unblock</a>
-                            </td>
-                        <% } %>
-                        <!-- <td>
-                            <a href="/admin/edit-user?id=<%= users[i]._id %>">
-                                <i class="fa-solid fa-eye fa-xl" style="color: #0055ff;margin-right: 20px;"></i>
-                            </a>
-                            <a href="/admin/edit-user?id=<%= users[i]._id %>">
-                                <i class="fa-solid fa-pen-to-square fa-xl" style="color: #0055ff;margin-right: 20px;"></i>
-                            </a>
-                            <a href="/admin/edit-user?id=<%= users[i]._id %>">
-                                <i class="fa-solid fa-trash fa-xl" style="color: #ff0000;margin-right: 20px;"></i>
-                            </a>
-                        </td> -->
-                    </tr>
-                <% } %>
-                
-            </tbody>
-        </table>
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Users</h2>
+        </div>
     </div>
-</div>
+    
+    <div class="container pt-5">
+        <div class="table-responsive">
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Verification Status</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let i = 0; i < users.length; i++) { %>
+                        <tr>
+                            <td><%= i+1 %></td>
+                            <td><%= users[i].name %></td>
+                            <td><%= users[i].email %></td>
+                            <td><%= users[i].mobile %></td>
+                            <% if (users[i].isVerified > 0) { %>
+                                <td>Verified</td>
+                            
+                            <% } else { %>
+                                <td>Not Verified</td>
+                            <% } %>
+                            
+                            <% if (users[i].isBlocked === 0) { %>
+                                <td>
+                                    Active
+                                </td>
+                            <% } else { %>
+                                <td>
+                                    Blocked
+                                </td>
+                            <% } %>
+        
+                            <% if (users[i].isBlocked === 0) { %>
+                                <td>
+                                    <a href="/admin/users/block-user?id=<%= users[i]._id %>" id="blockbutton" class="btn btn-danger px-3 redbutton">Block</a>
+                                </td>
+                            <% } else { %>
+                                <td>
+                                    <a href="/admin/users/unblock-user?id=<%= users[i]._id %>" id="unblockbutton" class="btn btn-primary px-3 bluebutton ">Unblock</a>
+                                </td>
+                            <% } %>
+                            <!-- <td>
+                                <a href="/admin/edit-user?id=<%= users[i]._id %>">
+                                    <i class="fa-solid fa-eye fa-xl" style="color: #0055ff;margin-right: 20px;"></i>
+                                </a>
+                                <a href="/admin/edit-user?id=<%= users[i]._id %>">
+                                    <i class="fa-solid fa-pen-to-square fa-xl" style="color: #0055ff;margin-right: 20px;"></i>
+                                </a>
+                                <a href="/admin/edit-user?id=<%= users[i]._id %>">
+                                    <i class="fa-solid fa-trash fa-xl" style="color: #ff0000;margin-right: 20px;"></i>
+                                </a>
+                            </td> -->
+                        </tr>
+                    <% } %>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section> <!-- content-main end// -->   
+
+
+
 
 <%- include('../partials/admin-footer.ejs') %>

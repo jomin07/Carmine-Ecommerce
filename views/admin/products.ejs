@@ -1,77 +1,81 @@
 <%- include('../partials/admin-header.ejs') %>
-<div class="content-header">
-    <div>
-        <h2 class="content-title card-title">Products</h2>
-    </div>
-    <div>
-        <a href="/admin/products/add-product" class="btn btn-primary">Add Product</a>
-    </div>
-</div>
-<div class="container pt-5">
 
-   <div class="table-responsive">
-        <table id="example" class="table table-striped" style="width:100%">
-            <thead>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Brand</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Status</th>
-                    <th>List/Unlist</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for (let i = 0; i < products.length; i++) { %>
+<section class="content-main">
+
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Products</h2>
+        </div>
+        <div>
+            <a href="/admin/products/add-product" class="btn btn-primary">Add Product</a>
+        </div>
+    </div>
+    <div class="container pt-5">
+    
+       <div class="table-responsive">
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
                     <tr>
-                        <td><%= i+1 %></td>
-                        <td>
-                            <img style="width: 80px; height: 80px;" src="/admin/productImages/<%= products[i].image[0] %>" alt="test">
-                        </td>
-                        <td><%= products[i].name %></td>
-                        <td><%= products[i].category.name %></td>
-                        <td><%= products[i].brand %></td>
-                        <td><%= products[i].price %></td>
-                        <td><%= products[i].quantity %></td>
-                        <% if (products[i].status === true) { %>
-                            <td>Listed</td>
-                        
-                        <% } else { %>
-                            <td>Unlisted</td>
-                        <% } %>
-                        
-
-                        <% if (products[i].status === true) { %>
-                            <td>
-                                <a href="/admin/products/unlist-product?id=<%= products[i]._id %>" id="unlistbutton" class="btn btn-danger px-3 redbutton">Unlist</a>
-                            </td>
-                        <% } else { %>
-                            <td>
-                                <a href="/admin/products/list-product?id=<%= products[i]._id %>" id="listbutton" class="btn btn-primary px-3 bluebutton">List</a>
-                            </td>
-                        <% } %>
-                        <td>
-                            <a href="/admin/products/edit-product?id=<%= products[i]._id %>">
-                                <i class="fa-solid fa-pen-to-square fa-xl" style="color: #0055ff;margin-right: 20px;"></i>
-                            </a>
-                            <a href="/admin/products/delete-product?id=<%= products[i]._id %>">
-                                <i class="fa-solid fa-trash fa-xl" style="color: #ff0000;margin-right: 20px;"></i>
-                            </a>
-                        </td>
+                        <th>S.No.</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Brand</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>List/Unlist</th>
+                        <th>Actions</th>
                     </tr>
-                <% } %>
+                </thead>
+                <tbody>
+                    <% for (let i = 0; i < products.length; i++) { %>
+                        <tr>
+                            <td><%= i+1 %></td>
+                            <td>
+                                <img style="width: 80px; height: 80px;" src="/admin/productImages/<%= products[i].image[0] %>" alt="test">
+                            </td>
+                            <td><%= products[i].name %></td>
+                            <td><%= products[i].category.name %></td>
+                            <td><%= products[i].brand %></td>
+                            <td><%= products[i].price %></td>
+                            <td><%= products[i].quantity %></td>
+                            <% if (products[i].status === true) { %>
+                                <td>Listed</td>
+                            
+                            <% } else { %>
+                                <td>Unlisted</td>
+                            <% } %>
+                            
+    
+                            <% if (products[i].status === true) { %>
+                                <td>
+                                    <a href="/admin/products/unlist-product?id=<%= products[i]._id %>" id="unlistbutton" class="btn btn-danger px-3 redbutton">Unlist</a>
+                                </td>
+                            <% } else { %>
+                                <td>
+                                    <a href="/admin/products/list-product?id=<%= products[i]._id %>" id="listbutton" class="btn btn-primary px-3 bluebutton">List</a>
+                                </td>
+                            <% } %>
+                            <td>
+                                <a href="/admin/products/edit-product?id=<%= products[i]._id %>">
+                                    <i class="fa-solid fa-pen-to-square fa-xl" style="color: #0055ff;margin-right: 20px;"></i>
+                                </a>
+                                <a href="/admin/products/delete-product?id=<%= products[i]._id %>">
+                                    <i class="fa-solid fa-trash fa-xl" style="color: #ff0000;margin-right: 20px;"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    <% } %>
+                    
+                </tbody>
                 
-            </tbody>
-            
-        </table>
-   </div>
+            </table>
+       </div>
+    
+    </div>
+    
 
-</div>
-
-
+</section> <!-- content-main end// -->   
 
 <%- include('../partials/admin-footer.ejs') %>
