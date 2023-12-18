@@ -200,7 +200,8 @@ const verifyLogin = async(req,res) =>{
 
 const loadHome = async(req,res) =>{
     try {
-        res.render('home');
+        // res.render('home');
+        res.render('user-header');
     } catch (error) {
         console.log(error.message);
     }
