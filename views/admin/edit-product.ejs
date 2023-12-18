@@ -68,7 +68,7 @@
                                                 <div class="border border-dark border-2 pt-2">
                                                     <img src="/admin/productImages/<%= img %>" style="width: auto; height: 100px; margin-inline: 10px; border: 1px solid rgb(193, 193, 193); border-radius: 15px;" alt="Product Images">
                                                     <div style="padding-left: 1.5em;">
-                                                        <a href="/admin/products/edit-product/delete-image?id=<%= product._id %>&imageId=<%= img %>" class="btn btn-danger my-2">
+                                                        <a href="/admin/products/delete-image?id=<%= product._id %>&imageId=<%= img %>" class="btn btn-danger my-2">
                                                         Delete
                                                         </a>
                                                     </div>
@@ -81,7 +81,7 @@
     
                                 <div class="form-group mt-3">
                                     <label for="input-7">Image</label>
-                                    <input type="file" multiple name="image" required class="form-control" id="input-7">
+                                    <input type="file" multiple name="image"    class="form-control" id="input-7">
                                 </div>
     
                                 <div class="form-group mt-3">

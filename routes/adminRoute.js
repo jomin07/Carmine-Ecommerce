@@ -53,12 +53,12 @@ adminRoute.get('/categories/delete-category',auth.isLogin,categoryController.del
 adminRoute.get('/products',auth.isLogin,productController.loadProducts);
 adminRoute.get('/products/add-product',auth.isLogin,productController.loadAddProduct);
 adminRoute.post('/products/add-product',upload.array('image'),productController.addProduct);
-adminRoute.get('/products/edit-product',auth.isLogin,productController.editProduct);
-adminRoute.get('/products/edit-product/delete-image',auth.isLogin,productController.deleteImage);
-adminRoute.post('/products/edit-product',upload.array('image'),productController.updateProduct);
+adminRoute.get('/products/edit-product/:id',auth.isLogin,productController.editProduct);
+adminRoute.get('/products/delete-image',auth.isLogin,productController.deleteImage);
+adminRoute.post('/products/edit-product/:id',upload.array('image'),productController.updateProduct);
 adminRoute.get('/products/list-product',auth.isLogin,productController.listProduct);
 adminRoute.get('/products/unlist-product',auth.isLogin,productController.unListProduct);
-// adminRoute.get('/products/delete-product',auth.isLogin,productController.deleteProduct);
+adminRoute.get('/products/delete-product',auth.isLogin,productController.deleteProduct);
 
 adminRoute.get('/users',auth.isLogin,adminController.loadUsers);
 adminRoute.get('/users/block-user',auth.isLogin,adminController.blockUser);
