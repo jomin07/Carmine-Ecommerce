@@ -13,7 +13,7 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>S.No.</th>
+                    <th class="small-column">S.No.</th>
                     <th>Name</th>
                     <th>Status</th>
                     <th>List/Unlist</th>
@@ -23,7 +23,7 @@
             <tbody>
                 <% for (let i = 0; i < categories.length; i++) { %>
                     <tr>
-                        <td><%= i+1 %></td>
+                        <td class="small-column text-center"><%= i+1 %></td>
                         <td><%= categories[i].name %></td>
                         <% if (categories[i].status === true) { %>
                             <td>Listed</td>

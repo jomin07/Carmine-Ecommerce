@@ -1,3 +1,6 @@
 #blockbutton,#unblockbutton,.redbutton,.bluebutton{
     width: 80px;
 }
+.small-column{
+    width: 0.2rem;
+}

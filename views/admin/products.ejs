@@ -12,11 +12,11 @@
     </div>
     <div class="container pt-5">
     
-       <div class="table-responsive">
-            <table id="example" class="table table-striped" style="width:100%">
+       <div class="table-responsive ">
+            <table id="example" class="table table-striped " style="width:100%">
                 <thead>
                     <tr>
-                        <th>S.No.</th>
+                        <th class="small-column">S.No.</th>
                         <th>Image</th>
                         <th>Name</th>
                         <th>Category</th>
@@ -31,7 +31,7 @@
                 <tbody>
                     <% for (let i = 0; i < products.length; i++) { %>
                         <tr>
-                            <td><%= i+1 %></td>
+                            <td class="small-column text-center"><%= i+1 %></td>
                             <td>
                                 <img style="width: 80px; height: 80px;" src="/admin/productImages/<%= products[i].image[0] %>" alt="test">
                             </td>
@@ -71,7 +71,10 @@
                 </tbody>
                 
             </table>
+            <br><br>
        </div>
+
+       <br><br><br>
     
     </div>
     

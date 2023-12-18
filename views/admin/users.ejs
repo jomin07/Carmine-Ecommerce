@@ -13,7 +13,7 @@
             <table id="example" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th>S.No.</th>
+                        <th class="small-column">S.No.</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Mobile</th>
@@ -25,7 +25,7 @@
                 <tbody>
                     <% for (let i = 0; i < users.length; i++) { %>
                         <tr>
-                            <td><%= i+1 %></td>
+                            <td class="small-column text-center"><%= i+1 %></td>
                             <td><%= users[i].name %></td>
                             <td><%= users[i].email %></td>
                             <td><%= users[i].mobile %></td>
@@ -71,7 +71,9 @@
                     
                 </tbody>
             </table>
+            <br><br>
         </div>
+        <br><br><br>
     </div>
 
 </section> <!-- content-main end// -->   
