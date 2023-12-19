@@ -201,7 +201,7 @@ const verifyLogin = async(req,res) =>{
 const loadHome = async(req,res) =>{
     try {
         // res.render('home');
-        res.render('user-header');
+        res.render('shop');
     } catch (error) {
         console.log(error.message);
     }
