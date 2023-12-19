@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const User = require('../models/userModel');
+const Product = require('../models/productModel');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const session = require('express-session');
@@ -201,7 +202,7 @@ const verifyLogin = async(req,res) =>{
 const loadHome = async(req,res) =>{
     try {
         // res.render('home');
-        res.render('shop');
+        res.render('index');
     } catch (error) {
         console.log(error.message);
     }
@@ -216,6 +217,18 @@ const userLogout = async(req,res) =>{
     }
 }
 
+const getShop = async(req,res) =>{
+    try {
+        
+        const productsData = await Product.find({status: true}).populate('category');
+        res.render('shop',{products: productsData});
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
 module.exports = {
     loadRegister,
     insertUser,
@@ -225,5 +238,6 @@ module.exports = {
     loginLoad,
     verifyLogin,
     loadHome,
-    userLogout
+    userLogout,
+    getShop
 }
