@@ -4,3 +4,6 @@
 .small-column{
     width: 0.2rem;
 }
+.searchbar-top{
+    visibility: hidden
+}

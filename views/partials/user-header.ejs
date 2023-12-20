@@ -15,6 +15,9 @@
     <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link rel="stylesheet" href="/assets/css/main.css">
+
+
+    <link rel="stylesheet" href="/styles/user.css">
    
     
 </head>
@@ -163,7 +166,7 @@
                         <a href="index.html"><img src="/assets/imgs/theme/logo.svg" alt="logo"></a>
                     </div>
                     <div class="header-right">
-                        <div class="search-style-2">
+                        <div class="search-style-2 searchbar-top">
                             <form action="#">
                                 <select class="select-active">
                                     <option>All Categories</option>
@@ -440,7 +443,7 @@
                                     </li>
 
                                     <li>
-                                        <a  href="#">Shop</a>
+                                        <a  href="/shop">Shop</a>
                                     </li>
 
                                     <li>
@@ -454,15 +457,33 @@
                                     <li>
                                         <a  href="#">Contact</a>
                                     </li>
+                                    
+                                    <% if (locals.user) { %>
 
-                                    <li><a href="#">Profile<i class="fi-rs-angle-down"></i></a>
-                                        <ul class="sub-menu">
-                                            
-                                            <li><a href="page-account.html">My Account</a></li>
-                                            <li><a href="page-login-register.html">Login/Register</a></li>
-                                            
-                                        </ul>
-                                    </li>
+                                        <li><a href="#"><%= user.name %><i class="fi-rs-angle-down"></i></a>
+                                            <ul class="sub-menu">
+                                                
+                                                <li><a href="#">My Account</a></li>
+                                                <li><a href="/logout">Logout</a></li>
+                                                
+                                            </ul>
+                                        </li>
+
+                                    <% } else { %>
+
+                                        <li><a href="#">Profile<i class="fi-rs-angle-down"></i></a>
+                                            <ul class="sub-menu">
+                                                
+                                                <li><a href="#">My Account</a></li>
+                                                <li><a href="/login">Login</a></li>
+                                                
+                                            </ul>
+                                        </li>
+
+                                    <% } %>
+
+                                    
+
                                 </ul>
                             </nav>
                         </div>
@@ -660,7 +681,7 @@
                                     <li><a href="page-about.html">About Us</a></li>
                                     <li><a href="page-contact.html">Contact</a></li>
                                     <li><a href="page-account.html">My Account</a></li>
-                                    <li><a href="page-login-register.html">login/register</a></li>
+                                    <li><a href="page-login-register.html">Login/Register</a></li>
                                     <li><a href="page-purchase-guide.html">Purchase Guide</a></li>
                                     <li><a href="page-privacy-policy.html">Privacy Policy</a></li>
                                     <li><a href="page-terms.html">Terms of Service</a></li>

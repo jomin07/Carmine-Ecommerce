@@ -28,7 +28,7 @@ userRoute.post('/register',userController.insertUser);
 userRoute.post('/verify', userController.verifyOtp);
 userRoute.post('/resend', userController.resendOtp);
 
-userRoute.get('/',auth.isLogout,userController.loginLoad);
+userRoute.get('/',auth.isLogout,userController.getLanding);
 userRoute.get('/login',auth.isLogout,userController.loginLoad);
 
 userRoute.post('/login',userController.verifyLogin);
@@ -37,7 +37,7 @@ userRoute.get('/home',auth.isBlocked,auth.isLogin,userController.loadHome);
 
 userRoute.get('/logout',auth.isLogin,userController.userLogout);
 
-userRoute.get('/shop',auth.isLogin,userController.getShop);
-userRoute.get('/shop/:id',auth.isLogin,userController.getProductDetails);
+userRoute.get('/shop',userController.getShop);
+userRoute.get('/shop/:id',userController.getProductDetails);
 
 module.exports = userRoute;

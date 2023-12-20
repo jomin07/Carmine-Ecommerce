@@ -1,4 +1,4 @@
-<%- include('../partials/header.ejs') %>
+<!-- <%- include('../partials/header.ejs') %>
 
   <section class="vh-80 bg-image"
     style="background-color: rgb(9, 173, 173);">
@@ -58,7 +58,71 @@
     </div>
   </section>
 
-  <%- include('../partials/footer.ejs') %>
+  <%- include('../partials/footer.ejs') %> -->
+
+<%- include('../partials/user-header.ejs') %>
+
+  <div class="container d-flex justify-content-center align-items-center h-100vh mt-50 mb-200">
+
+    <div class="col-lg-5 mx-auto">
+
+      <div class="col-lg-5 " style="width: 500px;">
+        <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+            <div class="padding_eight_all bg-white">
+                <div class="text-center mb-30">
+                  <h2>CARMINE</h2>
+                </div>
+                <div class="heading_s1 text-center">
+                    <h3 class="mt-50 mb-30">Sign Up</h3>
+                </div>
+                <form id="registrationForm" action="" method="post">
+
+                    <div class="form-group">
+                      <label class="form-label" for="name">Name</label>
+                      <input type="text" name="name" class="form-control form-control-lg" required/>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="email">Email</label>
+                      <input type="email" name="email" class="form-control form-control-lg" required/>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="password">Password</label>
+                      <input type="password" name="password" class="form-control form-control-lg" required/>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="mno">Mobile</label>
+                      <input type="text" name="mno" class="form-control form-control-lg" required/>
+                    </div>
+
+                    
+                    
+                    <% if(typeof message !== 'undefined'){
+                      %>
+                          <p style="color: green;"><%= message %></p>
+                      <%
+                    } %>
+                    <p id="errorMessages" class="text-danger"></p>
+                    <div class="form-group mt-30">
+                        <input type="submit"  value="Register" class=" btn btn-fill-out btn-block hover-up">
+                    </div>
+
+                    <div class="text-center">
+                      <span class="text-muted">Already have an Acoount? </span><a href="/login" class="text-dark"> Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+<%- include('../partials/user-footer.ejs') %>
 
   <script>
     document.getElementById('registrationForm').addEventListener('submit', function (event) {

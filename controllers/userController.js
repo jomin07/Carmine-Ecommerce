@@ -91,7 +91,7 @@ const verifyOtp = async(req, res)=> {
             const updateInfo = await User.updateOne({ email: recipientEmail},{$set: {isVerified: 1}});
             console.log(email);
             console.log(updateInfo);
-            res.redirect('/');
+            res.redirect('/login');
         } else {
             res.render('registration-confirmation', { message: 'OTP is incorrect' });
         }
@@ -201,10 +201,26 @@ const verifyLogin = async(req,res) =>{
 
 const loadHome = async(req,res) =>{
     try {
-        // res.render('home');
-        res.render('home');
+        const userData = await User.findById({_id:req.session.user_id});
+
+        if (userData) {
+            res.render('home',{user: userData}); 
+        }
+        else {
+            res.render('home'); 
+        }
+        
+
     } catch (error) {
         console.log(error.message);
+    }
+}
+
+const getLanding = async(req,res) =>{
+    try {
+        res.render('home');
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -256,6 +272,7 @@ module.exports = {
     loginLoad,
     verifyLogin,
     loadHome,
+    getLanding,
     userLogout,
     getShop,
     getProductDetails
