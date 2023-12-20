@@ -202,7 +202,7 @@ const verifyLogin = async(req,res) =>{
 const loadHome = async(req,res) =>{
     try {
         // res.render('home');
-        res.render('index');
+        res.render('home');
     } catch (error) {
         console.log(error.message);
     }
@@ -229,6 +229,24 @@ const getShop = async(req,res) =>{
 
 }
 
+const getProductDetails = async(req,res) =>{
+    try {
+        const id = req.params.id;
+        const productData = await Product.findById({_id: id}).populate('category');
+        
+        if (productData) {
+            res.render('product-details',{product: productData});
+        
+        } else {
+            res.redirect('/shop');
+        }
+        
+    } catch (error) {
+        
+        console.log(error.message);
+    }
+}
+
 module.exports = {
     loadRegister,
     insertUser,
@@ -239,5 +257,6 @@ module.exports = {
     verifyLogin,
     loadHome,
     userLogout,
-    getShop
+    getShop,
+    getProductDetails
 }

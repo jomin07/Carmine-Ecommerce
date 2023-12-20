@@ -38,5 +38,6 @@ userRoute.get('/home',auth.isBlocked,auth.isLogin,userController.loadHome);
 userRoute.get('/logout',auth.isLogin,userController.userLogout);
 
 userRoute.get('/shop',auth.isLogin,userController.getShop);
+userRoute.get('/shop/:id',auth.isLogin,userController.getProductDetails);
 
 module.exports = userRoute;
