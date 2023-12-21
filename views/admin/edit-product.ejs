@@ -50,7 +50,8 @@
                                         aria-label="Floating label select example">
                                         <% if(categories.length> 0) {
                                             for(let i=0; i < categories.length; i++) { %>
-                                                <option value="<%= product.category.name %>"
+                                                <!-- <option value="<%= product.category.name %>" -->
+                                                <option value="<%= categories[i].name %>"
                                                     style="background-color:rgb(58,133,169);">
                                                     <%= categories[i].name %>
                                                 </option>

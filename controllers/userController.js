@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const User = require('../models/userModel');
 const Product = require('../models/productModel');
+const Category = require('../models/categoryModel');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const session = require('express-session');
@@ -237,7 +238,8 @@ const getShop = async(req,res) =>{
     try {
         
         const productsData = await Product.find({status: true}).populate('category');
-        res.render('shop',{products: productsData});
+        const categoriesData = await Category.find({status: true});
+        res.render('shop',{products: productsData,categories: categoriesData});
 
     } catch (error) {
         console.log(error);
@@ -263,6 +265,28 @@ const getProductDetails = async(req,res) =>{
     }
 }
 
+const getWishList = async(req,res) =>{
+    try {
+        
+        res.render('wishlist');
+
+    } catch (error) {
+        
+        console.log(error.message);
+    }
+}
+
+const getCartPage = async(req,res) =>{
+    try {
+        
+        res.render('cart');
+        
+    } catch (error) {
+        
+        console.log(error.message);
+    }
+}
+
 module.exports = {
     loadRegister,
     insertUser,
@@ -275,5 +299,7 @@ module.exports = {
     getLanding,
     userLogout,
     getShop,
-    getProductDetails
+    getProductDetails,
+    getWishList,
+    getCartPage
 }
