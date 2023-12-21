@@ -1,3 +1,7 @@
 .searchbar-top{
     visibility: hidden
 }
+
+#otpTimer{
+    font-weight: bold;
+}

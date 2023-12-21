@@ -161,6 +161,10 @@
                                 <label>Enter otp</label>
                                 <input type="text" name="otp" required>
                             </p>
+                            <div id="otpTimer" class="text-center mt-3 text-dark">
+
+                            </div>
+
                             <p class="full d-flex justify-content-center align-items-center mt-30">
                                 <button type="submit" class="btn btn-primary ">Submit</button>
                             </p>
@@ -168,7 +172,7 @@
                         <br>
                         <form method="POST" action="resend">
                             <p class="full d-flex justify-content-center align-items-center mt-30">
-                                <button type="submit" class="btn btn-secondary">Resend OTP</button>
+                                <button id="resendButton" type="submit" class="btn btn-secondary" style="display: none;">Resend OTP</button>
                             </p>
                         </form>
                     </div>
@@ -182,6 +186,48 @@
 
 </div>
 
+
+  
+  
+
+ <script>
+    // Set the OTP duration in seconds
+    const otpDuration = 60;
+  
+    // Function to update the timer display
+    function updateTimer(seconds) {
+      document.getElementById('otpTimer').innerHTML = `Time remaining: ${seconds}s`;
+    }
+
+    // Function to show the Resend OTP button
+    function showResendButton() {
+        document.getElementById('resendButton').style.display = 'block';
+    }
+  
+    // Function to start the countdown
+    function startCountdown() {
+      let seconds = otpDuration;
+  
+      // Update the timer every second
+      const countdownInterval = setInterval(() => {
+        updateTimer(seconds);
+  
+        // Decrease the remaining time
+        seconds--;
+  
+        // Check if the timer has reached zero
+        if (seconds < 0) {
+          clearInterval(countdownInterval);
+          document.getElementById('otpTimer').innerHTML = 'Time expired';
+          showResendButton(); // Show the Resend OTP button
+        }
+      }, 1000);
+    }
+  
+    // Start the countdown when the page is loaded
+    document.addEventListener('DOMContentLoaded', startCountdown);
+</script> 
+  
 
 <%- include('../partials/user-footer.ejs') %>
 
