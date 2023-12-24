@@ -225,6 +225,24 @@ const getLanding = async(req,res) =>{
     }
 }
 
+const getProfile = async(req,res) =>{
+    try {
+
+        const userData = await User.findById({_id:req.session.user_id});
+
+        if (userData) {
+            res.render('profile',{user: userData}); 
+        }
+        else {
+            res.render('profile'); 
+        }
+
+    } catch (error) {
+        
+        console.log(error.message);
+    }
+}
+
 const userLogout = async(req,res) =>{
     try {
         req.session.destroy();
@@ -237,9 +255,18 @@ const userLogout = async(req,res) =>{
 const getShop = async(req,res) =>{
     try {
         
+        const userData = await User.findById({_id:req.session.user_id});
         const productsData = await Product.find({status: true}).populate('category');
         const categoriesData = await Category.find({status: true});
-        res.render('shop',{products: productsData,categories: categoriesData});
+
+        if (userData) {
+            res.render('shop',{user: userData,products: productsData,categories: categoriesData}); 
+        }
+        else {
+            res.render('shop',{products: productsData,categories: categoriesData}); 
+        }
+        
+        
 
     } catch (error) {
         console.log(error);
@@ -250,9 +277,13 @@ const getShop = async(req,res) =>{
 const getProductDetails = async(req,res) =>{
     try {
         const id = req.params.id;
+        const userData = await User.findById({_id:req.session.user_id});
         const productData = await Product.findById({_id: id}).populate('category');
         
-        if (productData) {
+        if (userData && productData) {
+            res.render('product-details',{user: userData,product: productData}); 
+        }
+        else if (productData) {
             res.render('product-details',{product: productData});
         
         } else {
@@ -297,6 +328,7 @@ module.exports = {
     verifyLogin,
     loadHome,
     getLanding,
+    getProfile,
     userLogout,
     getShop,
     getProductDetails,

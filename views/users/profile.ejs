@@ -1,0 +1,129 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+    }
+
+    aside {
+      width: 200px;
+      background-color: #ddd;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    nav {
+      margin-bottom: 20px;
+    }
+
+    nav a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      background-color: #fff;
+    }
+
+    nav a:hover {
+      background-color: #ccc;
+    }
+
+    h2 {
+      color: #333;
+    }
+  </style>
+  <title>Your Profile</title>
+</head>
+<body>
+  <header>
+    <h1>Your Profile</h1>
+  </header>
+
+  <div class="container">
+    <aside>
+      <nav>
+        <a href="#profile">Profile</a>
+        <a href="#orders">Orders</a>
+        <a href="#wishlist">Wishlist</a>
+        <a href="#cart">Cart</a>
+        <a href="#addresses">Addresses</a>
+        <a href="#settings">Settings</a>
+      </nav>
+    </aside>
+
+    <main>
+      <h2>Welcome to Your Profile!</h2>
+       Content of the main section goes here -->
+    <!-- </main>
+  </div>
+</body>
+</html> --> 
+<%- include('../partials/user-header.ejs') %>
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/" rel="nofollow">Home</a>
+                    <span></span> Profile
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row flex-row-reverse">
+                    <div class="col-lg-9">
+                        
+
+
+                    </div>
+                    <div class="col-lg-3 primary-sidebar sticky-sidebar">
+                        <div class="widget-category mb-30">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">My Profile</h5>
+                            <ul class="categories">
+                                
+                                    <li><a href="#profile">Profile</a></li>
+                                    <li><a href="#orders">My Orders</a></li>
+                                    <li><a href="#wishlist">Wishlist</a></li>
+                                    <li><a href="#cart">Cart</a></li>
+                                    <li><a href="#addresses">Addresses</a></li>
+                                    <li><a href="#settings">Settings</a></li>
+                                    
+                                
+                            </ul>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+<%- include('../partials/user-footer.ejs') %>

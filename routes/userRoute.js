@@ -35,6 +35,8 @@ userRoute.post('/login',userController.verifyLogin);
 
 userRoute.get('/home',auth.isBlocked,auth.isLogin,userController.loadHome);
 
+userRoute.get('/profile',auth.isBlocked,auth.isLogin,userController.getProfile);
+
 userRoute.get('/wishlist',auth.isBlocked,auth.isLogin,userController.getWishList);
 
 userRoute.get('/cart',auth.isBlocked,auth.isLogin,userController.getCartPage);
