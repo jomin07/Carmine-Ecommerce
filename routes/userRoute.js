@@ -41,6 +41,12 @@ userRoute.get('/profile/edit',auth.isBlocked,auth.isLogin,userController.getProf
 
 userRoute.post('/profile/edit',userController.editProfile);
 
+userRoute.get('/profile/addresses',auth.isBlocked,auth.isLogin,userController.getAddress);
+
+userRoute.get('/profile/addresses/add-address',auth.isBlocked,auth.isLogin,userController.getAddAddress);
+
+userRoute.post('/profile/addresses/add-address',userController.addAddress);
+
 userRoute.get('/wishlist',auth.isBlocked,auth.isLogin,userController.getWishList);
 
 userRoute.get('/cart',auth.isBlocked,auth.isLogin,userController.getCartPage);

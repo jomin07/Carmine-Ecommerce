@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const User = require('../models/userModel');
+const Address = require('../models/addressModel');
 const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
 const bcrypt = require('bcrypt');
@@ -271,6 +272,54 @@ const editProfile = async(req,res) =>{
     }
 }
 
+const getAddress = async(req,res) =>{
+    try {
+
+        const addressData = await Address.find({}).populate('user');
+        res.render('addresses',{address: addressData});
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const getAddAddress = async(req,res) =>{
+    try {
+        res.render('add-address');
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const addAddress = async(req,res) =>{
+    try {
+        
+        const address = new Address({
+            name: req.body.name,
+            mobile: req.body.mno,
+            pincode: req.body.pincode,
+            user: req.session.user_id,
+            locality: req.body.locality,
+            address: req.body.address,
+            city: req.body.city,
+            state: req.body.state,
+            country: req.body.country,
+            landmark: req.body.landmark,
+        });
+
+        const addressData = await address.save();
+
+        if (addressData) {
+            res.redirect('/profile/addresses');
+        } else {
+            res.render('add-address',{message:'Something Wrong'});
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 const userLogout = async(req,res) =>{
     try {
         req.session.destroy();
@@ -359,6 +408,9 @@ module.exports = {
     getProfile,
     getProfileEdit,
     editProfile,
+    getAddress,
+    getAddAddress,
+    addAddress,
     userLogout,
     getShop,
     getProductDetails,

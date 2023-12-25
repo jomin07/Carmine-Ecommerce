@@ -1,0 +1,85 @@
+<%- include('../partials/user-header.ejs') %>
+
+<section class="content-main " >
+    <div class="content-header d-flex align-items-center justify-content-between" style="margin-top: 60px; margin-left: 60px;margin-right: 60px;" >
+        <div>
+            <h2 class="content-title card-title">Add Address</h2>
+        </div>
+        <div>
+            <a href="/profile/addresses" class="btn btn-secondary">Go Back</a>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+    
+            <div class="row mt-2 mb-20">
+                <div class="col-lg-6">
+                    <div class="card" style="margin-top: 20px; margin-left: 60px;margin-bottom: 60px;">
+                        <div class="card-body">
+                            <hr>
+                            <form action="" method="POST" >
+                                
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="mno" class="form-label">Mobile Number</label>
+                                    <input type="text" class="form-control" id="mno" name="mno" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">PIN Code</label>
+                                    <input type="number" class="form-control" id="pincode" name="pincode" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Locality</label>
+                                    <input type="text" class="form-control" id="locality" name="locality" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Address</label>
+                                    <input type="text" class="form-control" id="address" name="address" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">City</label>
+                                    <input type="text" class="form-control" id="city" name="city" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">State</label>
+                                    <input type="text" class="form-control" id="state" name="state" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Country</label>
+                                    <input type="text" class="form-control" id="country" name="country" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Landmark(Optional)</label>
+                                    <input type="text" class="form-control" id="landmark" name="landmark">
+                                </div>
+
+                                <br><br>
+                                
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+                            <% if(typeof message !=='undefined' ){ %>
+                            <h6><br>
+                                <%= message %>
+                            </h6>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+    </div>
+</section> <!-- content-main end// -->
+
+<%- include('../partials/user-footer.ejs') %>

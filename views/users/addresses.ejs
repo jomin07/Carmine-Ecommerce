@@ -1,0 +1,51 @@
+<%- include('../partials/user-header.ejs') %>
+
+    <section class="font-1">
+        <div class="">
+            <div class="row justify-content-center">
+                <div class="col-lg-3">
+                    <div class="row font-1">
+                        <div class="col text-center text-lg-left">
+                            
+                            <h5 class="mb-0 mt-3"><%= address.name %> </h5>
+
+                            <hr class="color-9">
+                            <div class="fs--1 fw-600">
+                                <a id="orders-link" class=" d-block mb-2" href="/user/profile">Profile</a>
+                                <a id="orders-link" class=" d-block mb-2" href="/user/orders">Orders</a>
+                                <!-- <a id="password-link" class=" d-block mb-2" href="/user/change-password">Change Password</a> -->
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <% if( address && address.length > 0) { %>
+                        <% for ( let items of address ){ %>
+                            <div id="addressdiv-<%= items._id %>" class="row pl-lg-5 address mb-4">
+                                <p class="pt-2"><%= `${items.name}` %></p> <p>Mobile : <%=` ${items.mobile}` %></p> <p><%= `${items.locality}, ${items.city}, Near ${items.landmark},
+                                    PIN Code :  ${items.pincode}, ${items.state},${items.country}` %> </p>
+                                    
+                                <div class="row buttons">
+                                    <div class="col">
+                                        <hr style="color: #86868662;">
+                                        <a class="edit btn text-secondary fw-bold" href="/profile/addresses/edit-address/<%= items._id %>">Edit Address</a>
+                                    </div>
+                                    <div class="col">
+                                        <hr style="color: #86868662;">    
+                                        <a onclick="removeAddress('<%= items._id %>')" class="remove btn text-danger fw-bold">Remove Address</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                    <div class="row mt-3 pl-lg-5 address p-2">
+                        <a class="btn text-primary fw-bold " href="/profile/addresses/add-address">Add Address</a>
+                    </div>
+                </div>
+            </div>
+            <!--/.row-->
+        </div>
+        <!--/.container-->
+    </section>
+
+<%- include('../partials/user-footer.ejs') %>
