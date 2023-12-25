@@ -1,0 +1,51 @@
+<%- include('../partials/user-header.ejs') %>
+
+<section class="content-main " >
+    <div class="content-header d-flex align-items-center justify-content-between" style="margin-top: 60px; margin-left: 60px;margin-right: 60px;" >
+        <div>
+            <h2 class="content-title card-title">Edit Details</h2>
+        </div>
+        <div>
+            <a href="/profile" class="btn btn-secondary">Go Back</a>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+    
+            <div class="row mt-2 mb-20">
+                <div class="col-lg-6">
+                    <div class="card" style="margin-top: 20px; margin-left: 60px;margin-bottom: 60px;">
+                        <div class="card-body">
+                            <div class="card-title">Edit Profile details</div>
+                            <hr>
+                            <form action="" method="POST" >
+                                <input type="hidden" name="user_id" value="<%= user._id %>">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" placeholder="Enter Name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" placeholder="Enter Email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mno" class="form-label">Mobile Number</label>
+                                    <input type="text" class="form-control" id="mno" name="mno" value="<%= user.mobile %>" placeholder="Enter Mobile Number" required>
+                                </div>
+                                <br><br>
+                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                            </form>
+                            <% if(typeof message !=='undefined' ){ %>
+                            <h6><br>
+                                <%= message %>
+                            </h6>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+    </div>
+</section> <!-- content-main end// -->
+
+<%- include('../partials/user-footer.ejs') %>

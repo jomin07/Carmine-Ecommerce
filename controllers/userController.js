@@ -243,6 +243,34 @@ const getProfile = async(req,res) =>{
     }
 }
 
+const getProfileEdit = async(req,res) =>{
+    try {
+        const id = req.query.id;
+        const userData = await User.findById({_id: id});
+
+        if (userData) {
+            res.render('profile-edit',{user:userData});
+        } else {
+            res.redirect('/profile');
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const editProfile = async(req,res) =>{
+    try {
+        
+        const userData = await User.findByIdAndUpdate({_id: req.body.user_id},{$set: {name: req.body.name,email: req.body.email,mobile: req.body.mno}});
+
+        res.redirect('/profile');
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 const userLogout = async(req,res) =>{
     try {
         req.session.destroy();
@@ -329,6 +357,8 @@ module.exports = {
     loadHome,
     getLanding,
     getProfile,
+    getProfileEdit,
+    editProfile,
     userLogout,
     getShop,
     getProductDetails,
