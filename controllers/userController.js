@@ -326,8 +326,21 @@ const addAddress = async(req,res) =>{
 
 const getEditAddress = async(req,res) =>{
     try {
+        const id = req.query.id;
+        const addressData = await Address.findById(id);
 
-        res.render('edit-address');
+        res.render('edit-address',{address: addressData});
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const editAddress = async(req,res) =>{
+    try {
+        const addressData = await Address.findByIdAndUpdate({_id: req.body.addressId},{$set: {name: req.body.name,mobile: req.body.mno,pincode: req.body.pincode,locality: req.body.locality,address: req.body.address,city: req.body.city,state: req.body.state,country: req.body.country,landmark: req.body.landmark}});
+
+        res.redirect('/profile/addresses');
 
     } catch (error) {
         console.log(error.message);
@@ -440,6 +453,7 @@ module.exports = {
     getAddAddress,
     addAddress,
     getEditAddress,
+    editAddress,
     removeAddress,
     userLogout,
     getShop,

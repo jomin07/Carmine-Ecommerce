@@ -49,6 +49,8 @@ userRoute.post('/profile/addresses/add-address',userController.addAddress);
 
 userRoute.get('/profile/addresses/edit-address',auth.isBlocked,auth.isLogin,userController.getEditAddress);
 
+userRoute.post('/profile/addresses/edit-address',userController.editAddress);
+
 userRoute.get('/profile/addresses/remove-address',auth.isBlocked,auth.isLogin,userController.removeAddress);
 
 userRoute.get('/wishlist',auth.isBlocked,auth.isLogin,userController.getWishList);
