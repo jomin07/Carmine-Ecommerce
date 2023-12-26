@@ -39,11 +39,16 @@ const addressSchema = new mongoose.Schema({
         required: true
     },
     landmark: {
-        type: String
+        type: String,
+        required: true
     },
     isDefault: {
         type: Boolean,
         default: false
+    },
+    status: {
+        type: Boolean,
+        default: true
     }
 });
 

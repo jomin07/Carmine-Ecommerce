@@ -919,7 +919,7 @@ button.submit:hover, button[type='submit']:hover {
   font-size: 14px;
 }
 
-.btn, .button {
+.btn-main, .button {
   display: inline-block;
   border: 1px solid transparent;
   font-size: 14px;
@@ -935,7 +935,7 @@ button.submit:hover, button[type='submit']:hover {
   letter-spacing: 0.5px;
 }
 
-.btn:hover, .button:hover {
+.btn-main:hover, .button:hover {
   background-color: #046963;
 }
 

@@ -275,8 +275,9 @@ const editProfile = async(req,res) =>{
 const getAddress = async(req,res) =>{
     try {
 
-        const addressData = await Address.find({}).populate('user');
-        res.render('addresses',{address: addressData});
+        const userData = await User.findById({_id:req.session.user_id});
+        const addressData = await Address.find({status: true}).populate('user');
+        res.render('addresses',{user: userData,address: addressData});
 
     } catch (error) {
         console.log(error.message);
@@ -285,7 +286,10 @@ const getAddress = async(req,res) =>{
 
 const getAddAddress = async(req,res) =>{
     try {
-        res.render('add-address');
+
+        const userData = await User.findById({_id:req.session.user_id});
+        res.render('add-address',{user: userData});
+
     } catch (error) {
         console.log(error.message);
     }
@@ -316,6 +320,30 @@ const addAddress = async(req,res) =>{
         }
 
     } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const getEditAddress = async(req,res) =>{
+    try {
+
+        res.render('edit-address');
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const removeAddress = async ( req, res ) => {
+    try {
+        
+        const id = req.query.id;
+        const addressData = await Address.findById(id);
+        await addressData.updateOne({$set: {status: false}});
+
+        res.redirect('/profile/addresses');
+
+    } catch (error) { 
         console.log(error.message);
     }
 }
@@ -411,6 +439,8 @@ module.exports = {
     getAddress,
     getAddAddress,
     addAddress,
+    getEditAddress,
+    removeAddress,
     userLogout,
     getShop,
     getProductDetails,

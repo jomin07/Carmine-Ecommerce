@@ -1,51 +1,61 @@
 <%- include('../partials/user-header.ejs') %>
 
     <section class="font-1">
-        <div class="">
+        <div class="mb-3">
             <div class="row justify-content-center">
-                <div class="col-lg-3">
-                    <div class="row font-1">
-                        <div class="col text-center text-lg-left">
-                            
-                            <h5 class="mb-0 mt-3"><%= address.name %> </h5>
-
-                            <hr class="color-9">
-                            <div class="fs--1 fw-600">
-                                <a id="orders-link" class=" d-block mb-2" href="/user/profile">Profile</a>
-                                <a id="orders-link" class=" d-block mb-2" href="/user/orders">Orders</a>
-                                <!-- <a id="password-link" class=" d-block mb-2" href="/user/change-password">Change Password</a> -->
-                            </div>                          
+                
+                <div class="col-md-9 mt-3 mb-3">
+                    <h2 class="content-title card-title mt-3 mb-5">Address Management</h2>
+                    <div class="content-header d-flex align-items-center justify-content-between" style="margin-top: 50px;" >
+                        
+                        <div>
+                            <a class="btn btn-main fw-bold " href="/profile/addresses/add-address">Add Address</a>
+                        </div>
+                        <div>
+                            <a href="/profile" class="btn btn-secondary fw-bold">Go Back</a>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-9">
-                    <% if( address && address.length > 0) { %>
-                        <% for ( let items of address ){ %>
-                            <div id="addressdiv-<%= items._id %>" class="row pl-lg-5 address mb-4">
-                                <p class="pt-2"><%= `${items.name}` %></p> <p>Mobile : <%=` ${items.mobile}` %></p> <p><%= `${items.locality}, ${items.city}, Near ${items.landmark},
-                                    PIN Code :  ${items.pincode}, ${items.state},${items.country}` %> </p>
+
+                    <div class="p-2 mt-3 mb-3">
+                        <% if( address && address.length > 0) { %>
+                            <% for ( let items of address ){ %>
+                                <div class="card mt-3 mb-3">
+                                    <div class="card-body">
+                                        <div id="addressdiv-<%= items._id %>" class="row pl-lg-5 address mb-4">
+                                            <p class="pt-2"><%= `${items.name}` %></p> <p>Mobile : <%=` ${items.mobile}` %></p> <p><%= `${items.address},${items.locality}, ${items.city}, Near ${items.landmark},
+                                                PIN Code :  ${items.pincode}, ${items.state},${items.country}` %> </p>
+                                                
+                                            <div class="row buttons">
+                                                <div class="col">
+                                                    <hr style="color: #86868662;">
+                                                    <a class="btn btn-dark " href="/profile/addresses/edit-address?id=<%= items._id %>">Edit Address</a>
+                                                </div>
+                                                <div class="col">
+                                                    <hr style="color: #86868662;">    
+                                                    <a class="btn btn-danger  " href="/profile/addresses/remove-address?id=<%= items._id %>">Remove Address</a>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     
-                                <div class="row buttons">
-                                    <div class="col">
-                                        <hr style="color: #86868662;">
-                                        <a class="edit btn text-secondary fw-bold" href="/profile/addresses/edit-address/<%= items._id %>">Edit Address</a>
-                                    </div>
-                                    <div class="col">
-                                        <hr style="color: #86868662;">    
-                                        <a onclick="removeAddress('<%= items._id %>')" class="remove btn text-danger fw-bold">Remove Address</a>
-                                    </div>
                                 </div>
-                            </div>
+                                
+                            <% } %>
+                        <% } else{ %>
+    
+                            <h5>Please Add an address</h5>
+    
                         <% } %>
-                    <% } %>
-                    <div class="row mt-3 pl-lg-5 address p-2">
-                        <a class="btn text-primary fw-bold " href="/profile/addresses/add-address">Add Address</a>
                     </div>
+
                 </div>
             </div>
             <!--/.row-->
         </div>
         <!--/.container-->
     </section>
+
+
 
 <%- include('../partials/user-footer.ejs') %>

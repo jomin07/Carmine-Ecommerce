@@ -47,6 +47,10 @@ userRoute.get('/profile/addresses/add-address',auth.isBlocked,auth.isLogin,userC
 
 userRoute.post('/profile/addresses/add-address',userController.addAddress);
 
+userRoute.get('/profile/addresses/edit-address',auth.isBlocked,auth.isLogin,userController.getEditAddress);
+
+userRoute.get('/profile/addresses/remove-address',auth.isBlocked,auth.isLogin,userController.removeAddress);
+
 userRoute.get('/wishlist',auth.isBlocked,auth.isLogin,userController.getWishList);
 
 userRoute.get('/cart',auth.isBlocked,auth.isLogin,userController.getCartPage);
