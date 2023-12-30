@@ -373,18 +373,28 @@ const userLogout = async(req,res) =>{
 const getShop = async(req,res) =>{
     try {
         
-        const userData = await User.findById({_id:req.session.user_id});
-        const productsData = await Product.find({status: true}).populate('category');
-        const categoriesData = await Category.find({status: true});
+        if(!req.session.user_id){
 
-        if (userData) {
-            res.render('shop',{user: userData,products: productsData,categories: categoriesData}); 
-        }
-        else {
+            const productsData = await Product.find({status: true}).populate('category');
+            const categoriesData = await Category.find({status: true});
+             
             res.render('shop',{products: productsData,categories: categoriesData}); 
+
         }
-        
-        
+
+        else{
+
+            const userData = await User.findById({_id:req.session.user_id});
+            const productsData = await Product.find({status: true}).populate('category');
+            const categoriesData = await Category.find({status: true});
+    
+            if (userData) {
+                res.render('shop',{user: userData,products: productsData,categories: categoriesData}); 
+            }
+            else {
+                res.render('shop',{products: productsData,categories: categoriesData}); 
+            }            
+        }
 
     } catch (error) {
         console.log(error);
@@ -394,20 +404,34 @@ const getShop = async(req,res) =>{
 
 const getProductDetails = async(req,res) =>{
     try {
-        const id = req.params.id;
-        const userData = await User.findById({_id:req.session.user_id});
-        const productData = await Product.findById({_id: id}).populate('category');
-        
-        if (userData && productData) {
-            res.render('product-details',{user: userData,product: productData}); 
-        }
-        else if (productData) {
+
+        if(!req.session.user_id){
+
+            const id = req.params.id;
+            const productData = await Product.findById({_id: id}).populate('category');
+     
             res.render('product-details',{product: productData});
-        
-        } else {
-            res.redirect('/shop');
+
         }
-        
+
+        else{
+
+            const id = req.params.id;
+            const userData = await User.findById({_id:req.session.user_id});
+            const productData = await Product.findById({_id: id}).populate('category');
+            
+            if (userData && productData) {
+                res.render('product-details',{user: userData,product: productData}); 
+            }
+            else if (productData) {
+                res.render('product-details',{product: productData});
+            
+            } else {
+                res.redirect('/shop');
+            }
+
+        }
+
     } catch (error) {
         
         console.log(error.message);
