@@ -4,6 +4,7 @@ const userRoute = express();
 const path = require('path');
 const session = require('express-session');
 const userController = require('../controllers/userController');
+const wishlistController = require('../controllers/wishlistController');
 const bodyParser = require('body-parser');
 const config = require('../config/config');
 const auth = require('../middleware/auth');
@@ -53,7 +54,7 @@ userRoute.post('/profile/addresses/edit-address',userController.editAddress);
 
 userRoute.get('/profile/addresses/remove-address',auth.isBlocked,auth.isLogin,userController.removeAddress);
 
-userRoute.get('/wishlist',auth.isBlocked,auth.isLogin,userController.getWishList);
+userRoute.get('/wishlist',auth.isBlocked,auth.isLogin,wishlistController.getWishList);
 
 userRoute.get('/cart',auth.isBlocked,auth.isLogin,userController.getCartPage);
 

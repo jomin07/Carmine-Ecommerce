@@ -414,17 +414,6 @@ const getProductDetails = async(req,res) =>{
     }
 }
 
-const getWishList = async(req,res) =>{
-    try {
-        
-        res.render('wishlist');
-
-    } catch (error) {
-        
-        console.log(error.message);
-    }
-}
-
 const getCartPage = async(req,res) =>{
     try {
         
@@ -458,6 +447,5 @@ module.exports = {
     userLogout,
     getShop,
     getProductDetails,
-    getWishList,
     getCartPage
 }
