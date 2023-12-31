@@ -52,11 +52,11 @@ const addToCart = async(req,res) =>{
                                 'items.$.quantity': 1
                             }
                         });
-                        res.redirect('/shop',{message: 'Product Added to Cart'});
+                        res.redirect('/shop');
 
                     } else {
 
-                        res.redirect('/shop',{message: "Oops! It seems you've reached the maximum quantity of products available for purchase."});
+                        res.redirect('/shop');
                     }
                 } else {
 
@@ -79,7 +79,7 @@ const addToCart = async(req,res) =>{
                 });
 
                 await cart.save();
-                res.redirect('/shop',{message: 'Product Added to Cart'});
+                res.redirect('/shop');
                 
             }
         } 

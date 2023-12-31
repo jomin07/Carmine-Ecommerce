@@ -27,6 +27,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <% let cartTotal = 0; %>
                                     <% for (let i = 0; i < cartItems.items.length; i++) { %>
                                         <tr>
                                             <td class="image product-thumbnail"><img src="/admin/productImages/<%= cartItems.items[i].productId.image[0] %>"  alt="image"></td>
@@ -44,11 +45,12 @@
                                                 </div>
                                             </td>
                                             <td class="text-right" data-title="Cart">
-                                                <span>₹<%= cartItems.items[i].productId.price %> </span>
+                                                <span>₹<%= (cartItems.items[i].productId.price * cartItems.items[i].quantity) %> </span>
                                             </td>
                                             <td class="action" data-title="Remove"><a href="#" class="text-muted"><i class="fi-rs-trash"></i></a></td>
                                         </tr>
-
+                                       
+                                        <% cartTotal += (cartItems.items[i].productId.price * cartItems.items[i].quantity); %>
                                     
                                     <% } %>
 
@@ -68,8 +70,8 @@
                             </table>
                         </div>
                         <div class="cart-action text-end">
-                            <a class="btn  mr-10 mb-sm-15"><i class="fi-rs-shuffle mr-10"></i>Update Cart</a>
-                            <a href="/shop" class="btn "><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
+                            <a class="btn btn-main mr-10 mb-sm-15"><i class="fi-rs-shuffle mr-10"></i>Update Cart</a>
+                            <a href="/shop" class="btn btn-main"><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
                         </div>
             
                         <div class="row mb-50">
@@ -84,7 +86,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="cart_total_label">Cart Subtotal</td>
-                                                    <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">$240.00</span></td>
+                                                    <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">₹<%= cartTotal.toFixed(2) %></span></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="cart_total_label">Shipping</td>
@@ -92,12 +94,12 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="cart_total_label">Total</td>
-                                                    <td class="cart_total_amount"><strong><span class="font-xl fw-900 text-brand">$240.00</span></strong></td>
+                                                    <td class="cart_total_amount"><strong><span class="font-xl fw-900 text-brand">₹<%= cartTotal.toFixed(2) %></span></strong></td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <a href="#" class="btn "> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
+                                    <a href="#" class="btn btn-main "> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
                                 </div>
                             </div>
                         </div>
