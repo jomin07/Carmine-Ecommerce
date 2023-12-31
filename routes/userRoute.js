@@ -5,6 +5,7 @@ const path = require('path');
 const session = require('express-session');
 const userController = require('../controllers/userController');
 const wishlistController = require('../controllers/wishlistController');
+const cartController = require('../controllers/cartController');
 const bodyParser = require('body-parser');
 const config = require('../config/config');
 const auth = require('../middleware/auth');
@@ -56,7 +57,9 @@ userRoute.get('/profile/addresses/remove-address',auth.isBlocked,auth.isLogin,us
 
 userRoute.get('/wishlist',auth.isBlocked,auth.isLogin,wishlistController.getWishList);
 
-userRoute.get('/cart',auth.isBlocked,auth.isLogin,userController.getCartPage);
+userRoute.get('/cart',auth.isBlocked,auth.isLogin,cartController.getCartPage);
+
+userRoute.post('/add-to-cart/:id',auth.isBlocked,auth.isLogin,cartController.addToCart);
 
 userRoute.get('/logout',auth.isLogin,userController.userLogout);
 

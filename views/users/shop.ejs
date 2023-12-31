@@ -97,12 +97,18 @@
                                                 <!-- <span class="old-price">$245.8</span> -->
                                             </div>
                                             <div class="product-action-1 show">
-                                                <a aria-label="Add To Cart" class="action-btn hover-up" href="/"><i class="fi-rs-shopping-bag-add"></i></a>
+                                                <a  onclick="addToCart('<%- products[i]._id %>')" aria-label="Add To Cart" class="action-btn hover-up"><i class="fi-rs-shopping-bag-add"></i></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             
+                            <% } %>
+
+                            <% if(typeof message !=='undefined' ){ %>
+                                <h6><br>
+                                    <%= message %>
+                                </h6>
                             <% } %>
                             
 
@@ -229,5 +235,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js" integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Javascript for Add to Cart -->
+    <script>
+
+        async function addToCart(productId){
+
+            try {
+                
+                console.log(productId);
+                const res = await axios.post(`/add-to-cart/${productId}`);
+
+            } catch (error) {
+                
+                console.log(error.message);
+
+            }
+
+        }
+
+    </script>
 
 <%- include('../partials/user-footer.ejs') %>

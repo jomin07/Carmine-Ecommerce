@@ -438,17 +438,6 @@ const getProductDetails = async(req,res) =>{
     }
 }
 
-const getCartPage = async(req,res) =>{
-    try {
-        
-        res.render('cart');
-        
-    } catch (error) {
-        
-        console.log(error.message);
-    }
-}
-
 module.exports = {
     loadRegister,
     insertUser,
@@ -470,6 +459,5 @@ module.exports = {
     removeAddress,
     userLogout,
     getShop,
-    getProductDetails,
-    getCartPage
+    getProductDetails
 }

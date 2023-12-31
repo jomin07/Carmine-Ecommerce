@@ -6,7 +6,14 @@ const Wishlist = require('../models/wishlistModel');
 const getWishList = async(req,res) =>{
     try {
         
-        res.render('wishlist');
+        const userData = await User.findById({_id:req.session.user_id});
+
+        if (userData) {
+            res.render('wishlist',{user: userData}); 
+        }
+        else {
+            res.render('wishlist'); 
+        }
 
     } catch (error) {
         
