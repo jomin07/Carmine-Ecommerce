@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
     isBlocked:{
         type:Number,
         default:0
+    },
+    token: {
+        type: String,
+        default: ''
     }
     
 });

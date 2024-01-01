@@ -7,6 +7,8 @@ const Category = require('../models/categoryModel');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const session = require('express-session');
+const randomstring = require('randomstring');
+const config = require('../config/config');
 
 const securePassword = async(password) =>{
     try {
@@ -361,6 +363,115 @@ const removeAddress = async ( req, res ) => {
     }
 }
 
+
+const sendResetPasswordMail = async(name,email,token)=> {
+    
+    try {
+    
+        // send mail with defined transport object
+        let mailOptions = {
+            from: "carmine@gmail.com",
+            to: email,
+            subject: "For Password Reset",
+            html: `Hi ${name}, <a href="http://127.0.0.1:5000/reset-password?token=${token}"> Click here </a> to reset your password`
+           
+        };
+
+        transporter.sendMail(mailOptions,(error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        });
+       
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+const getForgetPassword = async(req,res) =>{
+    try {
+        
+        res.render('forget-password');
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const forgetPassword = async(req,res) =>{
+    try {
+        
+        const email = req.body.email;
+        const userData = await User.findOne({email: email});
+
+        if (userData) {
+            
+            if (userData.isVerified == 0) {
+
+                res.render('forget-password',{message: 'Please Verify Your Mail'});
+
+            } else {
+                
+                const randomString = randomstring.generate();
+                const updatedUserData = await User.updateOne({email: email},{$set: {token: randomString}});
+                sendResetPasswordMail(userData.name,userData.email,randomString);
+                res.render('forget-password',{message: 'Please check your mail to reset your Password'});
+
+            }
+            
+        } else {
+            
+            res.render('forget-password',{message: 'Invalid Email'});
+
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const getResetPassword = async(req,res) =>{
+    try {
+
+        const token = req.query.token;
+        const tokenData = await User.findOne({token: token});
+
+        if (tokenData) {
+            
+            res.render('reset-password',{user_id: tokenData._id});
+
+        } else {
+            
+            res.render('forget-password',{message: 'Invalid Token'});
+
+        }
+        
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const resetPassword = async(req,res) =>{
+    try {
+        
+        const password = req.body.password;
+        const user_id = req.body.user_id;
+
+        const secureNewPassword = await securePassword(password);
+        const updatedUserData = await User.findByIdAndUpdate({_id: user_id},{$set: {password: secureNewPassword,token:''}});
+
+        res.redirect('/');
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
 const userLogout = async(req,res) =>{
     try {
         req.session.destroy();
@@ -457,6 +568,10 @@ module.exports = {
     getEditAddress,
     editAddress,
     removeAddress,
+    getForgetPassword,
+    forgetPassword,
+    getResetPassword,
+    resetPassword,
     userLogout,
     getShop,
     getProductDetails

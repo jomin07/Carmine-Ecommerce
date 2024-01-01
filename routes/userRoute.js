@@ -70,6 +70,14 @@ userRoute.post('/delete-cart-item/:id',auth.isBlocked,auth.isLogin,cartControlle
 
 userRoute.post('/clear-cart',auth.isBlocked,auth.isLogin,cartController.clearCart);
 
+userRoute.get('/forget-password',auth.isLogout,userController.getForgetPassword);
+
+userRoute.post('/forget-password',userController.forgetPassword);
+
+userRoute.get('/reset-password',auth.isLogout,userController.getResetPassword);
+
+userRoute.post('/reset-password',userController.resetPassword);
+
 userRoute.get('/logout',auth.isLogin,userController.userLogout);
 
 userRoute.get('/shop',userController.getShop);
