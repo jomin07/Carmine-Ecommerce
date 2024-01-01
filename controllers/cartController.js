@@ -10,10 +10,11 @@ const getCartPage = async(req,res) =>{
         const userData = await User.findById({_id:req.session.user_id});
         const cartItems = await Cart.findOne({userId: userId}).populate('items.productId');
 
-        console.log(cartItems);
-
         if (userData && cartItems) {
             res.render('cart',{user: userData,cartItems: cartItems}); 
+        }
+        else if (userData) {
+            res.render('cart',{user: userData,cartItems: []}); 
         }
         else {
             res.render('cart'); 
@@ -41,10 +42,11 @@ const addToCart = async(req,res) =>{
             if (userCart) {
             
                 const exist = userCart.items.find(item => item.productId == productId);
-                console.log(exist);
+                
 
                 if (exist) {
-                    const availableStock = stock - exist.quantity
+                    const availableStock = stock - exist.quantity;
+                    console.log(exist);
 
                     if (availableStock > 0) {
                         await Cart.updateOne({ userId: userId, 'items.productId': productId }, {
@@ -66,7 +68,7 @@ const addToCart = async(req,res) =>{
                                 productId: productId
                             }
                         }
-                    })
+                    });
                 }
 
             } else {
@@ -84,13 +86,53 @@ const addToCart = async(req,res) =>{
             }
         } 
 
-    } catch (error) {
-        
+    } catch (error) {      
         console.log(error.message);
     }
 }
 
+
+const deleteCartItem = async(req,res) =>{
+    try {
+
+        const userId = req.session.user_id;
+        const productId = req.params.id;
+
+        await Cart.updateOne({userId: userId},{
+            $pull: {
+                items: {
+                    productId: productId
+                }
+            }
+        });
+
+        res.redirect('/cart');
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const clearCart = async(req,res) =>{
+    try {
+
+        const userId = req.session.user_id;
+        console.log(userId);
+        await Cart.deleteOne({userId: userId});
+
+        res.redirect('/cart');
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
 module.exports = {
+
     getCartPage,
-    addToCart
+    addToCart,
+    deleteCartItem,
+    clearCart
+
 }

@@ -57,9 +57,18 @@ userRoute.get('/profile/addresses/remove-address',auth.isBlocked,auth.isLogin,us
 
 userRoute.get('/wishlist',auth.isBlocked,auth.isLogin,wishlistController.getWishList);
 
+userRoute.post('/add-to-wishlist/:id',auth.isBlocked,auth.isLogin,wishlistController.addToWishlist);
+
+
+userRoute.post('/delete-wishlist-item/:id',auth.isBlocked,auth.isLogin,wishlistController.deleteWishlistItem);
+
 userRoute.get('/cart',auth.isBlocked,auth.isLogin,cartController.getCartPage);
 
 userRoute.post('/add-to-cart/:id',auth.isBlocked,auth.isLogin,cartController.addToCart);
+
+userRoute.post('/delete-cart-item/:id',auth.isBlocked,auth.isLogin,cartController.deleteCartItem);
+
+userRoute.post('/clear-cart',auth.isBlocked,auth.isLogin,cartController.clearCart);
 
 userRoute.get('/logout',auth.isLogin,userController.userLogout);
 

@@ -75,7 +75,7 @@
                                             </div>
                                             <div class="product-action-1">
                                     
-                                                <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i class="fi-rs-heart"></i></a>
+                                                <a onclick="addToWishlist('<%- products[i]._id %>')" aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i class="fi-rs-heart"></i></a>
                         
                                             </div>
                                             <div class="product-badges product-badges-position product-badges-mrg">
@@ -251,6 +251,19 @@
             }
 
         }
+        
+        async function addToWishlist(productId){
+
+            try {
+                
+                console.log(productId);
+                const res = await axios.post(`/add-to-wishlist/${productId}`);
+
+            } catch (error) {         
+                console.log(error.message);
+            }
+
+            }
 
     </script>
 
