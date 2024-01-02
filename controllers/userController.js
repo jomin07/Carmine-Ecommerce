@@ -277,8 +277,9 @@ const editProfile = async(req,res) =>{
 const getAddress = async(req,res) =>{
     try {
 
+        const userId = req.session.user_id;
         const userData = await User.findById({_id:req.session.user_id});
-        const addressData = await Address.find({status: true}).populate('user');
+        const addressData = await Address.find({user: userId,status: true}).populate('user');
         res.render('addresses',{user: userData,address: addressData});
 
     } catch (error) {
@@ -548,6 +549,7 @@ const getProductDetails = async(req,res) =>{
         console.log(error.message);
     }
 }
+
 
 module.exports = {
     loadRegister,

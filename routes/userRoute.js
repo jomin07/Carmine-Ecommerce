@@ -70,6 +70,8 @@ userRoute.post('/delete-cart-item/:id',auth.isBlocked,auth.isLogin,cartControlle
 
 userRoute.post('/clear-cart',auth.isBlocked,auth.isLogin,cartController.clearCart);
 
+userRoute.get('/checkout-address',auth.isBlocked,auth.isLogin,cartController.getCheckout);
+
 userRoute.get('/forget-password',auth.isLogout,userController.getForgetPassword);
 
 userRoute.post('/forget-password',userController.forgetPassword);

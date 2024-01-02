@@ -9,10 +9,12 @@ const getWishList = async(req,res) =>{
         const userId = req.session.user_id;
         const userData = await User.findById({_id:req.session.user_id});
         const wishlistItems = await Wishlist.findOne({userId: userId}).populate('items.productId');
-        console.log(wishlistItems);
 
         if (userData && wishlistItems) {
             res.render('wishlist',{user: userData,wishlistItems: wishlistItems}); 
+        }
+        else if (userData) {
+            res.render('wishlist',{user: userData,wishlistItems: []}); 
         }
         else {
             res.render('wishlist'); 

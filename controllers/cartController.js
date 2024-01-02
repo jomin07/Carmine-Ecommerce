@@ -1,7 +1,9 @@
 const User = require('../models/userModel');
+const Address = require('../models/addressModel');
 const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
 const Cart = require('../models/cartModel');
+const userHelper = require('../helpers/userHelper');
 
 const getCartPage = async(req,res) =>{
     try {
@@ -127,12 +129,29 @@ const clearCart = async(req,res) =>{
     }
 }
 
+const getCheckout = async(req,res) =>{
+    try {
+
+        const userId = req.session.user_id;
+        const userData = await User.findById({_id: userId});
+        const cartItems = await Cart.findOne({userId: userId}).populate('items.productId');
+        const addressData = await Address.find({user: userId,status: true});
+        const totalPrice = await userHelper.cartTotalPrice(userId);
+
+        res.render('checkout-address',{userId,user: userData,cartItems,address: addressData,totalPrice});
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 
 module.exports = {
 
     getCartPage,
     addToCart,
     deleteCartItem,
-    clearCart
+    clearCart,
+    getCheckout
 
 }

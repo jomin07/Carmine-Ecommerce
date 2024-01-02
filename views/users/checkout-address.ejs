@@ -1,0 +1,134 @@
+<%- include('../partials/user-header.ejs') %>
+  
+    <main class="main">
+    
+        <section class="mt-50 mb-50">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="order_review">
+                            <div class="mb-20">
+                                <h4>Choose Delivery Address</h4>
+                            </div>
+
+                            <a href="/profile/addresses/add-address" class="btn btn-main btn-fill-out btn-sm mt-10">Add Address</a>
+
+                            <div class="p-2 mt-3 mb-3">
+                                <% if( address && address.length > 0) { %>
+                                    <% for ( let items of address ){ %>
+                                        <div class="card mt-3 mb-3">
+                                            <div class="card-body">
+                                                <div id="addressdiv-<%= items._id %>" class="row pl-lg-5 address mb-4">
+
+                                                    <div class="form-check">
+
+                                                        <input type="radio" name="deliveryAddress" id="address_<%= items._id %>" class="form-check-input" value="<%= items._id %>">
+
+                                                        <label for="address_<%= items._id %>" class="form-check-label ms-2">
+
+                                                            <p><%= `${items.name}` %></p> 
+                                                            <p>Mobile : <%=` ${items.mobile}` %></p> 
+                                                            <p><%= `${items.address},${items.locality}, ${items.city}, Near ${items.landmark},
+                                                                PIN Code :  ${items.pincode}, ${items.state},${items.country}` %> </p>
+                                                                
+                                                        </label>
+                                                    
+                                                    </div>
+
+                                                    <!-- <p class="pt-2"><%= `${items.name}` %></p> <p>Mobile : <%=` ${items.mobile}` %></p> <p><%= `${items.address},${items.locality}, ${items.city}, Near ${items.landmark},
+                                                        PIN Code :  ${items.pincode}, ${items.state},${items.country}` %> </p> -->
+                                                        
+                                                    <div class="row buttons">
+                                                        <div class="col">
+                                                            <hr style="color: #86868662;">
+                                                            <a class="btn btn-dark btn-sm " href="/profile/addresses/edit-address?id=<%= items._id %>">Edit Address</a>
+                                                        </div>
+                                                        <div class="col">
+                                                            <hr style="color: #86868662;">    
+                                                            <a class="btn btn-danger btn-sm " href="/profile/addresses/remove-address?id=<%= items._id %>">Remove Address</a>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    <% } %>
+                                <% } else{ %>
+            
+                                    <h5>Please Add an address</h5>
+            
+                                <% } %>
+
+                                <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                            
+                                <a href="/profile/addresses" class="btn btn-main btn-fill-out btn-block mt-30">Proceed To Payment</a>
+
+                            </div>
+        
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="order_review">
+                            <div class="mb-20">
+                                <h4>Your Orders</h4>
+                            </div>
+                            <div class="table-responsive order_table text-center">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2">Product</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="image product-thumbnail"><img src="assets/imgs/shop/product-1-1.jpg" alt="#"></td>
+                                            <td>
+                                                <h5><a href="shop-product-full.html">Yidarton Women Summer Blue</a></h5> <span class="product-qty">x 2</span>
+                                            </td>
+                                            <td>$180.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="image product-thumbnail"><img src="assets/imgs/shop/product-2-1.jpg" alt="#"></td>
+                                            <td>
+                                                <h5><a href="shop-product-full.html">LDB MOON Women Summe</a></h5> <span class="product-qty">x 1</span>
+                                            </td>
+                                            <td>$65.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="image product-thumbnail"><img src="assets/imgs/shop/product-3-1.jpg" alt="#"></td>
+                                            <td><i class="ti-check-box font-small text-muted mr-10"></i>
+                                                <h5><a href="shop-product-full.html">Women's Short Sleeve Loose</a></h5> <span class="product-qty">x 1</span>
+                                            </td>
+                                            <td>$35.00</td>
+                                        </tr>
+                                        <tr>
+                                            <th>SubTotal</th>
+                                            <td class="product-subtotal" colspan="2">₹<%= totalPrice %></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipping</th>
+                                            <td colspan="2"><em>Free Shipping</em></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total</th>
+                                            <td colspan="2" class="product-subtotal"><span class="font-xl text-brand fw-900">₹<%= totalPrice %></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+ <%- include('../partials/user-footer.ejs') %>
