@@ -72,6 +72,16 @@ userRoute.post('/clear-cart',auth.isBlocked,auth.isLogin,cartController.clearCar
 
 userRoute.get('/checkout-address',auth.isBlocked,auth.isLogin,cartController.getCheckout);
 
+userRoute.get('/checkout-address/add-address',auth.isBlocked,auth.isLogin,cartController.getCheckoutAddAddress);
+
+userRoute.post('/checkout-address/add-address',cartController.checkoutAddAddress);
+
+userRoute.get('/checkout-address/edit-address',auth.isBlocked,auth.isLogin,cartController.getCheckoutEditAddress);
+
+userRoute.post('/checkout-address/edit-address',cartController.checkoutEditAddress);
+
+userRoute.get('/checkout-address/remove-address',auth.isBlocked,auth.isLogin,cartController.checkoutRemoveAddress);
+
 userRoute.get('/forget-password',auth.isLogout,userController.getForgetPassword);
 
 userRoute.post('/forget-password',userController.forgetPassword);

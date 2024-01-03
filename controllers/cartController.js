@@ -145,6 +145,83 @@ const getCheckout = async(req,res) =>{
     }
 }
 
+const getCheckoutAddAddress = async(req,res) =>{
+    try {
+
+        const userData = await User.findById({_id:req.session.user_id});
+        res.render('add-address',{user: userData});
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const checkoutAddAddress = async(req,res) =>{
+    try {
+        
+        const address = new Address({
+            name: req.body.name,
+            mobile: req.body.mno,
+            pincode: req.body.pincode,
+            user: req.session.user_id,
+            locality: req.body.locality,
+            address: req.body.address,
+            city: req.body.city,
+            state: req.body.state,
+            country: req.body.country,
+            landmark: req.body.landmark,
+        });
+
+        const addressData = await address.save();
+
+        if (addressData) {
+            res.redirect('/checkout-address');
+        } else {
+            res.render('add-address',{message:'Something Wrong'});
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const getCheckoutEditAddress = async(req,res) =>{
+    try {
+        const id = req.query.id;
+        const addressData = await Address.findById(id);
+
+        res.render('edit-address',{address: addressData});
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const checkoutEditAddress = async(req,res) =>{
+    try {
+        const addressData = await Address.findByIdAndUpdate({_id: req.body.addressId},{$set: {name: req.body.name,mobile: req.body.mno,pincode: req.body.pincode,locality: req.body.locality,address: req.body.address,city: req.body.city,state: req.body.state,country: req.body.country,landmark: req.body.landmark}});
+
+        res.redirect('/checkout-address');
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const checkoutRemoveAddress = async ( req, res ) => {
+    try {
+        
+        const id = req.query.id;
+        const addressData = await Address.findById(id);
+        await addressData.updateOne({$set: {status: false}});
+
+        res.redirect('/checkout-address');
+
+    } catch (error) { 
+        console.log(error.message);
+    }
+}
+
 
 module.exports = {
 
@@ -152,6 +229,11 @@ module.exports = {
     addToCart,
     deleteCartItem,
     clearCart,
-    getCheckout
+    getCheckout,
+    getCheckoutAddAddress,
+    checkoutAddAddress,
+    getCheckoutEditAddress,
+    checkoutEditAddress,
+    checkoutRemoveAddress
 
 }
