@@ -6,6 +6,7 @@ const session = require('express-session');
 const userController = require('../controllers/userController');
 const wishlistController = require('../controllers/wishlistController');
 const cartController = require('../controllers/cartController');
+const orderController = require('../controllers/orderController');
 const bodyParser = require('body-parser');
 const config = require('../config/config');
 const auth = require('../middleware/auth');
@@ -70,17 +71,21 @@ userRoute.post('/delete-cart-item/:id',auth.isBlocked,auth.isLogin,cartControlle
 
 userRoute.post('/clear-cart',auth.isBlocked,auth.isLogin,cartController.clearCart);
 
-userRoute.get('/checkout-address',auth.isBlocked,auth.isLogin,cartController.getCheckout);
+userRoute.get('/checkout',auth.isBlocked,auth.isLogin,cartController.getCheckout);
 
-userRoute.get('/checkout-address/add-address',auth.isBlocked,auth.isLogin,cartController.getCheckoutAddAddress);
+userRoute.get('/checkout/add-address',auth.isBlocked,auth.isLogin,cartController.getCheckoutAddAddress);
 
-userRoute.post('/checkout-address/add-address',cartController.checkoutAddAddress);
+userRoute.post('/checkout/add-address',cartController.checkoutAddAddress);
 
-userRoute.get('/checkout-address/edit-address',auth.isBlocked,auth.isLogin,cartController.getCheckoutEditAddress);
+userRoute.get('/checkout/edit-address',auth.isBlocked,auth.isLogin,cartController.getCheckoutEditAddress);
 
-userRoute.post('/checkout-address/edit-address',cartController.checkoutEditAddress);
+userRoute.post('/checkout/edit-address',cartController.checkoutEditAddress);
 
-userRoute.get('/checkout-address/remove-address',auth.isBlocked,auth.isLogin,cartController.checkoutRemoveAddress);
+userRoute.get('/checkout/remove-address',auth.isBlocked,auth.isLogin,cartController.checkoutRemoveAddress);
+
+userRoute.post('/checkout',auth.isBlocked,auth.isLogin,orderController.placeOrder);
+
+userRoute.get('/getConfirmOrder',auth.isBlocked,auth.isLogin,orderController.getConfirmOrder);
 
 userRoute.get('/forget-password',auth.isLogout,userController.getForgetPassword);
 

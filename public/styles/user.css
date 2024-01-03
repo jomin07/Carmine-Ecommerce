@@ -13,3 +13,8 @@
 .redbutton{
     background-color: red;
 }
+
+.green_radio .form-check-input:checked  {
+    opacity: 1;
+    background-color: #088178;
+}
