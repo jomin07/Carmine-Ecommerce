@@ -200,7 +200,7 @@
             $.ajax({
                 url : '/place-order',
                 method : 'post',
-                data : { addressId, paymentMethod, walletAmount },
+                data : { addressId, paymentMetho },
                 success : ( order ) => {
                    
                     if( order.success ){

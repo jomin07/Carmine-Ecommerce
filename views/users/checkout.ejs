@@ -121,7 +121,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th>Total</th>
-                                                        <td colspan="2" class="product-subtotal"><span class="font-xl text-brand fw-900">₹<%= totalPrice %></span></td>
+                                                        <td colspan="2" id="total1" class="product-subtotal"><span class="font-xl text-brand fw-900">₹<%= totalPrice %></span></td>
                                                     </tr>
                                                 </tbody>
                                             
@@ -178,10 +178,44 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 
     <script>
 
-        async function submitForm() {   
+        $("#checkout-form").submit((e) => {
+            const amount = document.getElementById("total1").innerHTML;
+            let address = $("input[name=addressId]:checked").val();
+            let payment = $("input[name=paymentMethod]:checked").val();
+            console.log(amount);
+            console.log(address);
+            console.log(payment);
+            e.preventDefault();
+            $.ajax({
+                url: "/checkout",
+                method: "post",
+                data: {
+                    amount: amount,
+                    addressId: address,
+                    paymentMethod: payment
+                },
+                success: (response) => {
+                    if (response.success == true) {
+                        window.location.href = '/confirm-order';
+                    } else {
+                        razorpayPayment(response.order);
+                    }
+                }
+            })
+        })
+
+    </script> -->
+
+    <script>
+
+        function submitForm() {   
         
             try {
                 const addressRadio = document.querySelector('input[name="addressId"]:checked');
@@ -189,14 +223,15 @@
 
                 if (!addressRadio || !paymentMethodRadio) {
                     alert("Please select an address and payment method.");
-                    return
+                    return;
                 }
                 
-                const addressId = addressRadio.value
-                const paymentMethod = paymentMethodRadio.value      
+                const addressId = addressRadio.value;
+                const paymentMethod = paymentMethodRadio.value;
+                      
                 
                 $("#checkout-form").submit((e) => {
-                    e.preventDefault()
+                    e.preventDefault();
                     $.ajax({
                         url : '/checkout',
                         method : 'post',

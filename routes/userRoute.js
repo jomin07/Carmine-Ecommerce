@@ -85,7 +85,7 @@ userRoute.get('/checkout/remove-address',auth.isBlocked,auth.isLogin,cartControl
 
 userRoute.post('/checkout',auth.isBlocked,auth.isLogin,orderController.placeOrder);
 
-userRoute.get('/getConfirmOrder',auth.isBlocked,auth.isLogin,orderController.getConfirmOrder);
+userRoute.get('/confirm-order',auth.isBlocked,auth.isLogin,orderController.getConfirmOrder);
 
 userRoute.get('/forget-password',auth.isLogout,userController.getForgetPassword);
 

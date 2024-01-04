@@ -138,7 +138,7 @@ const getCheckout = async(req,res) =>{
         const addressData = await Address.find({user: userId,status: true});
         const totalPrice = await userHelper.cartTotalPrice(userId);
 
-        res.render('checkout-address',{userId,user: userData,cartItems,address: addressData,totalPrice});
+        res.render('checkout',{userId,user: userData,cartItems,address: addressData,totalPrice});
         
     } catch (error) {
         console.log(error.message);
