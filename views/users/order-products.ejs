@@ -1,0 +1,58 @@
+<%- include('../partials/user-header.ejs') %>
+
+    <section class="content-main">
+
+            <div class="content-header mt-30 mb-30 ml-50">
+                <div>
+                    <h2 class="content-title card-title">Order Details</h2>
+                </div>
+                
+            </div>
+            <div class="container pt-5">
+            
+            <div class="table-responsive ">
+                    <table id="example" class="table table-striped " style="width:100%">
+                        <thead>
+                            <tr>
+                                
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th >Brand</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for ( let item of items ){ %>
+                                <% var total = item.price * item.quantity %>
+
+                                <tr>
+                                    
+                                    <td>
+                                        <img width="100" src="/admin/productImages/<%= item.productId.image[0] %>" alt="">
+                                    </td>
+                                    <td><%= item.productId.name %></td>
+                                    <td><%= item.productId.brand %></td>
+                                    <td>₹<%= item.price %></td>
+                                    <td><%= item.quantity %></td>
+                                    <td>₹<%= total %></td>
+                                    
+                                </tr>
+                            <% } %>
+                            
+                        </tbody>
+                        
+                    </table>
+                    <br><br>
+            </div>
+
+            <br><br><br>
+            
+            </div>   
+
+    </section>
+
+
+
+<%- include('../partials/user-footer.ejs') %>

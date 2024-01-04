@@ -46,6 +46,17 @@ const placeOrder = async(req,res) =>{
         const orderData = await order.save();
         res.json({ success: true, order: orderData });
 
+        // Decreasing quantity
+        for( const items of validatedItems ){
+            const { productId, quantity } = items;
+
+            await Product.updateOne({_id : productId},
+                {$inc: {quantity: -quantity}});
+            } 
+
+        // Deleting cart
+        await Cart.deleteOne({userId: userId});
+
     } catch (error) {
         console.log(error.message);
         res.json({ success: false, error: error.message });
@@ -57,10 +68,61 @@ const getConfirmOrder = async(req,res) =>{
         
         const userId = req.session.user_id;
         const userData = await User.findById({_id:req.session.user_id});
-        const cartData = await Cart.findOne({userId: userId}).populate('items.productId');
-        const totalPrice = await userHelper.cartTotalPrice(userId);
 
-        res.render('confirm-order',{userId,user: userData,totalPrice});
+        res.render('confirm-order',{userId,user: userData});
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const getOrders = async(req,res) =>{
+    try {
+        
+        const userId = req.session.user_id;
+        const userData = await User.findById({_id:req.session.user_id});
+        const orderData = await Order.find({userId: userId}).sort({orderedDate: -1}).populate('items.productId').populate('address');
+
+        res.render('orders',{user: userData,orders: orderData,now: new Date()});
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const cancelOrder = async(req,res) =>{
+    try {
+        
+        const userId = req.session.user_id;
+        const userData = await User.findById({_id:req.session.user_id});
+        const { orderId, status } = req.body;
+        const orderData = await Order.findById({_id: orderId});
+
+        for(let items of orderData.items){
+            await Product.updateOne({_id: items.productId},{$inc: {quantity: items.quantity}});
+        }
+
+        await Order.findOneAndUpdate({ _id : orderId },
+            { $set : { orderStatus : status }});
+
+        const newStatus = await Order.findOne({ _id : orderId })
+        res.status( 200 ).json({ success : true, status : newStatus.orderStatus });
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const getUserOrderProducts = async(req,res) =>{
+    
+    try {
+        
+        const userId = req.session.user_id;
+        const userData = await User.findById({_id: req.session.user_id});
+        const { id } = req.params;
+        const orderData = await Order.findById({_id: id}).populate('items.productId').populate('address');
+
+        res.render('order-products',{user: userData,order: orderData,items: orderData.items});
 
     } catch (error) {
         console.log(error.message);
@@ -70,6 +132,9 @@ const getConfirmOrder = async(req,res) =>{
 module.exports = {
 
     placeOrder,
-    getConfirmOrder
+    getConfirmOrder,
+    getOrders,
+    cancelOrder,
+    getUserOrderProducts
 
 }

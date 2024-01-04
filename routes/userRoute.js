@@ -56,12 +56,15 @@ userRoute.post('/profile/addresses/edit-address',userController.editAddress);
 
 userRoute.get('/profile/addresses/remove-address',auth.isBlocked,auth.isLogin,userController.removeAddress);
 
+
+
 userRoute.get('/wishlist',auth.isBlocked,auth.isLogin,wishlistController.getWishList);
 
 userRoute.post('/add-to-wishlist/:id',auth.isBlocked,auth.isLogin,wishlistController.addToWishlist);
 
-
 userRoute.post('/delete-wishlist-item/:id',auth.isBlocked,auth.isLogin,wishlistController.deleteWishlistItem);
+
+
 
 userRoute.get('/cart',auth.isBlocked,auth.isLogin,cartController.getCartPage);
 
@@ -87,6 +90,15 @@ userRoute.post('/checkout',auth.isBlocked,auth.isLogin,orderController.placeOrde
 
 userRoute.get('/confirm-order',auth.isBlocked,auth.isLogin,orderController.getConfirmOrder);
 
+userRoute.get('/orders',auth.isBlocked,auth.isLogin,orderController.getOrders);
+
+userRoute.patch('/cancel-order',auth.isBlocked,auth.isLogin,orderController.cancelOrder);
+
+userRoute.get('/view-order-products/:id',auth.isBlocked,orderController.getUserOrderProducts);
+
+
+
+
 userRoute.get('/forget-password',auth.isLogout,userController.getForgetPassword);
 
 userRoute.post('/forget-password',userController.forgetPassword);
@@ -96,6 +108,8 @@ userRoute.get('/reset-password',auth.isLogout,userController.getResetPassword);
 userRoute.post('/reset-password',userController.resetPassword);
 
 userRoute.get('/logout',auth.isLogin,userController.userLogout);
+
+
 
 userRoute.get('/shop',userController.getShop);
 userRoute.get('/shop/:id',userController.getProductDetails);

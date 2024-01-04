@@ -1,0 +1,162 @@
+<%- include('../partials/user-header.ejs') %>
+
+
+    <!-- <style>
+        /* Add these styles to your existing CSS or in a separate stylesheet */
+        .content-main {
+            padding: 20px;
+        }
+
+        .content-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .actions-column {
+            display: flex;
+            justify-content: space-evenly;
+            width: 150px;
+        }
+
+        .table-responsive {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            margin-right: 10px;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+            color: #fff;
+        }
+
+        .btn-dark {
+            background-color: #343a40;
+            border-color: #343a40;
+            color: #fff;
+        }
+    </style> -->
+
+
+    <section class="content-main">
+
+        <% if (orders.length === 0) { %>
+            <p>No orders found.</p>
+        <% } else { %>
+            <div class="content-header mt-30 mb-30 ml-50">
+                <div>
+                    <h2 class="content-title card-title">Your Orders</h2>
+                </div>
+                
+            </div>
+            <div class="container pt-5">
+            
+            <div class="table-responsive ">
+                    <table id="example" class="table table-striped " style="width:100%">
+                        <thead>
+                            <tr>
+                                
+                                <th>Order ID</th>
+                                <th>Ordered Date</th>
+                                <th >Total Items</th>
+                                <th>Total Price</th>
+                                <th>Status</th>
+                                <th class="actions-column text-center ">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for ( let order of orders ){ %>
+
+                                <% var timeDiff = now - order.date  %>
+                                <% var days = timeDiff / ( 1000 * 60 * 60 * 24 ) %>
+
+                                <tr>
+                                    
+                                    <td><%= order._id %></td>
+                                    <td><%= order.orderedDate.toDateString() %></td>
+                                    <td><%= order.items.length %></td>
+                                    <td>₹ <%= order.totalPrice.toFixed(2) %></td>
+                                    <td id="order-status-<%= order._id %>"><%= order.orderStatus %></td>
+                                    <td> <% if( order.orderStatus === 'Delivered' || order.orderStatus ===      'Cancelled' || order.orderStatus === 'Returned') { %><% } else { %> 
+                                                <button style="font-size: 12px;" id="cancel-<%= order._id %>" onclick="cancelOrder('<%= order._id %>')" class="btn btn-danger"> Cancel</button> 
+                                            <% } %>
+                                            <% if( order.orderStatus === 'Delivered' && days < 30 ) { %>
+                                                <button style="font-size: 12px;" id="return-<%= order._id %>" onclick="returnOrder('<%= order._id %>')" class="btn btn-info ">Return</button>
+                                            <% } %>
+                                            <a  style="font-size: 12px;" class="btn btn-dark " href="/view-order-products/<%= order._id %>">View products</a>
+                                    </td>
+                                    
+                                </tr>
+                            <% } %>
+                            
+                        </tbody>
+                        
+                    </table>
+                    <br><br>
+            </div>
+
+            <br><br><br>
+            
+            </div>
+
+        <% } %>
+        
+
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        async function cancelOrder(orderId){
+            try {
+                console.log(orderId);
+                const status = 'Cancelled'
+                const cancel = await axios.patch('/cancel-order',{orderId,status})
+                if (cancel.data.success){
+                    console.log(cancel.data);
+                    const cancelButton = document.getElementById(`cancel-${orderId}`)
+                    const order_status = document.getElementById(`order-status-${orderId}`)
+                    cancelButton.style.display = 'none'
+                    order_status.innerHTML = cancel.data.status
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+
+        async function returnOrder ( orderId ) {
+            const response = await axios.patch( '/return-order',{
+                orderId
+            })
+
+
+        }
+    </script>
+
+<%- include('../partials/user-footer.ejs') %>

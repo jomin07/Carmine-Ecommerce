@@ -119,7 +119,6 @@ const clearCart = async(req,res) =>{
     try {
 
         const userId = req.session.user_id;
-        console.log(userId);
         await Cart.deleteOne({userId: userId});
 
         res.redirect('/cart');
