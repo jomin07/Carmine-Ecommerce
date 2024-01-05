@@ -42,8 +42,7 @@ const addToWishlist = async(req,res) =>{
             
 
             if (exist) {
-                console.log(exist);
-                console.log('Already in Wishlist');
+                
                 res.redirect('/shop');
 
             } else {

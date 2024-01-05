@@ -9,7 +9,6 @@ const userHelper = require('../helpers/userHelper');
 
 const placeOrder = async(req,res) =>{
     try {
-        console.log('Inside Place order');
         const userId = req.session.user_id;
         const userData = await User.findById({_id:req.session.user_id});
         const cartData = await Cart.findOne({userId: userId}).populate('items.productId');

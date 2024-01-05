@@ -48,7 +48,6 @@ const addToCart = async(req,res) =>{
 
                 if (exist) {
                     const availableStock = stock - exist.quantity;
-                    console.log(exist);
 
                     if (availableStock > 0) {
                         await Cart.updateOne({ userId: userId, 'items.productId': productId }, {

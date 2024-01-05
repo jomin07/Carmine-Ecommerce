@@ -48,9 +48,9 @@
                                                             <span class="color3 font-weight-bold">In Stock</span>
                                                         </td>
                                                         <td class="text-right" data-title="Cart">
-                                                            <button class="btn btn-main btn-sm"><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</button>
+                                                            <button onclick="addToCart('<%- wishlistItems.items[i].productId._id %>')" class="btn btn-main btn-sm"><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</button>
                                                         </td>
-                                                        <td class="action" data-title="Remove"><a onclick="deleteWishlistItem('<%- wishlistItems.items[i].productId._id %> ')" href="#"><i class="fi-rs-trash"></i></a></td>
+                                                        <td class="action" data-title="Remove"><a onclick="deleteWishlistItem('<%- wishlistItems.items[i].productId._id %> ')" ><i class="fi-rs-trash"></i></a></td>
         
                                                     <% } else{ %>
                                                         <td class="text-center" data-title="Stock">
@@ -74,7 +74,13 @@
 
                     <% } else{ %>
 
-                        <h1>Your Wishlist is Empty</h1>
+                        <div class="mt-30 mb-30">
+                            <h1>Your Wishlist is Empty</h1>
+                        </div>
+
+                        <div class="mt-30 mb-30">
+                            <a href="/shop" class="btn btn-main"><i class="fi-rs-shopping-bag mr-10"></i>Go Shopping</a>
+                        </div>
 
                     <% } %>
                     
@@ -96,9 +102,26 @@
                 
                 console.log(productId);
                 const res = await axios.post(`/delete-wishlist-item/${productId}`);
+                location.reload();
 
             } catch (error) {   
                 console.log(error.message);
+            }
+
+        }
+
+        async function addToCart(productId){
+
+            try {
+                
+                console.log(productId);
+                const res = await axios.post(`/add-to-cart/${productId}`);
+                
+
+            } catch (error) {
+                
+                console.log(error.message);
+
             }
 
         }
