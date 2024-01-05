@@ -8,6 +8,7 @@ const auth = require('../middleware/adminAuth');
 const adminController = require('../controllers/adminController');
 const categoryController = require('../controllers/categoryController');
 const productController = require('../controllers/productController');
+const orderController = require("../controllers/orderController");
 const flash = require('connect-flash');
 const multer = require('multer');
 
@@ -49,6 +50,11 @@ adminRoute.post('/categories/edit-category',categoryController.updateCategory);
 adminRoute.get('/categories/list-category',auth.isLogin,categoryController.listCategory);
 adminRoute.get('/categories/unlist-category',auth.isLogin,categoryController.unListCategory);
 adminRoute.get('/categories/delete-category',auth.isLogin,categoryController.deleteCategory);
+
+
+adminRoute.get('/orders',auth.isLogin,orderController.loadOrders);
+adminRoute.get('/orders/edit-order-deliveryStatus',auth.isLogin,orderController.editDeliveryStatus);
+adminRoute.post('/orders/edit-order-deliveryStatus',auth.isLogin,orderController.updateDeliveryStatus);
 
 adminRoute.get('/products',auth.isLogin,productController.loadProducts);
 adminRoute.get('/products/add-product',auth.isLogin,productController.loadAddProduct);

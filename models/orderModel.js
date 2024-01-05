@@ -55,6 +55,11 @@ const orderSchema = new mongoose.Schema({
         default : 'Pending'
     },
 
+    deliveryStatus : {
+        type : String,
+        default : 'Pending'
+    },
+
     orderedDate : {
         type : Date,
         default : Date.now

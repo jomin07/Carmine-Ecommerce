@@ -1,0 +1,47 @@
+<%- include('../partials/admin-header.ejs') %>
+
+<section class="content-main">
+  <div class="content-header">
+    <div>
+        <h2 class="content-title card-title">Edit Delivery Status</h2>
+    </div>
+    <div>
+        <a href="/admin/orders/" class="btn btn-outline-dark">Go Back</a>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+
+      <!-- ======= Form ======== -->
+
+      <div class="col-6 grid-margin stretch-card">
+          <div class="card" style="margin-top: 60px; margin-left: 60px;">
+            <div class="card-body">
+              <div class="card-title mb-3">Edit Delivery Status</div>
+              <form class="forms-sample my-3" action="" method="POST" id="order">
+                <div id="errorContainer" class="alert alert-danger" style="display: none;"></div> <!-- Error container -->
+                <div class="form-group my-3">
+
+                  <label for="deliveryStatusDropdown">Delivery Status</label>
+                  <select name="deliveryStatus" class="form-control my-3" id="deliveryStatusDropdown">
+                    <option value="Pending" <%= order.deliveryStatus === 'Pending' ? 'selected' : '' %>>Pending</option>
+                    <option value="Shipped" <%= order.deliveryStatus === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                    <option value="Delivered" <%= order.deliveryStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                  </select>
+                  
+                  <input type="hidden" value="<%= order._id %>" name="orderId">
+                </div>
+                <button type="submit" class="btn btn-primary  mr-2 ">Update</button>    
+                <button type="submit" class="btn  mr-2"><a class="btn btn-outline-danger" href="/admin/orders/">Cancel</a></button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+
+  </div>
+</section> <!-- content-main end// -->   
+
+<%- include('../partials/admin-footer.ejs') %>

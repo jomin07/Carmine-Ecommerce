@@ -129,12 +129,51 @@ const getUserOrderProducts = async(req,res) =>{
     }
 }
 
+const loadOrders = async(req,res) =>{
+    try {
+        const ordersData = await Order.find({}).populate( 'userId' ).populate( 'items.productId' ).populate( 'address' );
+        res.render('orders',{orders: ordersData});
+    
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const editDeliveryStatus = async(req,res) =>{
+    try {
+        const id = req.query.id;
+        const orderData = await Order.findById({_id: id});
+
+        if (orderData) {
+            res.render('edit-deliveryStatus',{order: orderData});
+        } else {
+            res.redirect('/admin/orders');
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const updateDeliveryStatus = async(req,res) =>{
+    try {
+        const orderData = await Order.findByIdAndUpdate({_id: req.body.orderId},{$set: {deliveryStatus: req.body.deliveryStatus}});
+        res.redirect('/admin/orders');
+   
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = {
 
     placeOrder,
     getConfirmOrder,
     getOrders,
     cancelOrder,
-    getUserOrderProducts
+    getUserOrderProducts,
+    loadOrders,
+    editDeliveryStatus,
+    updateDeliveryStatus
 
 }

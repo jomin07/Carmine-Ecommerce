@@ -87,7 +87,9 @@
                                 <th>Ordered Date</th>
                                 <th >Total Items</th>
                                 <th>Total Price</th>
+                                <th>Payment</th>
                                 <th>Status</th>
+                                <th>Delivery Status</th>
                                 <th class="actions-column text-center ">Actions</th>
                             </tr>
                         </thead>
@@ -103,15 +105,18 @@
                                     <td><%= order.orderedDate.toDateString() %></td>
                                     <td><%= order.items.length %></td>
                                     <td>₹ <%= order.totalPrice.toFixed(2) %></td>
+                                    <td><%= order.paymentMethod %></td>
                                     <td id="order-status-<%= order._id %>"><%= order.orderStatus %></td>
+                                    <td><%= order.deliveryStatus %></td>
                                     <td> <% if( order.orderStatus === 'Delivered' || order.orderStatus ===      'Cancelled' || order.orderStatus === 'Returned') { %><% } else { %> 
-                                                <button style="font-size: 12px;" id="cancel-<%= order._id %>" onclick="cancelOrder('<%= order._id %>')" class="btn btn-danger"> Cancel</button> 
+                                                <button style="font-size: 12px;margin-right: 20px;" id="cancel-<%= order._id %>" onclick="cancelOrder('<%= order._id %>')" class="btn btn-danger"> Cancel</button> 
                                             <% } %>
                                             <% if( order.orderStatus === 'Delivered' && days < 30 ) { %>
                                                 <button style="font-size: 12px;" id="return-<%= order._id %>" onclick="returnOrder('<%= order._id %>')" class="btn btn-info ">Return</button>
                                             <% } %>
                                             <a  style="font-size: 12px;" class="btn btn-dark " href="/view-order-products/<%= order._id %>">View products</a>
                                     </td>
+                                    
                                     
                                 </tr>
                             <% } %>
