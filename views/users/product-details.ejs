@@ -114,7 +114,30 @@
                                             </ul>
                                         </div>
                                         <div class="bt-1 border-color-1 mt-30 mb-30"></div>
-                                        <div class="detail-extralink">
+
+                                        <% if(locals.user) { %>
+                                                    
+                                            <% if(product.quantity<=0) { %>
+                                                <span>Out of Stock</span>
+                                            
+                                            <% } else { %>
+                                                <div class="detail-extralink">
+                                                    <div class="detail-qty border radius">
+                                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                                        <span class="qty-val">1</span>
+                                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                                    </div>
+                                                    <div class="product-extra-link2">
+                                                        <button onclick="addToCart('<%- product._id %>')" class="button button-add-to-cart">Add to cart</button>
+                                                        <a onclick="addToWishlist('<%- product._id %>')" aria-label="Add To Wishlist" class="action-btn hover-up" ><i class="fi-rs-heart"></i></a>
+                                                        <!-- <a aria-label="Compare" class="action-btn hover-up" href="/"><i class="fi-rs-shuffle"></i></a> -->
+                                                    </div>
+                                                </div>
+                                            <% } %>
+                                            
+                                        <% } %>
+
+                                        <!-- <div class="detail-extralink">
                                             <div class="detail-qty border radius">
                                                 <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
                                                 <span class="qty-val">1</span>
@@ -123,9 +146,9 @@
                                             <div class="product-extra-link2">
                                                 <button onclick="addToCart('<%- product._id %>')" class="button button-add-to-cart">Add to cart</button>
                                                 <a onclick="addToWishlist('<%- product._id %>')" aria-label="Add To Wishlist" class="action-btn hover-up" ><i class="fi-rs-heart"></i></a>
-                                                <!-- <a aria-label="Compare" class="action-btn hover-up" href="/"><i class="fi-rs-shuffle"></i></a> -->
+                                                
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <ul class="product-meta font-xs color-grey mt-50">
                                             <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
                                             <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women</a>, <a href="#" rel="tag">Dress</a> </li>
@@ -568,6 +591,8 @@
     <!-- Axios Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js" integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <!-- Javascript for Add to Cart -->
     <script>
 
@@ -575,8 +600,15 @@
 
             try {
                 
-                console.log(productId);
                 const res = await axios.post(`/add-to-cart/${productId}`);
+
+                // Display SweetAlert notification on success
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Product Added to Cart!',
+                    text: 'The selected product has been added to your Cart!',
+                    confirmButtonText: 'OK'
+                });
 
             } catch (error) {
                 
@@ -590,14 +622,21 @@
 
             try {
                 
-                console.log(productId);
                 const res = await axios.post(`/add-to-wishlist/${productId}`);
+
+                // Display SweetAlert notification on success
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Product Added to Wishlist!',
+                    text: 'The selected product has been added to your Wishlist!',
+                    confirmButtonText: 'OK'
+                }); 
 
             } catch (error) {         
                 console.log(error.message);
             }
 
-            }
+        }
 
     </script>
 

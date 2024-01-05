@@ -57,7 +57,7 @@
                                                             <span class="color3 font-weight-bold">Out of Stock</span>
                                                         </td>
                                                         <td class="text-right" data-title="Cart">
-                                                            <button class="btn btn-sm"><i class="fi-rs-shopping-bag mr-5"></i>Go to Shop</button>
+                                                            <a href="/shop" class="btn btn-main btn-sm"><i class="fi-rs-shopping-bag mr-5"></i>Go to Shop</a>
                                                         </td>
                                                         <td class="action" data-title="Remove"><a onclick="deleteWishlistItem('<%- wishlistItems.items[i].productId._id %> ')" href="#"><i class="fi-rs-trash"></i></a></td>
         
@@ -89,8 +89,12 @@
         </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <!-- Axios Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js" integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    
 
     <!-- Javascript for Cart -->
 
@@ -114,16 +118,20 @@
 
             try {
                 
-                console.log(productId);
                 const res = await axios.post(`/add-to-cart/${productId}`);
+
+                // Display SweetAlert notification on success
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Product Added to Cart!',
+                    text: 'The selected product has been added to your cart!',
+                    confirmButtonText: 'OK'
+                });
                 
 
-            } catch (error) {
-                
+            } catch (error) {             
                 console.log(error.message);
-
             }
-
         }
 
     </script>

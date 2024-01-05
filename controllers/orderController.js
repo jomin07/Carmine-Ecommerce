@@ -17,6 +17,26 @@ const placeOrder = async(req,res) =>{
         let orderStatus;
         const items = cartData.items;
 
+        // Check if any product in the cart has a quantity less than or equal to 0
+        // const invalidQuantityProduct = items.find(item => item.productId.quantity <= 0);
+
+        // if (invalidQuantityProduct) {
+        //     throw new Error(`Cannot place order as the stock of : ${invalidQuantityProduct.productId.name} is lesser than required` );
+        // }
+
+        
+        // Check if any product in the cart has a quantity less than the required quantity
+        for (const item of items) {
+            const productDetails = await Product.findById(item.productId);
+            if (!productDetails) {
+                throw new Error(`Product not found for ID: ${item.productId}`);
+            }
+
+            if (item.quantity > productDetails.quantity) {
+                throw new Error(`Cannot place order as the stock of ${productDetails.name} is less than required`);
+            }
+        }
+
         paymentMethod === 'COD' ? orderStatus = 'Confirmed' : orderStatus = 'Pending';
 
         // Ensure each item has a valid price before saving the order
@@ -58,7 +78,8 @@ const placeOrder = async(req,res) =>{
 
     } catch (error) {
         console.log(error.message);
-        res.json({ success: false, error: error.message });
+        res.status(400).json({ success: false, error: error.message });
+        // res.json({ success: false, error: error.message });
     }
 }
 

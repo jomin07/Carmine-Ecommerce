@@ -68,7 +68,13 @@
     <section class="content-main">
 
         <% if (orders.length === 0) { %>
-            <p>No orders found.</p>
+            <div class="mt-30 mb-30 ml-50">
+                <h1>No Orders</h1>
+            </div>
+
+            <div class="mt-30 mb-30 ml-50">
+                <a href="/shop" class="btn btn-main"><i class="fi-rs-shopping-bag mr-10"></i>Go Shopping</a>
+            </div>
         <% } else { %>
             <div class="content-header mt-30 mb-30 ml-50">
                 <div>
