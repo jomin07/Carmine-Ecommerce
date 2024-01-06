@@ -92,6 +92,56 @@ const addToCart = async(req,res) =>{
     }
 }
 
+const updateCartQuantity = async (req, res) => {
+    try {
+        const userId = req.session.user_id;
+        const productId = req.params.productId;
+        const change = req.body.change;
+
+        // Fetch the user's cart
+        const userCart = await Cart.findOne({ userId: userId });
+
+        // Find the item in the cart
+        const cartItem = userCart.items.find(item => item.productId == productId);
+
+        if (cartItem) {
+            // Update the quantity based on the change
+            const newQuantity = cartItem.quantity + change;
+
+            if (newQuantity > 0) {
+                await Cart.updateOne({
+                    userId: userId,
+                    'items.productId': productId
+                }, {
+                    $set: {
+                        'items.$.quantity': newQuantity
+                    }
+                });
+                res.json({ success: true });
+            } else {
+                // If the quantity is zero, remove the item from the cart
+                await Cart.updateOne({
+                    userId: userId
+                }, {
+                    $pull: {
+                        items: {
+                            productId: productId
+                        }
+                    }
+                });
+                res.json({ success: true });
+            }
+        } else {
+            res.json({ success: false, message: 'Item not found in the cart' });
+        }
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
+
+
+
 
 const deleteCartItem = async(req,res) =>{
     try {
@@ -225,6 +275,7 @@ module.exports = {
 
     getCartPage,
     addToCart,
+    updateCartQuantity,
     deleteCartItem,
     clearCart,
     getCheckout,

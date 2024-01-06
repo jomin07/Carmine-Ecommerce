@@ -70,6 +70,8 @@ userRoute.get('/cart',auth.isBlocked,auth.isLogin,cartController.getCartPage);
 
 userRoute.post('/add-to-cart/:id',auth.isBlocked,auth.isLogin,cartController.addToCart);
 
+userRoute.post('/update-cart-quantity/:productId',auth.isBlocked,auth.isLogin,cartController.updateCartQuantity);
+
 userRoute.post('/delete-cart-item/:id',auth.isBlocked,auth.isLogin,cartController.deleteCartItem);
 
 userRoute.post('/clear-cart',auth.isBlocked,auth.isLogin,cartController.clearCart);

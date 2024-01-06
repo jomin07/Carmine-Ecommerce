@@ -41,9 +41,11 @@
                                                 <td class="price" data-title="Price"><span>₹<%= cartItems.items[i].productId.price %> </span></td>
                                                 <td class="text-center" data-title="Stock">
                                                     <div class="detail-qty border radius  m-auto">
-                                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                                        <!-- <a href="#" class="qty-down" ><i class="fi-rs-angle-small-down"></i></a> -->
+                                                        <a href="#" class="qty-down" onclick="updateQuantity('<%- cartItems.items[i].productId._id %>', -1)"><i class="fi-rs-angle-small-down"></i></a>
                                                         <span class="qty-val"><%= cartItems.items[i].quantity %></span>
-                                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                                        <!-- <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a> -->
+                                                        <a href="#" class="qty-up" onclick="updateQuantity('<%- cartItems.items[i].productId._id %>', 1)"><i class="fi-rs-angle-small-up"></i></a>
                                                     </div>
                                                 </td>
                                                 <td class="text-right" data-title="Cart">
@@ -157,6 +159,17 @@
                 console.log(error.message);
             }
 
+        }
+
+        async function updateQuantity(productId, change) {
+            try {
+                const res = await axios.post(`/update-cart-quantity/${productId}`, {
+                    change: change  // Sending the quantity change as a parameter
+                });
+                location.reload();
+            } catch (error) {
+                console.log(error.message);
+            }
         }
 
     </script>
