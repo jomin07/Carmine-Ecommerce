@@ -24,12 +24,9 @@ const insertCategory = async(req,res) =>{
         const existingCategory = await Category.findOne({name: req.body.name});
 
         if(existingCategory){ 
-            const existingCategoryName = existingCategory.name;
-            const newCategoryName = req.body.name;
+
+            return res.render('add-category',{message: 'Category already exists'});
             
-            if(existingCategoryName === newCategoryName){
-                return res.render('add-category',{message: 'Category already exists'});
-            }
         }
 
         const category = new Category({
@@ -69,7 +66,28 @@ const editCategory = async(req,res) =>{
 
 const updateCategory = async(req,res) =>{
     try {
-        const categoryData = await Category.findByIdAndUpdate({_id: req.body.categoryId},{$set: {name: req.body.name}});
+        // const categoryData = await Category.findByIdAndUpdate({_id: req.body.categoryId},{$set: {name: req.body.name}});
+        // res.redirect('/admin/categories');
+
+        const categoryId = req.body.categoryId;
+        const newName = req.body.name;
+
+        // Check if the new name is the same as the existing one
+        const existingCategory = await Category.findOne({ name: newName });
+
+        if (existingCategory && existingCategory._id.toString() !== categoryId) {
+            return res.render('edit-category', {
+                category: { _id: categoryId, name: newName },
+                message: 'Category already exists'
+            });
+        }
+
+        // Update the category name
+        const categoryData = await Category.findByIdAndUpdate(
+            { _id: categoryId },
+            { $set: { name: newName } }
+        );
+
         res.redirect('/admin/categories');
    
     } catch (error) {

@@ -5,9 +5,6 @@
         <div>
             <h2 class="content-title card-title">Edit Address</h2>
         </div>
-        <!-- <div>
-            <a href="/profile/addresses" class="btn btn-secondary">Go Back</a>
-        </div> -->
     </div>
     <div class="content-wrapper">
         <div class="container-fluid">
@@ -17,64 +14,77 @@
                     <div class="card" style="margin-top: 20px; margin-left: 60px;margin-bottom: 60px;">
                         <div class="card-body">
                             <hr>
-                            <form action="" method="POST" >
+                            <form id="editAddressForm" action="" method="POST" >
                                 
                                 <input type="hidden" value="<%= address._id %>" name="addressId">
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="<%= address.name %>" required>
+                                    <input type="text" class="form-control" id="name" name="name" value="<%= address.name %>" >
+                                    <p id="nameErrorMessages" class="text-danger"></p>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="mno" class="form-label">Mobile Number</label>
-                                    <input type="text" class="form-control" id="mno" name="mno" value="<%= address.mobile %>" required>
+                                    <input type="text" class="form-control" id="mno" name="mno" value="<%= address.mobile %>" >
+                                    <p id="mnoErrorMessages" class="text-danger"></p>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">PIN Code</label>
-                                    <input type="number" class="form-control" id="pincode" name="pincode" value="<%= address.pincode %>" required>
+                                    <input type="number" class="form-control" id="pincode" name="pincode" value="<%= address.pincode %>" >
+                                    <p id="pincodeErrorMessages" class="text-danger"></p>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Locality</label>
-                                    <input type="text" class="form-control" id="locality" name="locality" value="<%= address.locality %>" required>
+                                    <input type="text" class="form-control" id="locality" name="locality" value="<%= address.locality %>" >
+                                    <p id="localityErrorMessages" class="text-danger"></p>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address" value="<%= address.address %>" required>
+                                    <input type="text" class="form-control" id="address" name="address" value="<%= address.address %>" >
+                                    <p id="addressErrorMessages" class="text-danger"></p>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">City</label>
-                                    <input type="text" class="form-control" id="city" name="city" value="<%= address.city %>" required>
+                                    <input type="text" class="form-control" id="city" name="city" value="<%= address.city %>" >
+                                    <p id="cityErrorMessages" class="text-danger"></p>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">State</label>
-                                    <input type="text" class="form-control" id="state" name="state" value="<%= address.state %>" required>
+                                    <input type="text" class="form-control" id="state" name="state" value="<%= address.state %>" >
+                                    <p id="stateErrorMessages" class="text-danger"></p>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Country</label>
-                                    <input type="text" class="form-control" id="country" name="country" value="<%= address.country %>" required>
+                                    <input type="text" class="form-control" id="country" name="country" value="<%= address.country %>" >
+                                    <p id="countryErrorMessages" class="text-danger"></p>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Landmark</label>
-                                    <input type="text" class="form-control" id="landmark" name="landmark" value="<%= address.landmark %>" required>
+                                    <input type="text" class="form-control" id="landmark" name="landmark" value="<%= address.landmark %>" >
+                                    <p id="landmarkErrorMessages" class="text-danger"></p>
                                 </div>
 
                                 <br><br>
                                 
-                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="submit" class="btn btn-main">Update</button>
+                                <% if(typeof message !=='undefined' ){ %>
+                                    <h6><br>
+                                        <%= message %>
+                                    </h6>
+                                <% } %>
+                                    <div class="mt-3">
+                                        <p id="errorMessages" class="text-danger"></p>
+                                    </div>
                             </form>
-                            <% if(typeof message !=='undefined' ){ %>
-                            <h6><br>
-                                <%= message %>
-                            </h6>
-                            <% } %>
+                            
                         </div>
                     </div>
                 </div>
@@ -82,5 +92,82 @@
             </div>
     </div>
 </section> <!-- content-main end// -->
+
+<script>
+
+    document.getElementById('editAddressForm').addEventListener('submit', function (event) {
+        
+        const name = document.getElementsByName('name')[0].value;
+        const mobile = document.getElementsByName('mno')[0].value;
+        const pincode = document.getElementsByName('pincode')[0].value;
+        const locality = document.getElementsByName('locality')[0].value;
+        const address = document.getElementsByName('address')[0].value;
+        const city = document.getElementsByName('city')[0].value;
+        const state = document.getElementsByName('state')[0].value;
+        const country = document.getElementsByName('country')[0].value;
+        const landmark = document.getElementsByName('landmark')[0].value;
+
+        const errorMessages = document.getElementById('errorMessages');
+        const nameErrorMessages = document.getElementById('nameErrorMessages');
+        const mnoErrorMessages = document.getElementById('mnoErrorMessages');
+        const pincodeErrorMessages = document.getElementById('pincodeErrorMessages');
+        const localityErrorMessages = document.getElementById('localityErrorMessages');
+        const addressErrorMessages = document.getElementById('addressErrorMessages');
+        const cityErrorMessages = document.getElementById('cityErrorMessages');
+        const stateErrorMessages = document.getElementById('stateErrorMessages');
+        const countryErrorMessages = document.getElementById('countryErrorMessages');
+        const landmarkErrorMessages = document.getElementById('landmarkErrorMessages');
+
+        const containsNumbers = /\d/.test(name);          
+
+        errorMessages.innerHTML = '';
+        nameErrorMessages.innerHTML = '';
+        mnoErrorMessages.innerHTML = '';
+        pincodeErrorMessages.innerHTML = '';
+        localityErrorMessages.innerHTML = '';
+        addressErrorMessages.innerHTML = '';
+        cityErrorMessages.innerHTML = '';
+        stateErrorMessages.innerHTML = '';
+        countryErrorMessages.innerHTML = '';
+        landmarkErrorMessages.innerHTML = '';
+
+        if (name.length < 1) {
+            nameErrorMessages.innerHTML += 'Name field should not be empty<br>';
+        }
+        if (containsNumbers) {
+            nameErrorMessages.innerHTML += 'Name should not contain numbers<br>';
+        }
+        if (mobile.length !== 10) {
+            mnoErrorMessages.innerHTML += 'Mobile number should have 10 digits.<br>';
+        }
+        if (pincode.length < 1) {
+            pincodeErrorMessages.innerHTML += 'Pincode field should not be empty<br>';
+        }
+        if (locality.length < 1) {
+            localityErrorMessages.innerHTML += 'Locality field should not be empty<br>';
+        }
+        if (address.length < 1) {
+            addressErrorMessages.innerHTML += 'Address field should not be empty<br>';
+        }
+        if (city.length < 1) {
+            cityErrorMessages.innerHTML += 'City field should not be empty<br>';
+        }
+        if (state.length < 1) {
+            stateErrorMessages.innerHTML += 'State field should not be empty<br>';
+        }
+        if (country.length < 1) {
+            countryErrorMessages.innerHTML += 'Country field should not be empty<br>';
+        }
+        if (landmark.length < 1) {
+            landmarkErrorMessages.innerHTML += 'Landmark field should not be empty<br>';
+        }
+
+        if ((errorMessages.innerHTML !== '')||(nameErrorMessages.innerHTML !== '')||(mnoErrorMessages.innerHTML !== '')||(pincodeErrorMessages.innerHTML !== '')||(localityErrorMessages.innerHTML !== '')||(addressErrorMessages.innerHTML !== '')||(cityErrorMessages.innerHTML !== '')||(stateErrorMessages.innerHTML !== '')||(countryErrorMessages.innerHTML !== '')||(landmarkErrorMessages.innerHTML !== '')) 
+        
+        {
+            event.preventDefault();
+        }
+    });
+</script>
 
 <%- include('../partials/user-footer.ejs') %>

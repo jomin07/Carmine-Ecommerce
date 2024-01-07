@@ -31,6 +31,12 @@
                 <button type="submit" class="btn  mr-2"><a class="btn btn-outline-danger" href="/admin/categories/">Cancel</a></button>
 
               </form>
+
+              <% if(typeof message !=='undefined' ){ %>
+                <h6 class="text-danger"><br>
+                    <%= message %>
+                </h6>
+              <% } %>
             </div>
           </div>
         </div>

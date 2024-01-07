@@ -265,7 +265,23 @@ const getProfileEdit = async(req,res) =>{
 const editProfile = async(req,res) =>{
     try {
         
-        const userData = await User.findByIdAndUpdate({_id: req.body.user_id},{$set: {name: req.body.name,email: req.body.email,mobile: req.body.mno}});
+        // const userData = await User.findByIdAndUpdate({_id: req.body.user_id},{$set: {name: req.body.name,email: req.body.email,mobile: req.body.mno}});
+
+        const userId = req.body.user_id;
+        const newEmail = req.body.email;
+
+        // Fetch user data
+        const userData = await User.findById({ _id: userId });
+        const existingUser = await User.findOne({ email: newEmail });
+
+        // Check if the email already exists and belongs to a different user
+        if (existingUser && existingUser._id.toString() !== userId) {
+            return res.render('profile-edit', { user: userData, message: "Email already exists, try another one" });
+        } else {
+            // Update user data
+            await User.findByIdAndUpdate({ _id: userId }, { $set: { name: req.body.name, email: newEmail, mobile: req.body.mno } });
+        }
+        
 
         res.redirect('/profile');
 
@@ -330,9 +346,10 @@ const addAddress = async(req,res) =>{
 const getEditAddress = async(req,res) =>{
     try {
         const id = req.query.id;
+        const userData = await User.findById({_id:req.session.user_id});
         const addressData = await Address.findById(id);
 
-        res.render('edit-address',{address: addressData});
+        res.render('edit-address',{address: addressData,user: userData});
 
     } catch (error) {
         console.log(error.message);

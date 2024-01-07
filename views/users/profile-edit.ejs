@@ -18,28 +18,35 @@
                         <div class="card-body">
                             <div class="card-title">Edit Profile details</div>
                             <hr>
-                            <form action="" method="POST" >
+                            <form id="profileEditForm" action="" method="POST" >
                                 <input type="hidden" name="user_id" value="<%= user._id %>">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" placeholder="Enter Name" required>
+                                    <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" >
+                                    <p id="nameErrorMessages" class="text-danger"></p>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" placeholder="Enter Email" required>
+                                    <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" >
+                                    <p id="emailErrorMessages" class="text-danger"></p>
                                 </div>
                                 <div class="mb-3">
                                     <label for="mno" class="form-label">Mobile Number</label>
-                                    <input type="text" class="form-control" id="mno" name="mno" value="<%= user.mobile %>" placeholder="Enter Mobile Number" required>
+                                    <input type="text" class="form-control" id="mno" name="mno" value="<%= user.mobile %>"  >
+                                    <p id="mnoErrorMessages" class="text-danger"></p>
                                 </div>
                                 <br><br>
-                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                                <button type="submit" class="btn btn-main">Update Profile</button>
+
+                                <% if(typeof message !=='undefined' ){ %>
+                                    <h6 class="text-danger"><br>
+                                        <%= message %>
+                                    </h6>
+                                <% } %>
+                                    <p id="errorMessages" class="text-danger"></p>
+
                             </form>
-                            <% if(typeof message !=='undefined' ){ %>
-                            <h6><br>
-                                <%= message %>
-                            </h6>
-                            <% } %>
+                            
                         </div>
                     </div>
                 </div>
@@ -47,5 +54,47 @@
             </div>
     </div>
 </section> <!-- content-main end// -->
+
+
+    <script>
+
+        document.getElementById('profileEditForm').addEventListener('submit', function (event) {
+            const name = document.getElementsByName('name')[0].value;
+            const email = document.getElementsByName('email')[0].value;
+            const mobile = document.getElementsByName('mno')[0].value;
+
+            const errorMessages = document.getElementById('errorMessages');
+            const nameErrorMessages = document.getElementById('nameErrorMessages');
+            const emailErrorMessages = document.getElementById('emailErrorMessages');
+            const mnoErrorMessages = document.getElementById('mnoErrorMessages');
+
+            const containsNumbers = /\d/.test(name);  // Check if name contains numbers   
+        
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isEmailValid = emailRegex.test(email);
+        
+            errorMessages.innerHTML = '';
+            nameErrorMessages.innerHTML = '';
+            emailErrorMessages.innerHTML = '';
+            mnoErrorMessages.innerHTML = '';
+        
+            if (name.length < 1) {
+                nameErrorMessages.innerHTML += 'Name field should not be empty<br>';
+            }
+            if (containsNumbers) {
+                nameErrorMessages.innerHTML += 'Name should not contain numbers<br>';
+            }
+            if (!isEmailValid) {
+                emailErrorMessages.innerHTML += 'Please enter a valid email<br>';
+            }
+            if (mobile.length !== 10) {
+                mnoErrorMessages.innerHTML += 'Mobile number should have 10 digits<br>';
+            }
+        
+            if( (errorMessages.innerHTML !== '') ||(nameErrorMessages.innerHTML !== '')||(emailErrorMessages.innerHTML !== '')||(mnoErrorMessages.innerHTML !== '')){
+                event.preventDefault();
+            }
+        });
+    </script>
 
 <%- include('../partials/user-footer.ejs') %>
