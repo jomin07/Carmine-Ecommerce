@@ -5,6 +5,15 @@ const Category = require('../models/categoryModel');
 const Cart = require('../models/cartModel');
 const Order = require('../models/orderModel');
 const userHelper = require('../helpers/userHelper');
+const paymentHelper = require('../helpers/paymentHelper');
+const Razorpay = require('razorpay');
+const { RAZORPAY_KEY_ID,RAZORPAY_KEY_SECRET } = process.env;
+const crypto = require('crypto');
+
+const razorpayInstance = new Razorpay({
+    key_id: RAZORPAY_KEY_ID,
+    key_secret: RAZORPAY_KEY_SECRET
+});
 
 
 const placeOrder = async(req,res) =>{
@@ -16,13 +25,7 @@ const placeOrder = async(req,res) =>{
         const { paymentMethod, addressId } = req.body;
         let orderStatus;
         const items = cartData.items;
-
-        // Check if any product in the cart has a quantity less than or equal to 0
-        // const invalidQuantityProduct = items.find(item => item.productId.quantity <= 0);
-
-        // if (invalidQuantityProduct) {
-        //     throw new Error(`Cannot place order as the stock of : ${invalidQuantityProduct.productId.name} is lesser than required` );
-        // }
+        let amountPayable = totalPrice;
 
         
         // Check if any product in the cart has a quantity less than the required quantity
@@ -59,11 +62,11 @@ const placeOrder = async(req,res) =>{
             totalPrice: totalPrice,
             paymentMethod: paymentMethod,
             orderStatus: orderStatus,
+            amountPayable: amountPayable,
 
         });
 
         const orderData = await order.save();
-        res.json({ success: true, order: orderData });
 
         // Decreasing quantity
         for( const items of validatedItems ){
@@ -76,10 +79,45 @@ const placeOrder = async(req,res) =>{
         // Deleting cart
         await Cart.deleteOne({userId: userId});
 
+        console.log(paymentMethod);
+
+        if( paymentMethod === 'COD'){
+
+            res.json({ success: true, order: orderData });
+        }else if( paymentMethod === 'razorpay'){
+            // Razorpay 
+            console.log('razorpay method');
+            const payment = await paymentHelper.razorpayPayment( orderData._id, amountPayable );
+            res.json({ payment : payment , success : false  })
+        }
+        
+
     } catch (error) {
         console.log(error.message);
         res.status(400).json({ success: false, error: error.message });
         // res.json({ success: false, error: error.message });
+    }
+}
+
+const razorpayVerifyPayment = async( req, res ) => {
+
+    console.log('Inside razorpayVerifyPayment');
+    
+    const { response , order } = req.body
+    const { user } = req.session.user_id;
+    let hmac = crypto.createHmac( 'sha256', RAZORPAY_KEY_SECRET )
+    hmac.update( response.razorpay_order_id + '|' + response.razorpay_payment_id )
+    hmac = hmac.digest( 'hex' );
+    if( hmac === response.razorpay_signature ){
+        await Order.updateOne({_id : order.receipt},{
+            $set : { orderStatus : 'Confirmed'}
+        })
+        const orders = await Order.findOne({ _id : order.receipt })
+
+        res.json({success : true});
+        
+    } else {
+        res.json({success : false});
     }
 }
 
@@ -188,6 +226,7 @@ const updateDeliveryStatus = async(req,res) =>{
 module.exports = {
 
     placeOrder,
+    razorpayVerifyPayment,
     getConfirmOrder,
     getOrders,
     cancelOrder,

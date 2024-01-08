@@ -146,7 +146,7 @@
                                         </div>
     
                                         <div class="custome-radio">
-                                            <input class="form-check-input" required="" type="radio" name="paymentMethod" id="razorpay" value="Razorpay" checked="">
+                                            <input class="form-check-input" required="" type="radio" name="paymentMethod" id="razorpay" value="razorpay" checked="">
                                             <label class="form-check-label" for="razorpay" data-bs-toggle="collapse" data-target="" aria-controls="">Razor Pay</label>
                                         </div>
                                         
@@ -182,6 +182,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 
  
     <script>
@@ -200,44 +202,102 @@
                 
                 const addressId = addressRadio.value;
                 const paymentMethod = paymentMethodRadio.value;
+                console.log(paymentMethod);
                       
                 
                 $("#checkout-form").submit((e) => {
-                e.preventDefault();
-                $.ajax({
-                    url: '/checkout',
-                    method: 'post',
-                    data: { addressId, paymentMethod },
-                    success: (order) => {
-                        if (order.success) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/checkout',
+                        method: 'post',
+                        data: { addressId, paymentMethod },
+                        success: (order) => {
+                            console.log(order);
+                            if (order.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Order Placed!',
+                                    text: 'Your order has been placed successfully.',
+                                    confirmButtonText: 'OK',
+                                    onClose: () => {
+                                        location.href = '/confirm-order';
+                                    }
+                                });
+                            }else{
+                                console.log("Before razorpayPayment");
+                                razorpayPayment( order.payment );
+                                console.log("After razorpayPayment");
+
+                            }
+                        },
+                        error: (xhr) => {
+                            // Handle the error response and show an alert
+                            const errorMessage = xhr.responseJSON && xhr.responseJSON.error ? xhr.responseJSON.error : 'An error occurred.';
                             Swal.fire({
-                                icon: 'success',
-                                title: 'Order Placed!',
-                                text: 'Your order has been placed successfully.',
-                                confirmButtonText: 'OK',
-                                onClose: () => {
-                                    location.href = '/confirm-order';
-                                }
+                                icon: 'error',
+                                title: 'Error',
+                                text: errorMessage,
+                                confirmButtonText: 'OK'
                             });
                         }
-                    },
-                    error: (xhr) => {
-                        // Handle the error response and show an alert
-                        const errorMessage = xhr.responseJSON && xhr.responseJSON.error ? xhr.responseJSON.error : 'An error occurred.';
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: errorMessage,
-                            confirmButtonText: 'OK'
                         });
-                    }
-                    });
                 });
             } catch (error) {
                 console.log(error.message);
             }
         
         }
+
+        function razorpayPayment( order ) {
+
+            console.log('Razorpay Payment Function Called');
+            const rzp_key = '<%= process.env.RAZORPAY_KEY_ID %>'
+            console.log(rzp_key);
+
+            var options = {
+                "key": rzp_key, // Enter the Key ID generated from the Dashboard
+                "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "Carmine", //your business name
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response){
+                    verifyPayment( response, order )
+                },
+                "notes": {
+                    "address": "Carmine office"
+                },
+                "theme": {
+                    "color": "#2300a3"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+
+        function verifyPayment(response, order) {
+            console.log('Inside verify fn');
+            // const amount = document.getElementById("total1").innerHTML;
+            
+            $.ajax({
+                url: "/verifyPayment",
+                method: "post",
+                data: {
+                    response,
+                    order
+                },
+                success: (response) => {
+                    if (response.success) {
+                        location.href = '/confirm-order';
+
+                    } else {
+                        alert('payment failed');
+                        location.href = '/';
+                    }
+                }
+            })
+        }        
 
     </script>
 

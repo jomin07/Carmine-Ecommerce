@@ -92,6 +92,8 @@ userRoute.post('/checkout',auth.isBlocked,auth.isLogin,orderController.placeOrde
 
 userRoute.get('/confirm-order',auth.isBlocked,auth.isLogin,orderController.getConfirmOrder);
 
+userRoute.post('/verifyPayment',auth.isBlocked,auth.isLogin,orderController.razorpayVerifyPayment);
+
 userRoute.get('/orders',auth.isBlocked,auth.isLogin,orderController.getOrders);
 
 userRoute.patch('/cancel-order',auth.isBlocked,auth.isLogin,orderController.cancelOrder);
