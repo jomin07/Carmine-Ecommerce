@@ -152,16 +152,29 @@ const cancelOrder = async(req,res) =>{
     try {
         
         const userId = req.session.user_id;
-        const userData = await User.findById({_id:req.session.user_id});
+        const userData = await User.findById({_id: req.session.user_id});
         const { orderId, status } = req.body;
         const orderData = await Order.findById({_id: orderId});
+        const paymentMethod = orderData.paymentMethod;
+        const orderStatus = orderData.orderStatus;
 
+        //Increment stock quantity of the products as order is cancelled
         for(let items of orderData.items){
             await Product.updateOne({_id: items.productId},{$inc: {quantity: items.quantity}});
         }
 
+        //Return Money to wallet if payment was done using Razorpay
+        if ((orderStatus === 'Confirmed')&&(paymentMethod === 'razorpay')) {
+            
+            await User.updateOne({_id: userId},
+                {$inc: {wallet: orderData.totalPrice}}); 
+
+        }
+
+        //Change order status to pending
         await Order.findOneAndUpdate({ _id : orderId },
             { $set : { orderStatus : status }});
+
 
         const newStatus = await Order.findOne({ _id : orderId })
         res.status( 200 ).json({ success : true, status : newStatus.orderStatus });
