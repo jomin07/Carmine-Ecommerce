@@ -1,0 +1,83 @@
+<%- include('../partials/admin-header.ejs') %>
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Add Coupon</h2>
+        </div>
+        <div>
+            <a href="/admin/coupons/" class="btn btn-outline-dark">Go Back</a>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+    
+            <div class="row mt-2">
+                <div class="col-lg-6">
+                    <div class="card" style="margin-top: 60px; margin-left: 60px;">
+                        <div class="card-body">
+                            <div class="card-title">Add Coupon details</div>
+                            <hr>
+                            <form id="coupon-form" method="post">
+
+                                <div class="form-group mt-3">
+                                    <label for="coupon-name">Coupon Name</label>
+                                    <input type="text" name="name" required class="form-control" id="coupon-name">
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="coupon-description">Coupon Description</label>
+                                    <input type="text" name="description" required class="form-control" id="coupon-description">
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="starting-date">Starting Date</label>
+                                    <input type="date" name="startingDate" required class="form-control" id="starting-date">
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="expiry-date">Expiry Date</label>
+                                    <input type="date" name="expiryDate" required class="form-control" id="expiry-date">
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="minimum-amount">Minimum Amount</label>
+                                    <input type="number" name="minimumAmount" required class="form-control" id="minimum-amount">
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="discount-type">Discount Type</label>
+                                    <select  class="form-control" name="discountType" id="discount-type" required>
+                                        <option  value="percentage">Percentage</option>
+                                        <option  value="fixed-amount">Fixed amount</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="discount">Discount</label>
+                                    <input type="number" name="discount" required class="form-control" id="discount">
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="limit">Limit</label>
+                                    <input type="number" name="limit" required class="form-control" id="limit">
+                                </div>
+    
+                                <div class="form-group mt-3">
+                                    <button type="submit" class="btn btn-primary px-4"><i class="icon-lock"></i> ADD</button>
+                                    <button type="submit" class="btn  mr-2"><a class="btn btn-outline-danger" href="/admin/coupons/">Cancel</a></button>
+                                </div>
+                            </form>
+                            <% if(typeof message !=='undefined' ){ %>
+                            <h6 class="text-danger"><br>
+                                <%= message %>
+                            </h6>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+    </div>
+</section> <!-- content-main end// -->
+
+<%- include('../partials/admin-footer.ejs') %>

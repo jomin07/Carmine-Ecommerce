@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const config = require('../config/config');
 const auth = require('../middleware/adminAuth');
 const adminController = require('../controllers/adminController');
+const couponController = require('../controllers/couponController');
 const categoryController = require('../controllers/categoryController');
 const productController = require('../controllers/productController');
 const orderController = require("../controllers/orderController");
@@ -50,6 +51,11 @@ adminRoute.post('/categories/edit-category',categoryController.updateCategory);
 adminRoute.get('/categories/list-category',auth.isLogin,categoryController.listCategory);
 adminRoute.get('/categories/unlist-category',auth.isLogin,categoryController.unListCategory);
 adminRoute.get('/categories/delete-category',auth.isLogin,categoryController.deleteCategory);
+
+
+adminRoute.get('/coupons',auth.isLogin,couponController.loadCoupons);
+adminRoute.get('/coupons/add-coupon',auth.isLogin,couponController.loadAddCoupon);
+adminRoute.post('/coupons/add-coupon',couponController.addCoupon);
 
 
 adminRoute.get('/orders',auth.isLogin,orderController.loadOrders);
