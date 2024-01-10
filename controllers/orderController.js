@@ -21,11 +21,15 @@ const placeOrder = async(req,res) =>{
         const userId = req.session.user_id;
         const userData = await User.findById({_id:req.session.user_id});
         const cartData = await Cart.findOne({userId: userId}).populate('items.productId');
-        const totalPrice = await userHelper.cartTotalPrice(userId);
-        const { paymentMethod, addressId } = req.body;
+        // const totalPrice = await userHelper.cartTotalPrice(userId);
+        const { paymentMethod, addressId,checkoutTotal } = req.body;
+
+        const checkoutTotalAmount = Number(checkoutTotal);
+        console.log('amount is',checkoutTotal);
+        console.log('checkoutTotalAmount is',checkoutTotalAmount);
         let orderStatus;
         const items = cartData.items;
-        let amountPayable = totalPrice;
+        let amountPayable = checkoutTotalAmount;
 
         
         // Check if any product in the cart has a quantity less than the required quantity
@@ -59,7 +63,7 @@ const placeOrder = async(req,res) =>{
             userId: userId,
             address: addressId,
             items: validatedItems,
-            totalPrice: totalPrice,
+            totalPrice: checkoutTotalAmount,
             paymentMethod: paymentMethod,
             orderStatus: orderStatus,
             amountPayable: amountPayable,

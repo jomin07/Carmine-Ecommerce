@@ -56,6 +56,10 @@ adminRoute.get('/categories/delete-category',auth.isLogin,categoryController.del
 adminRoute.get('/coupons',auth.isLogin,couponController.loadCoupons);
 adminRoute.get('/coupons/add-coupon',auth.isLogin,couponController.loadAddCoupon);
 adminRoute.post('/coupons/add-coupon',couponController.addCoupon);
+adminRoute.get('/coupons/edit-coupon',auth.isLogin,couponController.getEditCoupon);
+adminRoute.post('/coupons/edit-coupon',couponController.editCoupon);
+adminRoute.get('/coupons/list-coupon',auth.isLogin,couponController.listCoupon);
+adminRoute.get('/coupons/unlist-coupon',auth.isLogin,couponController.unListCoupon);
 
 
 adminRoute.get('/orders',auth.isLogin,orderController.loadOrders);

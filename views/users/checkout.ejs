@@ -117,7 +117,7 @@
 
                                                     <tr>
                                                         <th>Coupon Discount</th>
-                                                        <td class="product-subtotal" id="coupon" colspan="2">₹ 0</td>
+                                                        <td class="product-subtotal" id="discount" colspan="2">₹ 0</td>
                                                     </tr>
         
                                                     <tr>
@@ -126,7 +126,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th>Total</th>
-                                                        <td colspan="2" id="total1" class="product-subtotal"><span class="font-xl text-brand fw-900">₹<%= totalPrice %></span></td>
+                                                        <td colspan="2"  class="product-subtotal font-xl text-brand fw-900"><span id="total1">₹<%= totalPrice %></span></td>
                                                     </tr>
                                                 </tbody>
                                             
@@ -217,6 +217,9 @@
             try {
                 const addressRadio = document.querySelector('input[name="addressId"]:checked');
                 const paymentMethodRadio = document.querySelector('input[name="paymentMethod"]:checked');
+                const checkoutT = document.getElementById('total1').innerHTML;
+                const checkoutTotal = checkoutT.replace(/[^\d.]/g, ''); // Remove non-numeric characters, including ₹ symbol;
+                console.log('checkoutTotal is ',checkoutTotal);
 
                 if (!addressRadio || !paymentMethodRadio) {
 
@@ -234,7 +237,7 @@
                     $.ajax({
                         url: '/checkout',
                         method: 'post',
-                        data: { addressId, paymentMethod },
+                        data: { addressId, paymentMethod,checkoutTotal },
                         success: (order) => {
                             console.log(order);
                             if (order.success) {
@@ -336,7 +339,7 @@
             if (amountElement) {
                 
                 const amount = amountElement.innerHTML;
-                console.log(amount);
+                console.log('Amount is',amount);
 
                 $.ajax({
                     url: "/applyCoupon",
@@ -362,7 +365,7 @@
                                 text: 'coupon limit exceeded!'
                             })
                         } else if (response.status) {
-                            console.log("This coupon now not in use");
+                            console.log("This coupon is not in use now!");
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
@@ -384,8 +387,8 @@
                             })
                         } else if (response.amountOkey) {
                             console.log("discount granded");
-                            document.getElementById('discount').innerHTML = response.disAmount;
-                            document.getElementById('total1').innerHTML = response.disTotal;
+                            document.getElementById('discount').innerHTML = `₹${response.disAmount}`;;
+                            document.getElementById('total1').innerHTML = `₹${response.disTotal}`;
                             console.log("done");
                             Swal.fire({
                                 position: 'center',

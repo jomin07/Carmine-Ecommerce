@@ -1,0 +1,87 @@
+<%- include('../partials/admin-header.ejs') %>
+
+<section class="content-main">
+  <div class="content-header">
+    <div>
+        <h2 class="content-title card-title">Edit Coupon</h2>
+    </div>
+    <div>
+        <a href="/admin/coupons/" class="btn btn-outline-dark">Go Back</a>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+
+      <!-- ======= Form ======== -->
+
+      <div class="col-6 grid-margin stretch-card">
+          <div class="card" style="margin-top: 60px; margin-left: 60px;">
+            <div class="card-body">
+              <div class="card-title mb-3">Edit Coupon Details</div>
+              <form class="forms-sample my-3" action="/admin/coupons/edit-coupon" method="POST" id="coupon">
+                <div id="errorContainer" class="alert alert-danger" style="display: none;"></div> <!-- Error container -->
+                <div class="form-group my-3">
+                  <label for="coupon-name">Coupon Name</label>
+                  <input type="text" name="name" class="form-control my-3" value="<%= coupon.name %>" id="coupon-name" required>
+    
+                  <input type="hidden" value="<%= coupon._id %>" name="couponId">
+                </div>
+
+                <div class="form-group my-3">
+                    <label for="coupon-description">Coupon Description</label>
+                    <input type="text" name="description" class="form-control my-3" value="<%= coupon.description %>" id="coupon-description" required>
+                </div>
+
+                <div class="form-group my-3">
+                    <label for="starting-date">Starting Date</label>
+                    <input type="date" name="startingDate" class="form-control my-3" value="<%= coupon.startingDate.toISOString().split('T')[0] %>" id="starting-date" required>
+                </div>
+
+                <div class="form-group my-3">
+                    <label for="expiry-date">Expiry Date</label>
+                    <input type="date" name="expiryDate" class="form-control my-3" value="<%= coupon.expiryDate.toISOString().split('T')[0] %>" id="expiry-date" required>
+                </div>
+
+                <div class="form-group my-3">
+                    <label for="minimum-amount">Minimum Amount</label>
+                    <input type="number" name="minimumAmount" class="form-control my-3" value="<%= coupon.minimumAmount %>" id="minimum-amount" required>
+                </div>
+
+                <div class="form-group my-3">
+                    <label for="discount-type">Discount Type</label>
+                    <select  class="form-control" name="discountType" id="discount-type" required>
+                        <option value="percentage" <%= coupon.discountType === 'percentage' ? 'selected' : '' %>>Percentage</option>
+                        <option value="fixed-amount" <%= coupon.discountType === 'fixed-amount' ? 'selected' : '' %>>Fixed amount</option>
+                    </select>
+                </div>
+
+                <div class="form-group my-3">
+                    <label for="discount">Discount</label>
+                    <input type="number" name="discount" class="form-control my-3" value="<%= coupon.discount %>" id="discount" required>
+                </div>
+
+                <div class="form-group my-3">
+                    <label for="limit">Limit</label>
+                    <input type="number" name="limit" class="form-control my-3" value="<%= coupon.limit %>" id="limit" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary  mr-2 ">Update</button>    
+                <button type="submit" class="btn  mr-2"><a class="btn btn-outline-danger" href="/admin/coupons/">Cancel</a></button>
+
+              </form>
+
+              <% if(typeof message !=='undefined' ){ %>
+                <h6 class="text-danger"><br>
+                    <%= message %>
+                </h6>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+
+
+  </div>
+</section> <!-- content-main end// -->   
+
+<%- include('../partials/admin-footer.ejs') %>

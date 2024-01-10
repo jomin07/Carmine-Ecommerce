@@ -52,18 +52,18 @@
             
                                 <% if (coupons[i].status === true) { %>
                                     <td>
-                                        <a href="/admin/coupons/unlist-category?id=<%= coupons[i]._id %>" id="unlistbutton" class="btn btn-danger px-3 redbutton">Unlist</a>
+                                        <a href="/admin/coupons/unlist-coupon?id=<%= coupons[i]._id %>" id="unlistbutton" class="btn btn-danger px-3 redbutton">Unlist</a>
                                     </td>
                                 <% } else { %>
                                     <td>
-                                        <a href="/admin/coupons/list-category?id=<%= coupons[i]._id %>" id="listbutton" class="btn btn-primary px-3 bluebutton">List</a>
+                                        <a href="/admin/coupons/list-coupon?id=<%= coupons[i]._id %>" id="listbutton" class="btn btn-primary px-3 bluebutton">List</a>
                                     </td>
                                 <% } %>
                                 <td>
-                                    <a href="/admin/coupons/edit-category?id=<%= coupons[i]._id %>">
+                                    <a href="/admin/coupons/edit-coupon?id=<%= coupons[i]._id %>">
                                         <i class="fa-solid fa-pen-to-square fa-xl" style="color: #0055ff;margin-left: 20px;"></i>
                                     </a>
-                                    <!-- <a href="/admin/coupons/delete-category?id=<%= coupons[i]._id %>">
+                                    <!-- <a href="/admin/coupons/delete-coupon?id=<%= coupons[i]._id %>">
                                         <i class="fa-solid fa-trash fa-xl" style="color: #ff0000;margin-right: 20px;"></i>
                                     </a> -->
                                 </td>

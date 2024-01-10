@@ -56,10 +56,87 @@ const addCoupon = async(req,res) =>{
     }
 }
 
+const getEditCoupon = async(req,res) =>{
+    try {
+        const id = req.query.id;
+        const couponData = await Coupon.findById({_id: id});
+
+        if (couponData) {
+            res.render('edit-coupon',{coupon: couponData});
+        } else {
+            res.redirect('/admin/coupons');
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const editCoupon = async(req,res) =>{
+    try {
+
+        const couponId = req.body.couponId;
+        const newName = req.body.name;
+        const {description,startingDate,expiryDate,minimumAmount,discount,discountType,limit} = req.body;
+
+        // Check if the new name is the same as the existing one
+        const existingCoupon = await Coupon.findOne({ name: newName });
+
+        if (existingCoupon && existingCoupon._id.toString() !== couponId) {
+            return res.render('edit-coupon', {
+                coupon: { _id: couponId, name: newName },
+                message: 'coupon already exists'
+            });
+        }
+
+        // Update the coupon name
+        const couponData = await Coupon.findByIdAndUpdate(
+            { _id: couponId },
+            { $set: { name: newName,description: description,startingDate: startingDate,expiryDate: expiryDate,minimumAmount: minimumAmount,discount: discount,discountType: discountType,limit: limit} }
+        );
+
+        res.redirect('/admin/coupons');
+   
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const listCoupon = async(req,res) =>{
+    try {
+        const id = req.query.id;
+        const couponData = await Coupon.findById(id);
+        await couponData.updateOne({$set: {status: true}});
+
+        res.redirect('/admin/coupons');
+   
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const unListCoupon = async(req,res) =>{
+    try {
+        const id = req.query.id;
+        const couponData = await Coupon.findById(id);
+        await couponData.updateOne({$set: {status: false}});
+
+        res.redirect('/admin/coupons');
+   
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 const applyCoupon = async (req, res) => {
     try {
         const { code } = req.body;
-        const amount = Number(req.body.amount);
+        // const amount = Number(req.body.amount);
+
+        // Remove non-numeric characters, including ₹ symbol, from the amount
+        const amountString = req.body.amount.replace(/[^\d.]/g, ''); // Remove non-numeric characters, including ₹ symbol
+        const amount = Number(amountString);
+        console.log('amount is',amount);
         const userId = req.session.user_id;
         const userExist = await Coupon.findOne({ name: code, users: { $in: [userId] } });
 
@@ -94,6 +171,8 @@ const applyCoupon = async (req, res) => {
                                     if (perAmount <= maxDiscountAmount) {
                                         const disAmount = perAmount;
                                         const disTotal = Math.round(amount - disAmount);
+                                        console.log('disAmount is:',disAmount);
+                                        console.log('disTotal is:',disTotal);
                                         return res.json({ amountOkey: true, disAmount, disTotal });
                                     }
                                 } else {
@@ -120,6 +199,10 @@ module.exports = {
     loadCoupons,
     loadAddCoupon,
     addCoupon,
+    getEditCoupon,
+    editCoupon,
+    listCoupon,
+    unListCoupon,
     applyCoupon
 
 }
