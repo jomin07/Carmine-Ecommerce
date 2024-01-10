@@ -6,6 +6,7 @@ const session = require('express-session');
 const userController = require('../controllers/userController');
 const wishlistController = require('../controllers/wishlistController');
 const cartController = require('../controllers/cartController');
+const couponController = require('../controllers/couponController');
 const orderController = require('../controllers/orderController');
 const bodyParser = require('body-parser');
 const config = require('../config/config');
@@ -87,6 +88,11 @@ userRoute.get('/checkout/edit-address',auth.isBlocked,auth.isLogin,cartControlle
 userRoute.post('/checkout/edit-address',cartController.checkoutEditAddress);
 
 userRoute.get('/checkout/remove-address',auth.isBlocked,auth.isLogin,cartController.checkoutRemoveAddress);
+
+
+
+userRoute.post('/applyCoupon',couponController.applyCoupon);
+
 
 userRoute.post('/checkout',auth.isBlocked,auth.isLogin,orderController.placeOrder);
 

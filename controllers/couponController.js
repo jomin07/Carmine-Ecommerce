@@ -56,10 +56,70 @@ const addCoupon = async(req,res) =>{
     }
 }
 
+const applyCoupon = async (req, res) => {
+    try {
+        const { code } = req.body;
+        const amount = Number(req.body.amount);
+        const userId = req.session.user_id;
+        const userExist = await Coupon.findOne({ name: code, users: { $in: [userId] } });
+
+        if (userExist) {
+            res.json({ user: true });
+        } else {
+            const couponData = await Coupon.findOne({ name: code });
+            console.log(couponData);
+            
+            if (couponData) {
+                if (couponData.limit <= 0) {
+                    res.json({ limit: true });
+                } else {
+                    if (couponData.status == false) {
+                        res.json({ status: true })
+                    } else {
+                        if (couponData.expiryDate <= new Date()) {
+                            res.json({ date: true });
+                        } else {
+                            if (couponData.minimumAmount >= amount) {
+                                res.json({ cartAmount: true });
+                            } else {
+                                await Coupon.findByIdAndUpdate({ _id: couponData._id }, { $push: { users: userId } });
+                                await Coupon.findByIdAndUpdate({ _id: couponData._id }, { $inc: { limit: -1 } });
+                                if (couponData.discountType == "fixed-amount") {
+                                    const disAmount = couponData.discount;
+                                    const disTotal = Math.round(amount - disAmount);
+                                    return res.json({ amountOkey: true, disAmount, disTotal });
+                                } else if (couponData.discountType == "percentage") {
+                                    const perAmount = (amount * couponData.discount) / 100;
+                                    const maxDiscountAmount = 1000;
+                                    if (perAmount <= maxDiscountAmount) {
+                                        const disAmount = perAmount;
+                                        const disTotal = Math.round(amount - disAmount);
+                                        return res.json({ amountOkey: true, disAmount, disTotal });
+                                    }
+                                } else {
+                                    const disAmount = maxDiscountAmount;
+                                    const disTotal = Math.round(amount - disAmount);
+                                    return res.json({ amountOkey: true, disAmount, disTotal });
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                res.json({ invalid: true });
+            }
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = {
 
     loadCoupons,
     loadAddCoupon,
-    addCoupon
+    addCoupon,
+    applyCoupon
 
 }

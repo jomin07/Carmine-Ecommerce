@@ -42,9 +42,15 @@
                                                 <td class="text-center" data-title="Stock">
                                                     <div class="detail-qty border radius  m-auto">
                                                         <!-- <a href="#" class="qty-down" ><i class="fi-rs-angle-small-down"></i></a> -->
-                                                        <a href="#" class="qty-down" onclick="updateQuantity('<%- cartItems.items[i].productId._id %>', -1)"><i class="fi-rs-angle-small-down"></i></a>
+
+                                                        <!-- Decrease button should be visible only if quantity is greater than 1 -->
+                                                        <% if (cartItems.items[i].quantity > 1) { %>
+                                                            <a href="#" class="qty-down" onclick="updateQuantity('<%- cartItems.items[i].productId._id %>', -1)"><i class="fi-rs-angle-small-down"></i></a>
+                                                        <% } %>
+
                                                         <span class="qty-val"><%= cartItems.items[i].quantity %></span>
                                                         <!-- <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a> -->
+
                                                         <a href="#" class="qty-up" onclick="updateQuantity('<%- cartItems.items[i].productId._id %>', 1)"><i class="fi-rs-angle-small-up"></i></a>
                                                     </div>
                                                 </td>

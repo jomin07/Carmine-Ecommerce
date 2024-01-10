@@ -48,7 +48,7 @@ const couponSchema = mongoose.Schema({
 
     users : [{
         type : mongoose.Schema.Types.ObjectId,
-        ref : 'user'
+        ref : 'User'
     }]
 });
 
