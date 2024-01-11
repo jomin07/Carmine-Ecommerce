@@ -1,66 +1,89 @@
 <%- include('../partials/admin-header.ejs') %>
 
-<section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Categories</h2>
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Categories</h2>
+            </div>
+            <div>
+                <a href="/admin/categories/add-category" class="btn btn-primary">Add Category</a>
+            </div>
         </div>
-        <div>
-            <a href="/admin/categories/add-category" class="btn btn-primary">Add Category</a>
-        </div>
-    </div>
-    <% if (categories.length === 0) { %>
-        <h5>No categoriesfound</h5>
-    <% } else { %>
-        <div class="container pt-5">
-            <table id="example" class="table table-striped" style="width:100%">
-                <thead>
-                    <tr>
-                        <th class="small-column">S.No.</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>List/Unlist</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for (let i = 0; i < categories.length; i++) { %>
+        <% if (categories.length === 0) { %>
+            <h5>No categoriesfound</h5>
+        <% } else { %>
+            <div class="container pt-5">
+                <table id="example" class="table table-striped" style="width:100%">
+                    <thead>
                         <tr>
-                            <td class="small-column text-center"><%= i+1 %></td>
-                            <td><%= categories[i].name %></td>
-                            <% if (categories[i].status === true) { %>
-                                <td>Listed</td>
-                            
-                            <% } else { %>
-                                <td>Unlisted</td>
-                            <% } %>
-                            
-        
-                            <% if (categories[i].status === true) { %>
-                                <td>
-                                    <a href="/admin/categories/unlist-category?id=<%= categories[i]._id %>" id="unlistbutton" class="btn btn-danger px-3 redbutton">Unlist</a>
-                                </td>
-                            <% } else { %>
-                                <td>
-                                    <a href="/admin/categories/list-category?id=<%= categories[i]._id %>" id="listbutton" class="btn btn-primary px-3 bluebutton">List</a>
-                                </td>
-                            <% } %>
-                            <td>
-                                <a href="/admin/categories/edit-category?id=<%= categories[i]._id %>">
-                                    <i class="fa-solid fa-pen-to-square fa-xl" style="color: #0055ff;margin-left: 20px;"></i>
-                                </a>
-                                <!-- <a href="/admin/categories/delete-category?id=<%= categories[i]._id %>">
-                                    <i class="fa-solid fa-trash fa-xl" style="color: #ff0000;margin-right: 20px;"></i>
-                                </a> -->
-                            </td>
+                            <th class="small-column">S.No.</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>List/Unlist</th>
+                            <th>Actions</th>
                         </tr>
-                    <% } %>
-                    
-                </tbody>
-            </table>
-        
-        </div>
-    <% } %>
-</section> <!-- content-main end// -->   
+                    </thead>
+                    <tbody>
+                        <% for (let i = 0; i < categories.length; i++) { %>
+                            <tr>
+                                <td class="small-column text-center"><%= i+1 %></td>
+                                <td><%= categories[i].name %></td>
+                                <% if (categories[i].status === true) { %>
+                                    <td>Listed</td>
+                                
+                                <% } else { %>
+                                    <td>Unlisted</td>
+                                <% } %>
+                                
+            
+                                <% if (categories[i].status === true) { %>
+                                    <td>
+                                        <a href="#" onclick="confirmUnlist('<%= categories[i]._id %>')" id="unlistbutton" class="btn btn-danger px-3 redbutton">Unlist</a>
+                                    </td>
+                                <% } else { %>
+                                    <td>
+                                        <a href="/admin/categories/list-category?id=<%= categories[i]._id %>" id="listbutton" class="btn btn-primary px-3 bluebutton">List</a>
+                                    </td>
+                                <% } %>
+                                <td>
+                                    <a href="/admin/categories/edit-category?id=<%= categories[i]._id %>">
+                                        <i class="fa-solid fa-pen-to-square fa-xl" style="color: #0055ff;margin-left: 20px;"></i>
+                                    </a>
+                                    <!-- <a href="/admin/categories/delete-category?id=<%= categories[i]._id %>">
+                                        <i class="fa-solid fa-trash fa-xl" style="color: #ff0000;margin-right: 20px;"></i>
+                                    </a> -->
+                                </td>
+                            </tr>
+                        <% } %>
+                        
+                    </tbody>
+                </table>
+            
+            </div>
+        <% } %>
+    </section> <!-- content-main end// -->  
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function confirmUnlist(categoryId) {
+            // Display a confirmation dialog using SweetAlert2
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You are about to unlist this category!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, unlist it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If the admin clicks "Yes," navigate to the unlist URL
+                    window.location.href = "/admin/categories/unlist-category?id=" + categoryId;
+                }
+                // If the admin clicks "No" or closes the dialog, do nothing
+            });
+        }
+    </script>
 
 <%- include('../partials/admin-footer.ejs') %>

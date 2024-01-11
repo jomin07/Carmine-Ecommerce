@@ -50,7 +50,7 @@
     
                             <% if (products[i].status === true) { %>
                                 <td>
-                                    <a href="/admin/products/unlist-product?id=<%= products[i]._id %>" id="unlistbutton" class="btn btn-danger px-3 redbutton">Unlist</a>
+                                    <a href="#" onclick="confirmUnlist('<%= products[i]._id %>')" id="unlistbutton" class="btn btn-danger px-3 redbutton">Unlist</a>
                                 </td>
                             <% } else { %>
                                 <td>
@@ -79,6 +79,30 @@
     </div>
     
 
-</section> <!-- content-main end// -->   
+</section> <!-- content-main end// --> 
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmUnlist(productId) {
+        // Display a confirmation dialog using SweetAlert2
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to unlist this product!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, unlist it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If the admin clicks "Yes," navigate to the unlist URL
+                window.location.href = "/admin/products/unlist-product?id=" + productId;
+            }
+            // If the admin clicks "No" or closes the dialog, do nothing
+        });
+    }
+</script>
+
 
 <%- include('../partials/admin-footer.ejs') %>

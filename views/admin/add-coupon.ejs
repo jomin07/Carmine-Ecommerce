@@ -1,83 +1,174 @@
 <%- include('../partials/admin-header.ejs') %>
-<section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Add Coupon</h2>
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Add Coupon</h2>
+            </div>
+            <div>
+                <a href="/admin/coupons/" class="btn btn-outline-dark">Go Back</a>
+            </div>
         </div>
-        <div>
-            <a href="/admin/coupons/" class="btn btn-outline-dark">Go Back</a>
-        </div>
-    </div>
-    <div class="content-wrapper">
-        <div class="container-fluid">
-    
-            <div class="row mt-2">
-                <div class="col-lg-6">
-                    <div class="card" style="margin-top: 60px; margin-left: 60px;">
-                        <div class="card-body">
-                            <div class="card-title">Add Coupon details</div>
-                            <hr>
-                            <form id="coupon-form" method="post">
+        <div class="content-wrapper">
+            <div class="container-fluid">
+        
+                <div class="row mt-2">
+                    <div class="col-lg-6">
+                        <div class="card" style="margin-top: 60px; margin-left: 60px;">
+                            <div class="card-body">
+                                <div class="card-title">Add Coupon details</div>
+                                <hr>
+                                <form id="addCouponForm" action="" method="post">
 
-                                <div class="form-group mt-3">
-                                    <label for="coupon-name">Coupon Name</label>
-                                    <input type="text" name="name" required class="form-control" id="coupon-name">
-                                </div>
+                                    <div class="form-group mt-3">
+                                        <label for="coupon-name">Coupon Name</label>
+                                        <input type="text" name="name"  class="form-control" id="coupon-name">
+                                        <p id="nameErrorMessages" class="text-danger"></p>
+                                    </div>
 
-                                <div class="form-group mt-3">
-                                    <label for="coupon-description">Coupon Description</label>
-                                    <input type="text" name="description" required class="form-control" id="coupon-description">
-                                </div>
+                                    <div class="form-group mt-3">
+                                        <label for="coupon-description">Coupon Description</label>
+                                        <input type="text" name="description"  class="form-control" id="coupon-description">
+                                    </div>
 
-                                <div class="form-group mt-3">
-                                    <label for="starting-date">Starting Date</label>
-                                    <input type="date" name="startingDate" required class="form-control" id="starting-date">
-                                </div>
+                                    <div class="form-group mt-3">
+                                        <label for="starting-date">Starting Date</label>
+                                        <input type="date" name="startingDate"  class="form-control" id="starting-date">
+                                        <p id="startingDateErrorMessages" class="text-danger"></p>
+                                    </div>
 
-                                <div class="form-group mt-3">
-                                    <label for="expiry-date">Expiry Date</label>
-                                    <input type="date" name="expiryDate" required class="form-control" id="expiry-date">
-                                </div>
+                                    <div class="form-group mt-3">
+                                        <label for="expiry-date">Expiry Date</label>
+                                        <input type="date" name="expiryDate"  class="form-control" id="expiry-date">
+                                        <p id="expiryDateErrorMessages" class="text-danger"></p>
+                                    </div>
 
-                                <div class="form-group mt-3">
-                                    <label for="minimum-amount">Minimum Amount</label>
-                                    <input type="number" name="minimumAmount" required class="form-control" id="minimum-amount">
-                                </div>
+                                    <div class="form-group mt-3">
+                                        <label for="minimum-amount">Minimum Amount</label>
+                                        <input type="number" name="minimumAmount"  class="form-control" id="minimum-amount">
+                                        <p id="minimumAmountErrorMessages" class="text-danger"></p>
+                                    </div>
 
-                                <div class="form-group mt-3">
-                                    <label for="discount-type">Discount Type</label>
-                                    <select  class="form-control" name="discountType" id="discount-type" required>
-                                        <option  value="percentage">Percentage</option>
-                                        <option  value="fixed-amount">Fixed amount</option>
-                                    </select>
-                                </div>
+                                    <div class="form-group mt-3">
+                                        <label for="discount-type">Discount Type</label>
+                                        <select  class="form-control" name="discountType" id="discount-type" >
+                                            <option  value="percentage">Percentage</option>
+                                            <option  value="fixed-amount">Fixed amount</option>
+                                        </select>
+                                        <p id="discountTypeErrorMessages" class="text-danger"></p>
+                                    </div>
 
-                                <div class="form-group mt-3">
-                                    <label for="discount">Discount</label>
-                                    <input type="number" name="discount" required class="form-control" id="discount">
-                                </div>
+                                    <div class="form-group mt-3">
+                                        <label for="discount">Discount</label>
+                                        <input type="number" name="discount"  class="form-control" id="discount">
+                                        <p id="discountErrorMessages" class="text-danger"></p>
+                                    </div>
 
-                                <div class="form-group mt-3">
-                                    <label for="limit">Limit</label>
-                                    <input type="number" name="limit" required class="form-control" id="limit">
+                                    <div class="form-group mt-3">
+                                        <label for="limit">Limit</label>
+                                        <input type="number" name="limit"  class="form-control" id="limit">
+                                        <p id="limitErrorMessages" class="text-danger"></p>
+                                    </div>
+        
+                                    <div class="form-group mt-3">
+                                        <button type="submit" class="btn btn-primary px-4"><i class="icon-lock"></i> ADD</button>
+                                        <button type="submit" class="btn  mr-2"><a class="btn btn-outline-danger" href="/admin/coupons/">Cancel</a></button>
+                                    </div>
+                                </form>
+                                <% if(typeof message !=='undefined' ){ %>
+                                <h6 class="text-danger"><br>
+                                    <%= message %>
+                                </h6>
+                                <% } %>
+                                <div class="mt-3">
+                                    <p id="errorMessages" class="text-danger"></p>
                                 </div>
-    
-                                <div class="form-group mt-3">
-                                    <button type="submit" class="btn btn-primary px-4"><i class="icon-lock"></i> ADD</button>
-                                    <button type="submit" class="btn  mr-2"><a class="btn btn-outline-danger" href="/admin/coupons/">Cancel</a></button>
-                                </div>
-                            </form>
-                            <% if(typeof message !=='undefined' ){ %>
-                            <h6 class="text-danger"><br>
-                                <%= message %>
-                            </h6>
-                            <% } %>
+                            </div>
                         </div>
                     </div>
+        
                 </div>
+        </div>
+    </section> <!-- content-main end// -->
+
+    <script>
+
+        document.getElementById('addCouponForm').addEventListener('submit', function (event) {
+          
+            const name = document.getElementsByName('name')[0].value;
+            const startingDate = document.getElementsByName('startingDate')[0].value;
+            const expiryDate = document.getElementsByName('expiryDate')[0].value;
+            const minimumAmount = document.getElementsByName('minimumAmount')[0].value;
+            const discountType = document.getElementsByName('discountType')[0].value;
+            const discount = document.getElementsByName('discount')[0].value;
+            const limit = document.getElementsByName('limit')[0].value;
     
-            </div>
-    </div>
-</section> <!-- content-main end// -->
+            const errorMessages = document.getElementById('errorMessages');
+            const nameErrorMessages = document.getElementById('nameErrorMessages');
+            const startingDateErrorMessages = document.getElementById('startingDateErrorMessages');
+            const expiryDateErrorMessages = document.getElementById('expiryDateErrorMessages');
+            const minimumAmountErrorMessages = document.getElementById('minimumAmountErrorMessages');
+            const discountTypeErrorMessages = document.getElementById('discountTypeErrorMessages');
+            const discountErrorMessages = document.getElementById('discountErrorMessages');
+            const limitErrorMessages = document.getElementById('limitErrorMessages');
+    
+            const containsNumbers = /\d/.test(name);          
+    
+            errorMessages.innerHTML = '';
+            nameErrorMessages.innerHTML = '';
+            startingDateErrorMessages.innerHTML = '';
+            expiryDateErrorMessages.innerHTML = '';
+            minimumAmountErrorMessages.innerHTML = '';
+            discountTypeErrorMessages.innerHTML = '';
+            discountErrorMessages.innerHTML = '';
+            limitErrorMessages.innerHTML = '';
+    
+            if (name.length < 1) {
+                nameErrorMessages.innerHTML += 'Name field should not be empty<br>';
+            }
+            if (containsNumbers) {
+                nameErrorMessages.innerHTML += 'Name should not contain numbers<br>';
+            }
+            if (startingDate.length < 1) {
+                startingDateErrorMessages.innerHTML += 'Starting Date field should not be empty<br>';
+            }
+            if (startingDate && startingDate >= expiryDate) {
+                startingDateErrorMessages.innerHTML += 'Starting Date should not be greater than Expiry Date<br>';
+            }
+            if (expiryDate.length < 1) {
+                expiryDateErrorMessages.innerHTML += 'Expiry Date field should not be empty<br>';
+            }
+            if (minimumAmount.length < 1) {
+                minimumAmountErrorMessages.innerHTML += 'Minimum Amount field should not be empty<br>';
+            }
+            if (minimumAmount&& minimumAmount < 1) {
+                minimumAmountErrorMessages.innerHTML += 'Minimum Amount should be a postive value<br>';
+            }
+            if (discountType.length < 1) {
+                discountTypeErrorMessages.innerHTML += 'Discount Type field should not be empty<br>';
+            }
+            if (discountType === 'percentage' && discount && discount > 100) {
+                discountErrorMessages.innerHTML += 'Discount percentage should not be greater than 100<br>';
+            }
+            if (discount.length < 1) {
+                discountErrorMessages.innerHTML += 'Discount field should not be empty<br>';
+            }
+            if (discount && discount < 1) {
+                discountErrorMessages.innerHTML += 'Discount should be a postive value<br>';
+            }
+            if (limit.length < 1) {
+                limitErrorMessages.innerHTML += 'Limit field should not be empty<br>';
+            }
+            if (limit && limit < 1) {
+                limitErrorMessages.innerHTML += 'Limit should be a postive value<br>';
+            }
+            
+    
+            if ((errorMessages.innerHTML !== '')||(nameErrorMessages.innerHTML !== '')||(startingDateErrorMessages.innerHTML !== '')||(expiryDateErrorMessages.innerHTML !== '')||(minimumAmountErrorMessages.innerHTML !== '')||(discountTypeErrorMessages.innerHTML !== '')||(discountErrorMessages.innerHTML !== '')||(limitErrorMessages.innerHTML !== '')) 
+            
+            {
+                event.preventDefault();
+            }
+        });
+    </script>
 
 <%- include('../partials/admin-footer.ejs') %>

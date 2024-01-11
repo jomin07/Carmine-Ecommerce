@@ -27,7 +27,7 @@ const addCoupon = async(req,res) =>{
         if (exist) {
             
             console.log('exist');
-            return res.render('/coupons/add-coupon',{message: 'Coupon already exists'});
+            return res.render('add-coupon',{message: 'Coupon already exists'});
 
         } 
 
@@ -85,7 +85,7 @@ const editCoupon = async(req,res) =>{
         if (existingCoupon && existingCoupon._id.toString() !== couponId) {
             return res.render('edit-coupon', {
                 coupon: { _id: couponId, name: newName },
-                message: 'coupon already exists'
+                message: 'Coupon already exists'
             });
         }
 
