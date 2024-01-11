@@ -28,7 +28,8 @@ async function cartTotalPrice(userId) {
         ]);
 
         if (totalPriceResult.length === 0) {
-            throw new Error('Cart not found');
+            // throw new Error('Cart not found');
+            return 0;
         }
 
         return totalPriceResult[0].totalPrice;
@@ -38,9 +39,36 @@ async function cartTotalPrice(userId) {
     }
 }
 
+async function cartTotalCount(userId) {
+    try {
+        const itemCountResult = await Cart.aggregate([
+            { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+            { $unwind: '$items' },
+            {
+                $group: {
+                    _id: null,
+                    totalCount: {
+                        $sum: '$items.quantity'
+                    }
+                }
+            }
+        ]);
+
+        if (itemCountResult.length === 0) {
+            return 0;
+        }
+
+        return itemCountResult[0].totalCount;
+    } catch (error) {
+        console.error('Error calculating cart item count:', error.message);
+        throw error;
+    }
+}
+
 
 module.exports = {
 
-    cartTotalPrice
+    cartTotalPrice,
+    cartTotalCount
 
 }
