@@ -55,11 +55,11 @@ const addToCart = async(req,res) =>{
                                 'items.$.quantity': 1
                             }
                         });
-                        res.redirect('/shop');
+                        res.status(200).json({ success: true }); // Send a JSON success response
 
                     } else {
 
-                        res.redirect('/shop');
+                        res.status(400).json({ error: 'Not enough stock' });
                     }
                 } else {
 
@@ -70,6 +70,7 @@ const addToCart = async(req,res) =>{
                             }
                         }
                     });
+                    res.status(200).json({ success: true }); // Send a JSON success response
                 }
 
             } else {
@@ -82,13 +83,14 @@ const addToCart = async(req,res) =>{
                 });
 
                 await cart.save();
-                res.redirect('/shop');
+                res.status(200).json({ success: true , cartCount: 1}); // Send a JSON success response
                 
             }
         } 
 
     } catch (error) {      
         console.log(error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
 

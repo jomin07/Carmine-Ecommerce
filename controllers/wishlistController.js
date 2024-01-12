@@ -43,7 +43,7 @@ const addToWishlist = async(req,res) =>{
 
             if (exist) {
                 
-                res.redirect('/shop');
+                res.status(200).json({ success: false, message: 'Product already in wishlist' });
 
             } else {
 
@@ -55,7 +55,7 @@ const addToWishlist = async(req,res) =>{
                         }
                     }
                 });
-                
+                res.status(200).json({ success: true, message: 'Product added to wishlist successfully' });
             }
 
         } else {
@@ -68,15 +68,13 @@ const addToWishlist = async(req,res) =>{
             });
 
             await wishlist.save();
-            res.redirect('/shop');
+            res.status(200).json({ success: true, message: 'Product added to wishlist successfully' });
 
         }
 
-
-    } catch (error) {
-        
+    } catch (error) {    
         console.log(error.message);
-
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 }
 

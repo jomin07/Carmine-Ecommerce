@@ -256,43 +256,95 @@
             try {
                 
                 const res = await axios.post(`/add-to-cart/${productId}`);
+                console.log(res);
 
-                // Display SweetAlert notification on success
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Product Added to Cart!',
-                    text: 'The selected product has been added to your cart!',
-                    confirmButtonText: 'OK'
-                });
+                if (res.status === 200 && res.data.success) {
 
+                    // Display SweetAlert notification on success
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Product Added to Cart!',
+                        text: 'The selected product has been added to your cart!',
+                        confirmButtonText: 'OK'
+                    });
+
+                    // Update the cart count dynamically after adding the product to the cart
+                    const cartCountElement = document.getElementById('cart-count');
+                    console.log(cartCountElement);
+                    if (cartCountElement) {
+
+                        const currentCartCount = Number(cartCountElement.innerHTML);
+                        const updatedCartCount = currentCartCount + 1;
+
+                        console.log(updatedCartCount);
+
+                        // Update the cart count in the UI
+                        cartCountElement.innerText = updatedCartCount;
+                    }
+                    else{
+
+                        const newCartCountElement = document.getElementById('new-cart-count');
+                        console.log(newCartCountElement);
+                        const currentCartCount = Number(newCartCountElement.innerHTML);
+                        const updatedCartCount = currentCartCount + 1;
+
+                        console.log(updatedCartCount);
+
+                        // Update the cart count in the UI
+                        newCartCountElement.innerText = updatedCartCount;
+
+                        // Show the new-cart-count element if its value is greater than 0
+                        newCartCountElement.style.display = (updatedCartCount > 0) ? 'inline-block' : 'none';
+
+                    }                    
+
+                } else {
+                    // Handle error
+                    console.error('Error adding to cart:', res.data.error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'There was an error adding the product to your cart.',
+                        confirmButtonText: 'OK'
+                    });
+                }
 
             } catch (error) {
-                
                 console.log(error.message);
-
             }
-
         }
         
         async function addToWishlist(productId){
 
-            try {
-                
+            try {    
                 
                 const res = await axios.post(`/add-to-wishlist/${productId}`);
-                // Display SweetAlert notification on success
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Product Added to Wishlist!',
-                    text: 'The selected product has been added to your Wishlist!',
-                    confirmButtonText: 'OK'
-                });                
+                console.log(res);
 
+                if (res.status === 200 && res.data.success) {
+                    // Display SweetAlert notification on success
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Product Added to Wishlist!',
+                        text: 'The selected product has been added to your Wishlist!',
+                        confirmButtonText: 'OK'
+                    });        
+                }else {
+                    // Handle error
+                    console.error('Error adding to wishlist:', res.data.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'The product is already in your wishlist.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            
             } catch (error) {         
                 console.log(error.message);
             }
 
-            }
+        }
 
     </script>
 
