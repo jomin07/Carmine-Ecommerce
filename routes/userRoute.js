@@ -105,6 +105,8 @@ userRoute.get('/orders',auth.isBlocked,auth.isLogin,cartCountMiddleware.getCartC
 
 userRoute.patch('/cancel-order',auth.isBlocked,auth.isLogin,orderController.cancelOrder);
 
+userRoute.patch('/return-order',auth.isBlocked,auth.isLogin,orderController.returnOrder);
+
 userRoute.get('/view-order-products/:id',auth.isBlocked,cartCountMiddleware.getCartCount,orderController.getUserOrderProducts);
 
 

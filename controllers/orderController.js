@@ -172,16 +172,41 @@ const cancelOrder = async(req,res) =>{
             
             await User.updateOne({_id: userId},
                 {$inc: {wallet: orderData.totalPrice}}); 
-
         }
 
-        //Change order status to pending
-        await Order.findOneAndUpdate({ _id : orderId },
-            { $set : { orderStatus : status }});
-
+        //Change order status to cancelled
+        await Order.findOneAndUpdate({ _id : orderId },{ $set : { orderStatus : status }});
 
         const newStatus = await Order.findOne({ _id : orderId })
         res.status( 200 ).json({ success : true, status : newStatus.orderStatus });
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const returnOrder = async(req,res) =>{
+    try {
+        
+        const userId = req.session.user_id;
+        const { orderId,status } = req.body;
+        const orderData = await Order.findById({_id: orderId});
+
+        //Increment stock quantity of the products as order is returned
+        for(let items of orderData.items){
+            await Product.updateOne({_id: items.productId},{$inc: {quantity: items.quantity}});
+        }
+
+        //Return Money to wallet as order is returned
+        await User.updateOne({_id: userId},
+            {$inc: {wallet: orderData.totalPrice}}); 
+        
+
+        //Change order status to Returned
+        await Order.findOneAndUpdate({_id: orderId},{$set: {orderStatus: status}});
+
+        const newStatus = await Order.findOne({_id: orderId});
+        res.status(200).json({success: true,status: newStatus.orderStatus});
 
     } catch (error) {
         console.log(error.message);
@@ -247,6 +272,7 @@ module.exports = {
     getConfirmOrder,
     getOrders,
     cancelOrder,
+    returnOrder,
     getUserOrderProducts,
     loadOrders,
     editDeliveryStatus,

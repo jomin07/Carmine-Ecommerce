@@ -1,70 +1,5 @@
 <%- include('../partials/user-header.ejs') %>
 
-
-    <!-- <style>
-        /* Add these styles to your existing CSS or in a separate stylesheet */
-        .content-main {
-            padding: 20px;
-        }
-
-        .content-header {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        .actions-column {
-            display: flex;
-            justify-content: space-evenly;
-            width: 150px;
-        }
-
-        .table-responsive {
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        .btn {
-            padding: 5px 10px;
-            margin-right: 10px;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-            color: #fff;
-        }
-
-        .btn-info {
-            background-color: #17a2b8;
-            border-color: #17a2b8;
-            color: #fff;
-        }
-
-        .btn-dark {
-            background-color: #343a40;
-            border-color: #343a40;
-            color: #fff;
-        }
-    </style> -->
-
-
     <section class="content-main">
 
         <% if (orders.length === 0) { %>
@@ -84,56 +19,63 @@
             </div>
             <div class="container pt-5">
             
-            <div class="table-responsive ">
-                    <table id="example" class="table table-striped " style="width:100%">
-                        <thead>
-                            <tr>
-                                
-                                <th>Order ID</th>
-                                <th>Ordered Date</th>
-                                <th >Total Items</th>
-                                <th>Total Price</th>
-                                <th>Payment</th>
-                                <th>Status</th>
-                                <th>Delivery Status</th>
-                                <th class="actions-column text-center ">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for ( let order of orders ){ %>
-
-                                <% var timeDiff = now - order.date  %>
-                                <% var days = timeDiff / ( 1000 * 60 * 60 * 24 ) %>
-
+                <div class="table-responsive ">
+                        <table id="example" class="table table-striped " style="width:100%">
+                            <thead>
                                 <tr>
                                     
-                                    <td><%= order._id %></td>
-                                    <td><%= order.orderedDate.toDateString() %></td>
-                                    <td><%= order.items.length %></td>
-                                    <td>₹ <%= order.totalPrice.toFixed(2) %></td>
-                                    <td><%= order.paymentMethod %></td>
-                                    <td id="order-status-<%= order._id %>"><%= order.orderStatus %></td>
-                                    <td><%= order.deliveryStatus %></td>
-                                    <td> <% if( order.orderStatus === 'Delivered' || order.orderStatus ===      'Cancelled' || order.orderStatus === 'Returned') { %><% } else { %> 
-                                                <button style="font-size: 12px;margin-right: 20px;" id="cancel-<%= order._id %>" onclick="cancelOrder('<%= order._id %>')" class="btn btn-danger"> Cancel</button> 
-                                            <% } %>
-                                            <% if( order.orderStatus === 'Delivered' && days < 30 ) { %>
-                                                <button style="font-size: 12px;" id="return-<%= order._id %>" onclick="returnOrder('<%= order._id %>')" class="btn btn-info ">Return</button>
-                                            <% } %>
-                                            <a  style="font-size: 12px;" class="btn btn-dark " href="/view-order-products/<%= order._id %>">View products</a>
-                                    </td>
-                                    
-                                    
+                                    <th>Order ID</th>
+                                    <th>Ordered Date</th>
+                                    <th class="text-center">Items</th>
+                                    <th>Total Price</th>
+                                    <th>Payment</th>
+                                    <th>Status</th>
+                                    <th>Delivery Status</th>
+                                    <th class="actions-column">Actions</th>
                                 </tr>
-                            <% } %>
-                            
-                        </tbody>
-                        
-                    </table>
-                    <br><br>
-            </div>
+                            </thead>
+                            <tbody>
+                                <% for ( let order of orders ){ %>
 
-            <br><br><br>
+                                    <% var timeDiff = now - order.orderedDate  %>
+                                    <% var days = timeDiff / ( 1000 * 60 * 60 * 24 ) %>
+
+                                    <tr>
+                                        
+                                        <td><%= order._id %></td>
+                                        <td><%= order.orderedDate.toDateString() %></td>
+                                        <td class="text-center"><%= order.items.length %></td>
+                                        <td>₹ <%= order.totalPrice.toFixed(2) %></td>
+                                        <td><%= order.paymentMethod %></td>
+                                        <td id="order-status-<%= order._id %>"><%= order.orderStatus %></td>
+                                        <td><%= order.deliveryStatus %></td>
+                                        <td>
+                                            <div class="btn-container text-center">
+
+                                                <% if ((order.deliveryStatus === 'Pending' || order.deliveryStatus === 'Shipped')&&(order.orderStatus !== 'Cancelled')) { %>
+                                            
+                                                    <button style="font-size: 14px;" id="cancel-<%= order._id %>" onclick="cancelOrder('<%= order._id %>')" class="btn btn-danger">Cancel</button>
+                                            
+                                                <% } else if ((order.deliveryStatus === 'Delivered')&&(order.orderStatus !== 'Returned')&& (days < 30)) { %>
+                                                    <button style="font-size: 14px;" id="return-<%= order._id %>" onclick="returnOrder('<%= order._id %>')" class="btn btn-danger">Return</button>
+                                                <% } %>
+                                            
+                                                <a style="font-size: 14px;" class="btn btn-dark" href="/view-order-products/<%= order._id %>">View Details</a>
+
+                                            </div>
+                                            
+                                        </td>                                       
+                                    </tr>
+
+                                <% } %>
+                                
+                            </tbody>
+                            
+                        </table>
+                        <br><br>
+                </div>
+
+                <br><br><br>
             
             </div>
 
@@ -142,19 +84,23 @@
 
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         async function cancelOrder(orderId){
             try {
+                const shouldCancel = await showConfirmationDialog("Are you sure you want to cancel this order?");
+                if (!shouldCancel) return;
                 console.log(orderId);
-                const status = 'Cancelled'
-                const cancel = await axios.patch('/cancel-order',{orderId,status})
+
+                const status = 'Cancelled';
+                const cancel = await axios.patch('/cancel-order',{orderId,status});
                 if (cancel.data.success){
                     console.log(cancel.data);
-                    const cancelButton = document.getElementById(`cancel-${orderId}`)
-                    const order_status = document.getElementById(`order-status-${orderId}`)
-                    cancelButton.style.display = 'none'
-                    order_status.innerHTML = cancel.data.status
+                    const cancelButton = document.getElementById(`cancel-${orderId}`);
+                    const order_status = document.getElementById(`order-status-${orderId}`);
+                    cancelButton.style.display = 'none';
+                    order_status.innerHTML = cancel.data.status;
                 }
             } catch (error) {
                 console.log(error.message);
@@ -162,12 +108,38 @@
         }
 
         async function returnOrder ( orderId ) {
+            const shouldReturn = await showConfirmationDialog("Are you sure you want to return this order?");
+            if (!shouldReturn) return;
+
+            const status = 'Returned';
             const response = await axios.patch( '/return-order',{
-                orderId
-            })
+                orderId,status
+            });
+            if (response.data.success) {
+                console.log(response.data);
+                const returnButton = document.getElementById(`return-${orderId}`);
+                const order_status = document.getElementById(`order-status-${orderId}`);
+                returnButton.style.display = 'none';
+                order_status.innerHTML = response.data.status;
 
-
+            } 
         }
+
+        async function showConfirmationDialog(message) {
+            const result = await Swal.fire({
+                title: 'Confirmation',
+                text: message,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            });
+
+            return result.isConfirmed;
+        }
+
     </script>
 
 <%- include('../partials/user-footer.ejs') %>
