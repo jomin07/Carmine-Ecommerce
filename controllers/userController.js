@@ -574,11 +574,7 @@ const getSearch = async(req,res) =>{
 
 const getFilter = async (req, res) => {
     try {
-        const { price, category, brand } = req.query;
-
-        console.log(price);
-        console.log(category);
-        console.log(brand);
+        const { price, category, brand ,sort } = req.query;
 
         // Define filter conditions based on query parameters
         const filterConditions = {
@@ -590,8 +586,6 @@ const getFilter = async (req, res) => {
         // Filter by price
         if (price) {
             const [minPrice, maxPrice] = price.split('-').map(value => parseInt(value.replace(/[^\d]/g, ''), 10));
-            console.log(minPrice);
-            console.log(maxPrice);
             const priceFilter = {};
             if (minPrice) priceFilter.$gte = parseInt(minPrice);
             if (maxPrice) priceFilter.$lte = parseInt(maxPrice);
@@ -611,7 +605,15 @@ const getFilter = async (req, res) => {
             filterConditions.$and.push({ brand: brand });
         }
 
-        const productsData = await Product.find(filterConditions).populate('category');
+        // Sorting
+        let sortOption = {};
+        if (sort === 'lowToHigh') {
+            sortOption = { price: 1 }; // Ascending order
+        } else if (sort === 'highToLow') {
+            sortOption = { price: -1 }; // Descending order
+        }
+
+        const productsData = await Product.find(filterConditions).populate('category').sort(sortOption);
         const categoriesData = await Category.find({ status: true });
 
         if (!req.session.user_id) {
