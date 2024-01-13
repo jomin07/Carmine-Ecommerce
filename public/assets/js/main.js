@@ -48,12 +48,26 @@
             max: 500,
             values: [130, 250],
             slide: function (event, ui) {
-                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                $("#amount").val("₹" + ui.values[0] + " - ₹" + ui.values[1]);
             }
         });
-        $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-            " - $" + $("#slider-range").slider("values", 1));
-    }  
+        $("#amount").val("₹" + $("#slider-range").slider("values", 0) +
+            " - ₹" + $("#slider-range").slider("values", 1));
+    }
+
+    // if ( $("#slider-range").length ) {
+    //     $("#slider-range").slider({
+    //         range: true,
+    //         min: 0,
+    //         max: 500,
+    //         values: [130, 250],
+    //         slide: function (event, ui) {
+    //             $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+    //         }
+    //     });
+    //     $("#amount").val("$" + $("#slider-range").slider("values", 0) +
+    //         " - $" + $("#slider-range").slider("values", 1));
+    // }   
 
     /*------ Hero slider 1 ----*/
     $('.hero-slider-1').slick({
@@ -347,16 +361,32 @@
     $(function() {
         sliderrange.slider({
             range: true,
-            min: 16,
-            max: 400,
-            values: [0, 300],
+            min: 100,
+            max: 10000,
+            values: [0, 3000],
             slide: function(event, ui) {
-                amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
+                amountprice.val("₹" + ui.values[0] + " - ₹" + ui.values[1]);
             }
         });
-        amountprice.val("$" + sliderrange.slider("values", 0) +
-            " - $" + sliderrange.slider("values", 1));
+        amountprice.val("₹" + sliderrange.slider("values", 0) +
+            " - ₹" + sliderrange.slider("values", 1));
     }); 
+
+    // var sliderrange = $('#slider-range');
+    // var amountprice = $('#amount');
+    // $(function() {
+    //     sliderrange.slider({
+    //         range: true,
+    //         min: 16,
+    //         max: 400,
+    //         values: [0, 300],
+    //         slide: function(event, ui) {
+    //             amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
+    //         }
+    //     });
+    //     amountprice.val("$" + sliderrange.slider("values", 0) +
+    //         " - $" + sliderrange.slider("values", 1));
+    // });
         
     /*-------------------------------
         Sort by active

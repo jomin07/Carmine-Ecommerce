@@ -460,14 +460,11 @@ const getResetPassword = async(req,res) =>{
         if (tokenData) {
             
             res.render('reset-password',{user_id: tokenData._id});
-
         } else {
             
             res.render('forget-password',{message: 'Invalid Token'});
-
         }
         
-
     } catch (error) {
         console.log(error.message);
     }
@@ -551,16 +548,12 @@ const getSearch = async(req,res) =>{
                 { status: true } 
             ]
         }).populate('category');
-        
-        
+            
         const categoriesData = await Category.find({status: true});
 
         if(!req.session.user_id){           
-             
             res.render('shop',{products: productsData,categories: categoriesData}); 
-
         }
-
         else{
 
             const userData = await User.findById({_id:req.session.user_id});
@@ -578,6 +571,66 @@ const getSearch = async(req,res) =>{
     }
 
 }
+
+const getFilter = async (req, res) => {
+    try {
+        const { price, category, brand } = req.query;
+
+        console.log(price);
+        console.log(category);
+        console.log(brand);
+
+        // Define filter conditions based on query parameters
+        const filterConditions = {
+            $and: [
+                { status: true }, // Product is active
+            ],
+        };
+
+        // Filter by price
+        if (price) {
+            const [minPrice, maxPrice] = price.split('-').map(value => parseInt(value.replace(/[^\d]/g, ''), 10));
+            console.log(minPrice);
+            console.log(maxPrice);
+            const priceFilter = {};
+            if (minPrice) priceFilter.$gte = parseInt(minPrice);
+            if (maxPrice) priceFilter.$lte = parseInt(maxPrice);
+
+            filterConditions.$and.push({ price: priceFilter });
+        }
+
+        // Filter by category
+        if (category) {
+            const categoryId = await Category.findOne({ name: category }).select('_id');
+        
+            filterConditions.$and.push({ category: categoryId });
+        }
+
+        // Filter by brand
+        if (brand) {
+            filterConditions.$and.push({ brand: brand });
+        }
+
+        const productsData = await Product.find(filterConditions).populate('category');
+        const categoriesData = await Category.find({ status: true });
+
+        if (!req.session.user_id) {
+            res.render('shop', { products: productsData, categories: categoriesData });
+        } else {
+            const userData = await User.findById({ _id: req.session.user_id });
+
+            if (userData) {
+                res.render('shop', { user: userData, products: productsData, categories: categoriesData });
+            } else {
+                res.render('shop', { products: productsData, categories: categoriesData });
+            }
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
 
 const getProductDetails = async(req,res) =>{
     try {
@@ -642,5 +695,6 @@ module.exports = {
     userLogout,
     getShop,
     getProductDetails,
-    getSearch
+    getSearch,
+    getFilter
 }
