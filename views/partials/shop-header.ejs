@@ -175,23 +175,12 @@
                         <!-- <a href="/"><img src="/assets/imgs/theme/Carmine Logo.svg" alt="logo"></a> -->
                     </div>
                     <div class="header-right">
-                        <div class="search-style-2 searchbar-top">
-                            <form action="#">
-                                <!-- <select class="select-active">
-                                    <option>All Categories</option>
-                                    <option>Women's</option>
-                                    <option>Men's</option>
-                                    <option>Cellphones</option>
-                                    <option>Computer</option>
-                                    <option>Electronics</option>
-                                    <option> Accessories</option>
-                                    <option>Home & Garden</option>
-                                    <option>Luggage</option>
-                                    <option>Shoes</option>
-                                    <option>Mother & Kids</option>
-                                </select> -->
-                                <input type="text" placeholder="Search for items...">
+                        <div class="search-style-2 ">
+                            <form action="/search" method="get">
                                 
+                                <input type="text" name="search" placeholder="Search for items...">
+                                
+                                <button type="submit" id="searchButton" hidden>Search</button>
                             </form>
                         </div>
                         <div class="header-action-right">
@@ -213,50 +202,8 @@
                                         <% } %>
                                             
                                     </a>
-                                    <!-- <div class="cart-dropdown-wrap cart-dropdown-hm2">
-                                        <ul>
-                                            <li>
-                                                <div class="shopping-cart-img">
-                                                    <a href="/"><img alt="Evara" src="/assets/imgs/shop/thumbnail-3.jpg"></a>
-                                                </div>
-                                                <div class="shopping-cart-title">
-                                                    <h4><a href="/">Daisy Casual Bag</a></h4>
-                                                    <h4><span>1 × </span>$800.00</h4>
-                                                </div>
-                                                <div class="shopping-cart-delete">
-                                                    <a href="#"><i class="fi-rs-cross-small"></i></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="shopping-cart-img">
-                                                    <a href="/"><img alt="Evara" src="/assets/imgs/shop/thumbnail-2.jpg"></a>
-                                                </div>
-                                                <div class="shopping-cart-title">
-                                                    <h4><a href="/">Corduroy Shirts</a></h4>
-                                                    <h4><span>1 × </span>$3200.00</h4>
-                                                </div>
-                                                <div class="shopping-cart-delete">
-                                                    <a href="#"><i class="fi-rs-cross-small"></i></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="shopping-cart-footer">
-                                            <div class="shopping-cart-total">
-                                                <h4>Total <span>$4000.00</span></h4>
-                                            </div>
-                                            <div class="shopping-cart-button">
-                                                <a href="/cart" class="outline">View cart</a>
-                                                <a href="/">Checkout</a>
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                    
                                 </div>
-                                <!-- <div class="header-action-icon-2">
-                                    <a href="/">
-                                        <img alt="Evara" src="/assets/imgs/theme/icons/icon-profile.svg">
-                                        <span class="pro-count white">4</span>
-                                    </a>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -521,43 +468,7 @@
                                     <img alt="Evara" src="/assets/imgs/theme/icons/icon-cart.svg">
                                     <!-- <span class="pro-count white">2</span> -->
                                 </a>
-                                <!-- <div class="cart-dropdown-wrap cart-dropdown-hm2">
-                                    <ul>
-                                        <li>
-                                            <div class="shopping-cart-img">
-                                                <a href="/"><img alt="Evara" src="/assets/imgs/shop/thumbnail-3.jpg"></a>
-                                            </div>
-                                            <div class="shopping-cart-title">
-                                                <h4><a href="/">Plain Striola Shirts</a></h4>
-                                                <h3><span>1 × </span>$800.00</h3>
-                                            </div>
-                                            <div class="shopping-cart-delete">
-                                                <a href="#"><i class="fi-rs-cross-small"></i></a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="shopping-cart-img">
-                                                <a href="/"><img alt="Evara" src="/assets/imgs/shop/thumbnail-4.jpg"></a>
-                                            </div>
-                                            <div class="shopping-cart-title">
-                                                <h4><a href="/">Macbook Pro 2022</a></h4>
-                                                <h3><span>1 × </span>$3500.00</h3>
-                                            </div>
-                                            <div class="shopping-cart-delete">
-                                                <a href="#"><i class="fi-rs-cross-small"></i></a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="shopping-cart-footer">
-                                        <div class="shopping-cart-total">
-                                            <h4>Total <span>$383.00</span></h4>
-                                        </div>
-                                        <div class="shopping-cart-button">
-                                            <a href="/cart">View cart</a>
-                                            <a href="/">Checkout</a>
-                                        </div>
-                                    </div>
-                                </div> -->
+                                
                             </div>
                             <!-- <div class="header-action-icon-2">
                                 <a href="/">

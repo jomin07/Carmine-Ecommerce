@@ -125,6 +125,7 @@ userRoute.get('/logout',auth.isLogin,userController.userLogout);
 
 
 userRoute.get('/shop',cartCountMiddleware.getCartCount,userController.getShop);
+userRoute.get('/search',cartCountMiddleware.getCartCount,userController.getSearch);
 userRoute.get('/shop/:id',cartCountMiddleware.getCartCount,userController.getProductDetails);
 
 module.exports = userRoute;

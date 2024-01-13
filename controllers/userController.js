@@ -531,6 +531,54 @@ const getShop = async(req,res) =>{
 
 }
 
+const getSearch = async(req,res) =>{
+    try {
+        
+        const search = req.query.search;
+        const productsData = await Product.find({
+            $and: [
+                {
+                    $or: [
+                        { name: { $regex: ".*" + search + ".*", $options: 'i' } },
+                        { brand: { $regex: ".*" + search + ".*", $options: 'i' } },
+                        {
+                            category: {
+                                $in: await Category.find({ name: { $regex: ".*" + search + ".*", $options: 'i' } }).distinct('_id')
+                            }
+                        }
+                    ]
+                },
+                { status: true } 
+            ]
+        }).populate('category');
+        
+        
+        const categoriesData = await Category.find({status: true});
+
+        if(!req.session.user_id){           
+             
+            res.render('shop',{products: productsData,categories: categoriesData}); 
+
+        }
+
+        else{
+
+            const userData = await User.findById({_id:req.session.user_id});
+             
+            if (userData) {
+                res.render('shop',{user: userData,products: productsData,categories: categoriesData}); 
+            }
+            else {
+                res.render('shop',{products: productsData,categories: categoriesData}); 
+            }            
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
 const getProductDetails = async(req,res) =>{
     try {
 
@@ -593,5 +641,6 @@ module.exports = {
     resetPassword,
     userLogout,
     getShop,
-    getProductDetails
+    getProductDetails,
+    getSearch
 }
