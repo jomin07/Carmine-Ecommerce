@@ -157,6 +157,25 @@
                                         
                                     </div>
                                 </div>
+
+                                <% if(user.wallet && user.wallet > 0) { %>
+
+                                    <div class="payment_method mt-50 mb-50 ml-30">
+                                        <div class="mb-25">
+                                            <h4 class="fw-bold">Wallet</h4>
+                                        </div>
+                                        <div class="payment_option">
+                                            
+                                            <div class="custome-checkbox">
+                                                <input class="form-check-input" type="checkbox" name="wallet" id="wallet" value="<%= user.wallet %>">
+                                                <label class="form-check-label" for="wallet" data-bs-toggle="collapse" data-target="" aria-controls="">Use Wallet Amount</label>
+                                            </div>
+                                            <div>Wallet Balance:<span class="fw-bold"> ₹ <%= user.wallet %> </span></div>
+
+                                        </div>
+                                    </div>
+
+                                <% } %>
     
                                 <div class="payment_method mt-50 mb-50 ml-30">
                                     <div class="mb-25">
@@ -171,7 +190,7 @@
     
                                         <div class="custome-radio">
                                             <input class="form-check-input" required="" type="radio" name="paymentMethod" id="razorpay" value="razorpay" checked="">
-                                            <label class="form-check-label" for="razorpay" data-bs-toggle="collapse" data-target="" aria-controls="">Razor Pay</label>
+                                            <label class="form-check-label" for="razorpay" data-bs-toggle="collapse" data-target="" aria-controls="">Online Payment</label>
                                         </div>
                                         
                                     </div>
@@ -217,9 +236,16 @@
             try {
                 const addressRadio = document.querySelector('input[name="addressId"]:checked');
                 const paymentMethodRadio = document.querySelector('input[name="paymentMethod"]:checked');
+                const walletCheckbox = document.querySelector('input[name="wallet"]:checked');
                 const checkoutT = document.getElementById('total1').innerHTML;
                 const checkoutTotal = checkoutT.replace(/[^\d.]/g, ''); // Remove non-numeric characters, including ₹ symbol;
+
+                let walletAmount;
+                if(walletCheckbox){
+                    walletAmount = walletCheckbox.value;
+                }
                 console.log('checkoutTotal is ',checkoutTotal);
+                console.log('wallet amount is ',walletAmount);
 
                 if (!addressRadio || !paymentMethodRadio) {
 
@@ -237,7 +263,7 @@
                     $.ajax({
                         url: '/checkout',
                         method: 'post',
-                        data: { addressId, paymentMethod,checkoutTotal },
+                        data: { addressId, paymentMethod,checkoutTotal,walletAmount },
                         success: (order) => {
                             console.log(order);
                             if (order.success) {
@@ -287,7 +313,7 @@
                 "currency": "INR",
                 "name": "Carmine", //your business name
                 "description": "Test Transaction",
-                "image": "https://example.com/your_logo",
+                "image": "/assets/imgs/theme/logo.svg",
                 "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "handler": function (response){
                     verifyPayment( response, order )
@@ -355,14 +381,14 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: 'This coupon already used by you!'
+                                text: 'This coupon is already used by you!'
                             })
                         } else if (response.limit) {
                             console.log("coupon limit exceeded");
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: 'coupon limit exceeded!'
+                                text: 'Coupon limit exceeded!'
                             })
                         } else if (response.status) {
                             console.log("This coupon is not in use now!");

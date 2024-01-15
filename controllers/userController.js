@@ -670,6 +670,19 @@ const getProductDetails = async(req,res) =>{
     }
 }
 
+const getWallet = async(req,res) =>{
+    try { 
+
+        const userData = await User.findById({_id: req.session.user_id});
+
+        res.render('wallet',{user: userData});
+
+    } catch (error) {
+        
+        console.log(error.message);
+    }
+}
+
 
 module.exports = {
     loadRegister,
@@ -698,5 +711,6 @@ module.exports = {
     getShop,
     getProductDetails,
     getSearch,
-    getFilter
+    getFilter,
+    getWallet
 }

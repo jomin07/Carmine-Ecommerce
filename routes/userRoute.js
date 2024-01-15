@@ -129,4 +129,6 @@ userRoute.get('/search',cartCountMiddleware.getCartCount,userController.getSearc
 userRoute.get('/filter',cartCountMiddleware.getCartCount,userController.getFilter);
 userRoute.get('/shop/:id',cartCountMiddleware.getCartCount,userController.getProductDetails);
 
+userRoute.get('/wallet',auth.isBlocked,auth.isLogin,cartCountMiddleware.getCartCount,userController.getWallet);
+
 module.exports = userRoute;

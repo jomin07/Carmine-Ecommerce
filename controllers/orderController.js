@@ -22,14 +22,36 @@ const placeOrder = async(req,res) =>{
         const userData = await User.findById({_id:req.session.user_id});
         const cartData = await Cart.findOne({userId: userId}).populate('items.productId');
         // const totalPrice = await userHelper.cartTotalPrice(userId);
-        const { paymentMethod, addressId,checkoutTotal } = req.body;
-
+        const { paymentMethod, addressId,checkoutTotal,walletAmount } = req.body;
         const checkoutTotalAmount = Number(checkoutTotal);
+        let walletBalance;
+        if(walletAmount){
+            walletBalance = Number(walletAmount);
+        }
+
         console.log('amount is',checkoutTotal);
         console.log('checkoutTotalAmount is',checkoutTotalAmount);
+        console.log('walletAmount is',walletAmount);
         let orderStatus;
         const items = cartData.items;
-        let amountPayable = checkoutTotalAmount;
+
+        let walletUsed,amountPayable;
+        
+
+        if (walletAmount) {
+            if (walletBalance < checkoutTotalAmount) {
+                amountPayable = checkoutTotalAmount - walletBalance;
+                walletUsed = walletBalance;
+            } else if(walletBalance >= checkoutTotalAmount){
+                amountPayable = 0;
+                walletUsed = checkoutTotalAmount;
+            }
+        } else {
+            amountPayable = checkoutTotalAmount;
+        }
+        console.log('walletBalance is',walletBalance);
+        console.log('amountPayable is',amountPayable);
+        console.log('walletUsed is',walletUsed);
 
         
         // Check if any product in the cart has a quantity less than the required quantity
@@ -45,6 +67,9 @@ const placeOrder = async(req,res) =>{
         }
 
         paymentMethod === 'COD' ? orderStatus = 'Confirmed' : orderStatus = 'Pending';
+        if(amountPayable === 0){
+            orderStatus = 'Confirmed';
+        }
 
         // Ensure each item has a valid price before saving the order
         const validatedItems = items.map(item => {
@@ -67,6 +92,7 @@ const placeOrder = async(req,res) =>{
             paymentMethod: paymentMethod,
             orderStatus: orderStatus,
             amountPayable: amountPayable,
+            walletUsed: walletUsed
 
         });
 
@@ -85,9 +111,25 @@ const placeOrder = async(req,res) =>{
 
         console.log(paymentMethod);
 
-        if( paymentMethod === 'COD'){
+        if( paymentMethod === 'COD' || amountPayable === 0){
+
+            if( walletAmount ) {
+                await User.updateOne({ _id : userId }, {
+                    $inc : {
+                        wallet : -walletUsed
+                    },
+                    $push : {
+                        walletHistory : {
+                            date : Date.now(),
+                            amount : -walletUsed,
+                            message : 'Used for purchase'
+                        }
+                    }
+                })
+            }
 
             res.json({ success: true, order: orderData });
+
         }else if( paymentMethod === 'razorpay'){
             // Razorpay 
             console.log('razorpay method');
@@ -95,7 +137,6 @@ const placeOrder = async(req,res) =>{
             res.json({ payment : payment , success : false  })
         }
         
-
     } catch (error) {
         console.log(error.message);
         res.status(400).json({ success: false, error: error.message });
@@ -108,7 +149,8 @@ const razorpayVerifyPayment = async( req, res ) => {
     console.log('Inside razorpayVerifyPayment');
     
     const { response , order } = req.body
-    const { user } = req.session.user_id;
+    const userId = req.session.user_id;
+    console.log(userId);
     let hmac = crypto.createHmac( 'sha256', RAZORPAY_KEY_SECRET )
     hmac.update( response.razorpay_order_id + '|' + response.razorpay_payment_id )
     hmac = hmac.digest( 'hex' );
@@ -116,7 +158,21 @@ const razorpayVerifyPayment = async( req, res ) => {
         await Order.updateOne({_id : order.receipt},{
             $set : { orderStatus : 'Confirmed'}
         })
-        const orders = await Order.findOne({ _id : order.receipt })
+        const orders = await Order.findOne({ _id : order.receipt });
+        if( orders.walletUsed ) {
+            await User.updateOne({ _id : userId }, {
+                $inc : {
+                    wallet : -orders.walletUsed
+                },
+                $push : {
+                    walletHistory : {
+                        date : Date.now(),
+                        amount : -orders.walletUsed,
+                        message : 'Used for purchase'
+                    }
+                }
+            });
+        }
 
         res.json({success : true});
         
@@ -156,7 +212,7 @@ const cancelOrder = async(req,res) =>{
     try {
         
         const userId = req.session.user_id;
-        const userData = await User.findById({_id: req.session.user_id});
+        const userData = await User.findById({_id: userId});
         const { orderId, status } = req.body;
         const orderData = await Order.findById({_id: orderId});
         const paymentMethod = orderData.paymentMethod;
@@ -170,8 +226,38 @@ const cancelOrder = async(req,res) =>{
         //Return Money to wallet if payment was done using Razorpay
         if ((orderStatus === 'Confirmed')&&(paymentMethod === 'razorpay')) {
             
-            await User.updateOne({_id: userId},
-                {$inc: {wallet: orderData.totalPrice}}); 
+            // await User.updateOne({_id: userId},{
+            //     $inc: {wallet: orderData.totalPrice}}); 
+            
+            await User.updateOne({ _id : userId },{
+                $inc : {
+                    wallet : orderData.totalPrice
+                },
+                $push : {
+                    walletHistory : {
+                        date : Date.now(),
+                        amount : orderData.totalPrice,
+                        message : "Deposited while cancelled order"
+                    }
+                }
+            });
+
+        }else if( orderStatus === 'Confirmed' && paymentMethod === 'COD' ) {
+
+            if( orderData.walletUsed && orderData.walletUsed > 0 ) {
+                await User.updateOne({ _id : userId },{
+                    $inc : {
+                        wallet : orderData.walletUsed
+                    },
+                    $push : {
+                        walletHistory : {
+                            date : Date.now(),
+                            amount : orderData.walletUsed,
+                            message : "Deposited while cancelled order"
+                        }
+                    }
+                })
+            }
         }
 
         //Change order status to cancelled
@@ -198,8 +284,18 @@ const returnOrder = async(req,res) =>{
         }
 
         //Return Money to wallet as order is returned
-        await User.updateOne({_id: userId},
-            {$inc: {wallet: orderData.totalPrice}}); 
+        await User.updateOne({_id: userId},{
+            $inc: {
+                wallet: orderData.totalPrice
+            },
+            $push : {
+                walletHistory : {
+                    date : Date.now(),
+                    amount : orderData.totalPrice,
+                    message : "Deposited while returned order"
+                }
+            }
+        }); 
         
 
         //Change order status to Returned

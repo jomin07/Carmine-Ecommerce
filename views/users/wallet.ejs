@@ -1,0 +1,34 @@
+<%- include('../partials/user-header.ejs') %>
+
+<div class="container mt-30 mb-50">
+    <h2 class="text-center mb-30">Wallet</h2>
+    <div class="card bg-info text-center">
+        
+        <div class="card-body p-4">
+            <h4 class="card-title">Wallet Balance</h4>
+            <div class="p-4">
+                <h1 class="display-4 text-dark">₹ <%= user.wallet %></h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="wallet-container bg-white p-4 mt-4 mb-30 rounded shadow">
+        <h2 class="mb-20">Wallet Transactions</h2>
+        <ul class="list-group transaction-list">
+            <% user.walletHistory.forEach(transaction => { %>
+                <li class="list-group-item transaction-item mb-3">
+                    <p>Date: <%= new Date(transaction.date).toLocaleString() %></p>
+                    <p>Amount: <% if (transaction.amount < 0) { %>
+                            <span class="text-danger"><%= transaction.amount %></span>
+                        <% } else { %>
+                            <span class="text-success"><%= transaction.amount %></span>
+                        <% } %>
+                    </p>
+                    <p>Message: <%= transaction.message %></p>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+</div>
+
+<%- include('../partials/user-footer.ejs') %>
