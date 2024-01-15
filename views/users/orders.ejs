@@ -89,12 +89,16 @@
     <script>
         async function cancelOrder(orderId){
             try {
+
+                const cancellationReason = await promptCancellationReason();
+                if (!cancellationReason) return;
+
                 const shouldCancel = await showConfirmationDialog("Are you sure you want to cancel this order?");
                 if (!shouldCancel) return;
                 console.log(orderId);
 
                 const status = 'Cancelled';
-                const cancel = await axios.patch('/cancel-order',{orderId,status});
+                const cancel = await axios.patch('/cancel-order',{orderId,status,cancellationReason});
                 if (cancel.data.success){
                     console.log(cancel.data);
                     const cancelButton = document.getElementById(`cancel-${orderId}`);
@@ -108,12 +112,16 @@
         }
 
         async function returnOrder ( orderId ) {
+
+            const returnReason = await promptReturnReason();
+            if (!returnReason) return;
+
             const shouldReturn = await showConfirmationDialog("Are you sure you want to return this order?");
             if (!shouldReturn) return;
 
             const status = 'Returned';
             const response = await axios.patch( '/return-order',{
-                orderId,status
+                orderId,status,returnReason
             });
             if (response.data.success) {
                 console.log(response.data);
@@ -138,6 +146,32 @@
             });
 
             return result.isConfirmed;
+        }
+
+        async function promptCancellationReason() {
+            const { value: reason } = await Swal.fire({
+                title: 'Enter Cancellation Reason',
+                input: 'text',
+                inputPlaceholder: 'Provide a reason for cancellation...',
+                showCancelButton: true,
+                confirmButtonText: 'Submit',
+                cancelButtonText: 'Cancel',
+            });
+
+            return reason;
+        }
+
+        async function promptReturnReason() {
+            const { value: reason } = await Swal.fire({
+                title: 'Enter Return Reason',
+                input: 'text',
+                inputPlaceholder: 'Provide a reason for return...',
+                showCancelButton: true,
+                confirmButtonText: 'Submit',
+                cancelButtonText: 'Cancel',
+            });
+
+            return reason;
         }
 
     </script>

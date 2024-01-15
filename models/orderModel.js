@@ -65,6 +65,14 @@ const orderSchema = new mongoose.Schema({
         default : Date.now
     },
 
+    cancellationReason: {
+        type: String,
+    },
+
+    returnReason:{
+        type: String
+    }
+
 });
 
 module.exports = mongoose.model('Order',orderSchema);

@@ -213,10 +213,12 @@ const cancelOrder = async(req,res) =>{
         
         const userId = req.session.user_id;
         const userData = await User.findById({_id: userId});
-        const { orderId, status } = req.body;
+        const { orderId, status,cancellationReason } = req.body;
         const orderData = await Order.findById({_id: orderId});
         const paymentMethod = orderData.paymentMethod;
         const orderStatus = orderData.orderStatus;
+
+        console.log(cancellationReason);
 
         //Increment stock quantity of the products as order is cancelled
         for(let items of orderData.items){
@@ -260,11 +262,11 @@ const cancelOrder = async(req,res) =>{
             }
         }
 
-        //Change order status to cancelled
-        await Order.findOneAndUpdate({ _id : orderId },{ $set : { orderStatus : status }});
+        //Change order status to cancelled and update cancellation Reason
+        await Order.findOneAndUpdate({ _id : orderId },{ $set : { orderStatus : status,cancellationReason: cancellationReason }});
 
         const newStatus = await Order.findOne({ _id : orderId })
-        res.status( 200 ).json({ success : true, status : newStatus.orderStatus });
+        res.status( 200 ).json({ success : true, status : newStatus.orderStatus,cancellationReason });
 
     } catch (error) {
         console.log(error.message);
@@ -275,8 +277,10 @@ const returnOrder = async(req,res) =>{
     try {
         
         const userId = req.session.user_id;
-        const { orderId,status } = req.body;
+        const { orderId,status,returnReason } = req.body;
         const orderData = await Order.findById({_id: orderId});
+
+        console.log(returnReason);
 
         //Increment stock quantity of the products as order is returned
         for(let items of orderData.items){
@@ -298,11 +302,11 @@ const returnOrder = async(req,res) =>{
         }); 
         
 
-        //Change order status to Returned
-        await Order.findOneAndUpdate({_id: orderId},{$set: {orderStatus: status}});
+        //Change order status to Returned and update Return Reason
+        await Order.findOneAndUpdate({_id: orderId},{$set: {orderStatus: status,returnReason: returnReason}});
 
         const newStatus = await Order.findOne({_id: orderId});
-        res.status(200).json({success: true,status: newStatus.orderStatus});
+        res.status(200).json({success: true,status: newStatus.orderStatus,returnReason});
 
     } catch (error) {
         console.log(error.message);
