@@ -73,7 +73,7 @@
                                             <% if (product.image && product.image.length > 0) { %>
                                                 <% for( let img of product.image ) { %>
                                                     <div class="border border-dark border-2 pt-2">
-                                                        <img src="/admin/productImages/<%= img %>" style="width: auto; height: 100px; margin-inline: 10px; border: 1px solid rgb(193, 193, 193); border-radius: 15px;" alt="Product Images">
+                                                        <img src="/images/cropped/<%= img %>" style="width: auto; height: 100px; margin-inline: 10px; border: 1px solid rgb(193, 193, 193); border-radius: 15px;" alt="Product Images">
                                                         <div style="padding-left: 1.5em;">
                                                             <a href="/admin/products/delete-image?id=<%= product._id %>&imageId=<%= img %>" class="btn btn-danger my-2">
                                                             Delete

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const sharp = require('sharp');
 const path = require('path');
 const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
@@ -23,6 +24,18 @@ const loadAddProduct = async(req,res) =>{
     }
 }
 
+const cropImage = async (inputPath, outputPath, width, height) => {
+    try {
+        await sharp(inputPath)
+            .resize(width, height)
+            .toFile(outputPath);
+        console.log('Image cropped successfully.');
+    } catch (error) {
+        console.error('Error cropping image:', error);
+    }
+};
+
+
 const addProduct = async(req,res) =>{
     try {
         const img = [];
@@ -46,6 +59,15 @@ const addProduct = async(req,res) =>{
         });
 
         const productData = await product.save();
+
+        // After saving the product, you can perform image cropping
+        for (let i = 0; i < req.files.length; i++) {
+            const imagePath = path.join(__dirname, '../public/admin/productImages', req.files[i].filename);
+            const croppedImagePath = path.join(__dirname, '../public/images/cropped', req.files[i].filename);
+
+            // Assuming you want to crop each image to 1100x1100 pixels
+            await cropImage(imagePath, croppedImagePath, 1100, 1100);
+        }
 
         if (productData) {
             res.redirect('/admin/products');
@@ -81,7 +103,7 @@ const deleteImage = async (req, res) => {
         const image = req.query.imageId;
 
         await Product.updateOne({ _id : id },{ $pull: {image: image}});
-        fs.unlink( path.join( __dirname, '../public/admin/productImages/') + image , ( err ) => {
+        fs.unlink( path.join( __dirname, '../public/images/cropped/') + image , ( err ) => {
             if( err ) {
                 console.log(err);
             }
@@ -130,7 +152,17 @@ const updateProduct = async(req,res) =>{
                         image : img
                     }
                 })
-            res.redirect( '/admin/products' )
+
+            // After updating the product, you can perform image cropping
+            for (let i = 0; i < req.files.length; i++) {
+                const imagePath = path.join(__dirname, '../public/admin/productImages', req.files[i].filename);
+                const croppedImagePath = path.join(__dirname, '../public/images/cropped', req.files[i].filename);
+
+                // Assuming you want to crop each image to 1100x1100 pixels
+                await cropImage(imagePath, croppedImagePath, 1100, 1100);
+            }
+            
+            res.redirect( '/admin/products' );
         
         } catch (error) {
         console.log(error.message);

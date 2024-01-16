@@ -96,7 +96,7 @@
                                                     <% for (let i = 0; i < cartItems.items.length; i++) { %>
         
                                                         <tr>
-                                                            <td class="image product-thumbnail"><img src="/admin/productImages/<%= cartItems.items[i].productId.image[0] %>" alt="#"></td>
+                                                            <td class="image product-thumbnail"><img src="/images/cropped/<%= cartItems.items[i].productId.image[0] %>" alt="#"></td>
                                                             <td>
                                                                 <h5><a href="shop-product-full.html"><%= cartItems.items[i].productId.name %></a></h5> <span class="product-qty">x <%= cartItems.items[i].quantity %></span>
                                                             </td>

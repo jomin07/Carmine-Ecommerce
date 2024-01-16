@@ -32,7 +32,7 @@
                                         <% let cartTotal = 0; %>
                                         <% for (let i = 0; i < cartItems.items.length; i++) { %>
                                             <tr>
-                                                <td class="image product-thumbnail"><img src="/admin/productImages/<%= cartItems.items[i].productId.image[0] %>"  alt="image"></td>
+                                                <td class="image product-thumbnail"><img src="/images/cropped/<%= cartItems.items[i].productId.image[0] %>"  alt="image"></td>
                                                 <td class="product-des product-name">
                                                     <h5 class="product-name"><a href="/"><%= cartItems.items[i].productId.name %></a></h5>
                                                     <p class="font-xs"><%= cartItems.items[i].productId.description %>
