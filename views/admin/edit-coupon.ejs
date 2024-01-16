@@ -23,31 +23,31 @@
                   
                   <div class="form-group my-3">
                     <label for="coupon-name">Coupon Name</label>
-                    <input type="text" name="name" class="form-control my-3" value="<%= coupon.name %>" id="coupon-name" >
+                    <input type="text" name="name" class="form-control my-3" value="<%= typeof formData !== 'undefined' ? formData.name : coupon.name %>" id="coupon-name" >
                     <p id="nameErrorMessages" class="text-danger"></p>
                   </div>
 
                   <div class="form-group my-3">
                       <label for="coupon-description">Coupon Description</label>
-                      <input type="text" name="description" class="form-control my-3" value="<%= coupon.description %>" id="coupon-description" >
+                      <input type="text" name="description" class="form-control my-3" value="<%= typeof formData !== 'undefined' ? formData.description : coupon.description %>" id="coupon-description" >
                       <p id="descriptionErrorMessages" class="text-danger"></p>
                   </div>
 
                   <div class="form-group my-3">
                       <label for="starting-date">Starting Date</label>
-                      <input type="date" name="startingDate" class="form-control my-3" value="<%= coupon && coupon.startingDate ? coupon.startingDate.toISOString().split('T')[0]: '' %>" id="starting-date" >
+                      <input type="date" name="startingDate" class="form-control my-3" value="<%= typeof formData !== 'undefined' ? formData.startingDate :(coupon && coupon.startingDate ? coupon.startingDate.toISOString().split('T')[0]: '') %>" id="starting-date" >
                       <p id="startingDateErrorMessages" class="text-danger"></p>
                   </div>
 
                   <div class="form-group my-3">
                       <label for="expiry-date">Expiry Date</label>
-                      <input type="date" name="expiryDate" class="form-control my-3" value="<%= coupon && coupon.expiryDate ? coupon.expiryDate.toISOString().split('T')[0]: '' %>" id="expiry-date" >
+                      <input type="date" name="expiryDate" class="form-control my-3" value="<%= typeof formData !== 'undefined' ? formData.expiryDate :(coupon && coupon.expiryDate ? coupon.expiryDate.toISOString().split('T')[0]: '') %>" id="expiry-date" >
                       <p id="expiryDateErrorMessages" class="text-danger"></p>
                   </div>
 
                   <div class="form-group my-3">
                       <label for="minimum-amount">Minimum Amount</label>
-                      <input type="number" name="minimumAmount" class="form-control my-3" value="<%= coupon.minimumAmount %>" id="minimum-amount" >
+                      <input type="number" name="minimumAmount" class="form-control my-3" value="<%= typeof formData !== 'undefined' ? formData.minimumAmount :coupon.minimumAmount %>" id="minimum-amount" >
                       <p id="minimumAmountErrorMessages" class="text-danger"></p>
                   </div>
 
@@ -62,13 +62,13 @@
 
                   <div class="form-group my-3">
                       <label for="discount">Discount</label>
-                      <input type="number" name="discount" class="form-control my-3" value="<%= coupon.discount %>" id="discount" >
+                      <input type="number" name="discount" class="form-control my-3" value="<%= typeof formData !== 'undefined' ? formData.discount :coupon.discount %>" id="discount" >
                       <p id="discountErrorMessages" class="text-danger"></p>
                   </div>
 
                   <div class="form-group my-3">
                       <label for="limit">Limit</label>
-                      <input type="number" name="limit" class="form-control my-3" value="<%= coupon.limit %>" id="limit" >
+                      <input type="number" name="limit" class="form-control my-3" value="<%= typeof formData !== 'undefined' ? formData.limit :coupon.limit %>" id="limit" >
                       <p id="limitErrorMessages" class="text-danger"></p>
                   </div>
 

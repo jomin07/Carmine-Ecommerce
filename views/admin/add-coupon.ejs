@@ -21,51 +21,51 @@
 
                                     <div class="form-group mt-3">
                                         <label for="coupon-name">Coupon Name</label>
-                                        <input type="text" name="name"  class="form-control" id="coupon-name">
+                                        <input type="text" name="name"  class="form-control" id="coupon-name" value="<%= typeof formData !== 'undefined' ? formData.name : '' %>">
                                         <p id="nameErrorMessages" class="text-danger"></p>
                                     </div>
 
                                     <div class="form-group mt-3">
                                         <label for="coupon-description">Coupon Description</label>
-                                        <input type="text" name="description"  class="form-control" id="coupon-description">
+                                        <input type="text" name="description"  class="form-control" id="coupon-description" value="<%= typeof formData !== 'undefined' ? formData.description : '' %>">
                                     </div>
 
                                     <div class="form-group mt-3">
                                         <label for="starting-date">Starting Date</label>
-                                        <input type="date" name="startingDate"  class="form-control" id="starting-date">
+                                        <input type="date" name="startingDate"  class="form-control" id="starting-date" value="<%= typeof formData !== 'undefined' ? formData.startingDate : '' %>">
                                         <p id="startingDateErrorMessages" class="text-danger"></p>
                                     </div>
 
                                     <div class="form-group mt-3">
                                         <label for="expiry-date">Expiry Date</label>
-                                        <input type="date" name="expiryDate"  class="form-control" id="expiry-date">
+                                        <input type="date" name="expiryDate"  class="form-control" id="expiry-date" value="<%= typeof formData !== 'undefined' ? formData.expiryDate : '' %>">
                                         <p id="expiryDateErrorMessages" class="text-danger"></p>
                                     </div>
 
                                     <div class="form-group mt-3">
                                         <label for="minimum-amount">Minimum Amount</label>
-                                        <input type="number" name="minimumAmount"  class="form-control" id="minimum-amount">
+                                        <input type="number" name="minimumAmount"  class="form-control" id="minimum-amount" value="<%= typeof formData !== 'undefined' ? formData.minimumAmount : '' %>">
                                         <p id="minimumAmountErrorMessages" class="text-danger"></p>
                                     </div>
 
                                     <div class="form-group mt-3">
                                         <label for="discount-type">Discount Type</label>
                                         <select  class="form-control" name="discountType" id="discount-type" >
-                                            <option  value="percentage">Percentage</option>
-                                            <option  value="fixed-amount">Fixed amount</option>
+                                            <option  value="percentage" <%= typeof formData !== 'undefined' && formData.discountType === 'percentage' ? 'selected' : '' %>>Percentage</option>
+                                            <option  value="fixed-amount" <%= typeof formData !== 'undefined' && formData.discountType === 'fixed-amount' ? 'selected' : '' %>>Fixed amount</option>
                                         </select>
                                         <p id="discountTypeErrorMessages" class="text-danger"></p>
                                     </div>
 
                                     <div class="form-group mt-3">
                                         <label for="discount">Discount</label>
-                                        <input type="number" name="discount"  class="form-control" id="discount">
+                                        <input type="number" name="discount"  class="form-control" id="discount" value="<%= typeof formData !== 'undefined' ? formData.discount : '' %>">
                                         <p id="discountErrorMessages" class="text-danger"></p>
                                     </div>
 
                                     <div class="form-group mt-3">
                                         <label for="limit">Limit</label>
-                                        <input type="number" name="limit"  class="form-control" id="limit">
+                                        <input type="number" name="limit"  class="form-control" id="limit" value="<%= typeof formData !== 'undefined' ? formData.limit : '' %>">
                                         <p id="limitErrorMessages" class="text-danger"></p>
                                     </div>
         
@@ -169,6 +169,7 @@
                 event.preventDefault();
             }
         });
+        
     </script>
 
 <%- include('../partials/admin-footer.ejs') %>

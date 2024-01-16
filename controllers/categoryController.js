@@ -25,7 +25,10 @@ const insertCategory = async(req,res) =>{
 
         if(existingCategory){ 
 
-            return res.render('add-category',{message: 'Category already exists'});
+            return res.render('add-category',{
+                message: 'Category already exists',
+                formData: req.body // Retain form data
+            });
             
         }
 
