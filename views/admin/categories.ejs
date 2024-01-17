@@ -4,13 +4,19 @@
         <div class="content-header">
             <div>
                 <h2 class="content-title card-title">Categories</h2>
+                
             </div>
             <div>
                 <a href="/admin/categories/add-category" class="btn btn-primary">Add Category</a>
             </div>
         </div>
         <% if (categories.length === 0) { %>
-            <h5>No categoriesfound</h5>
+            
+            <div class="text-center mt-50 mb-50">
+
+                <h3>No Categories Found</h3>
+    
+            </div>
         <% } else { %>
             <div class="container pt-5">
                 <table id="example" class="table table-striped" style="width:100%">

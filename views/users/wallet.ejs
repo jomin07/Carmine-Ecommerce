@@ -12,23 +12,64 @@
         </div>
     </div>
 
-    <div class="wallet-container bg-white p-4 mt-4 mb-30 rounded shadow">
-        <h2 class="mb-20">Wallet Transactions</h2>
-        <ul class="list-group transaction-list">
-            <% user.walletHistory.forEach(transaction => { %>
-                <li class="list-group-item transaction-item mb-3">
-                    <p>Date: <%= new Date(transaction.date).toLocaleString() %></p>
-                    <p>Amount: <% if (transaction.amount < 0) { %>
-                            <span class="text-danger"><%= transaction.amount %></span>
-                        <% } else { %>
-                            <span class="text-success"><%= transaction.amount %></span>
-                        <% } %>
-                    </p>
-                    <p>Message: <%= transaction.message %></p>
-                </li>
-            <% }); %>
-        </ul>
-    </div>
+    <% if(user.walletHistory.length === 0){ %>
+        
+        <div class="text-center mt-50 mb-50">
+
+            <h3>No Transactions Found</h3>
+
+        </div>
+        
+    <% } else { %>
+
+        <div class="container mt-50 pt-5">
+            
+            <h2 class="mb-20 text-center">Wallet Transactions</h2>
+            <div class="table-responsive ">
+                    <table id="example" class="table table-striped " style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Transaction Date</th>
+                                <th class="text-center">Amount</th>
+                                <th class="text-center">Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% user.walletHistory.forEach(transaction => { %>
+    
+                                <tr>
+                                
+                                    <td class="text-center"><%= new Date(transaction.date).toLocaleString() %></td>
+                                    <td>
+                                        <div class="text-center">
+    
+                                            <% if (transaction.amount < 0) { %>
+                                                <span class="text-danger"><%= transaction.amount %></span>
+                                            <% } else { %>
+                                                <span class="text-success">+<%= transaction.amount %></span>
+                                            <% } %>
+    
+                                        </div>
+                                        
+                                    </td>
+                                    <td class="text-center"><%= transaction.message %></td>                                     
+                                </tr>
+    
+                            <% }) %>
+                            
+                        </tbody>
+                        
+                    </table>
+                    <br><br>
+            </div>
+    
+            <br><br><br>
+        
+        </div>
+    
+    <% } %>
+
+
 </div>
 
 <%- include('../partials/user-footer.ejs') %>
