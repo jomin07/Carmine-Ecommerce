@@ -1,60 +1,107 @@
 <%- include('../partials/user-header.ejs') %>
 
-<div class="container d-flex justify-content-center align-items-center h-100vh mt-50 mb-200">
+  <div class="container d-flex justify-content-center align-items-center h-100vh mt-50 mb-200">
 
-  <div class="col-lg-5 mx-auto">
+    <div class="col-lg-5 mx-auto">
 
-    <div class="col-lg-5 " style="width: 500px;">
-      <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
-          <div class="padding_eight_all bg-white">
-              <div class="text-center mb-30">
-                <h2>CARMINE</h2>
-              </div>
-              <div class="heading_s1 text-center">
-                  <h3 class="mt-50 mb-30">Login</h3>
-              </div>
-              <form action="/login" method="post">
+      <div class="col-lg-5 " style="width: 500px;">
+        <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+            <div class="padding_eight_all bg-white">
+                <div class="text-center mb-30">
+                  <h2>CARMINE</h2>
+                </div>
+                <div class="heading_s1 text-center">
+                    <h3 class="mt-50 mb-30">Login</h3>
+                </div>
+                <form id="loginForm" action="/login" method="post" novalidate>
 
-                  <div class="form-group">
-                      <label class="form-label">Email address</label>
-                      <input type="email" name="email" class="form-control form-control-lg" required/>
-                      <!-- <input type="text" required="" name="email" placeholder="Your Email"> -->
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control form-control-lg" required />
-                  </div>
-                  <div class="login_footer form-group mt-30">
-                      <div class="chek-form">
-                          <div class="custome-checkbox">
-                              <!-- <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
-                              <label class="form-check-label" for="exampleCheckbox1"><span>Remember me</span></label> -->
-                          </div>
-                      </div>
-                      <a class="text-muted" href="/forget-password">Forgot password?</a>
-                  </div>
-                   
-                <%if(typeof message !== 'undefined'){
-                      %>
-                          <p style="color: red;"><%= message %></p>
-                      <%
-                  }   
-                %> 
-                  <div class="form-group mt-30">
-                      <input type="submit"  value="Login" class=" btn btn-main btn-fill-out btn-block hover-up" name="login">
-                  </div>
+                    <div class="form-group">
+                        <label class="form-label">Email address</label>
+                        <input type="email" name="email" class="form-control form-control-lg" id="emailField">
+                        <p id="emailErrorMessages" class="text-danger"></p>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Password</label>
+                      <input type="password" name="password" class="form-control form-control-lg" id="passwordField">
+                      <p id="passwordErrorMessages" class="text-danger"></p>
+                    </div>
+                    <div class="login_footer form-group mt-30">
+                        <div class="chek-form">
+                            <div class="custome-checkbox">
+                                <!-- <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
+                                <label class="form-check-label" for="exampleCheckbox1"><span>Remember me</span></label> -->
+                            </div>
+                        </div>
+                        <a class="text-muted" href="/forget-password">Forgot password?</a>
+                    </div>
+                    
+                  <%if(typeof message !== 'undefined'){%>
 
-                  <div class="text-center">
-                    <span class="text-muted">New to Carmine? </span><a href="/register" class="text-dark"> Sign up</a>
-                  </div>
-              </form>
-          </div>
+                            <h5 class="text-danger"><%= message %></h5>
+                  
+                  <%}%> 
+                    <div class="form-group mt-30">
+                        <input type="submit"  value="Login" class=" btn btn-main btn-fill-out btn-block hover-up" name="login">
+                    </div>
+
+                    <div class="text-center">
+                      <span class="text-muted">New to Carmine? </span><a href="/register" class="text-dark"> Sign up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
       </div>
+
     </div>
 
   </div>
 
-</div>
+    <script>
+
+      document.getElementById('loginForm').addEventListener('submit', function (event) {
+          const emailElement = document.getElementById('emailField');
+          const passwordElement = document.getElementById('passwordField');
+
+          const email = emailElement.value;
+          const password = passwordElement.value;
+
+          const emailErrorMessages = document.getElementById('emailErrorMessages');
+          const passwordErrorMessages = document.getElementById('passwordErrorMessages');
+
+          resetFieldBorders([emailElement, passwordElement]);
+
+          emailErrorMessages.innerHTML = '';
+          passwordErrorMessages.innerHTML = '';
+
+          // Email validation using regular expression
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+          if (email.length < 1 || !emailRegex.test(email)) {
+              emailErrorMessages.innerHTML += 'Please enter a valid email address<br>';
+              addRedBorder(emailElement);
+          }
+
+          if (password.length < 1) {
+              passwordErrorMessages.innerHTML += 'Password field should not be empty<br>';
+              addRedBorder(passwordElement);
+          }
+
+          if (emailErrorMessages.innerHTML !== '' || passwordErrorMessages.innerHTML !== '') {
+              event.preventDefault();
+          }
+      });
+
+      function addRedBorder(element) {
+          element.classList.add('is-invalid');
+      }
+
+      function resetFieldBorders(elements) {
+          elements.forEach(element => {
+              element.classList.remove('is-invalid');
+          });
+      }
+
+  </script>
 
 
 <%- include('../partials/user-footer.ejs') %>

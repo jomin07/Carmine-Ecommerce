@@ -363,7 +363,7 @@
             range: true,
             min: 100,
             max: 10000,
-            values: [0, 3000],
+            values: [0, 5000],
             slide: function(event, ui) {
                 amountprice.val("₹" + ui.values[0] + " - ₹" + ui.values[1]);
             }

@@ -1,65 +1,3 @@
-<!-- <%- include('../partials/header.ejs') %>
-
-  <section class="vh-80 bg-image"
-    style="background-color: rgb(9, 173, 173);">
-    <div class="mask d-flex align-items-center h-80 gradient-custom-3">
-      <div class="container h-80">
-        <div class="row d-flex justify-content-center align-items-center h-80">
-          <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-            <div class="card" style="border-radius: 15px;">
-              <div class="card-body p-5">
-                <h2 class="text-uppercase text-center mb-5">Sign Up</h2>
-
-                <form id="registrationForm" action="" method="post">
-
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="name">Your Name</label>
-                    <input type="text" name="name" class="form-control form-control-lg" required/>
-                    
-                  </div>
-
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="email">Your Email</label>
-                    <input type="email" name="email" class="form-control form-control-lg" required/>
-                    
-                  </div>
-
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="password">Password</label>
-                    <input type="password" name="password" class="form-control form-control-lg" required/>
-                    
-                  </div>
-
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="mno">Your Phone</label>
-                    <input type="text" name="mno" class="form-control form-control-lg" required/>
-                    
-                  </div>
-
-                  <% if(typeof message !== 'undefined'){
-                    %>
-                        <p style="color: green;"><%= message %></p>
-                    <%
-                    } %>
-                    <p id="errorMessages" class="text-danger"></p>
-                  <div class="row mt-3">
-                    <input class="btn btn-primary btn-lg" type="submit" value="Register" />
-                    
-                  </div>
-                  <p class="text-center text-muted mt-5 mb-0">Already have an account? <a href="/login"
-                      class="fw-bold text-body"><u>Login here</u></a></p>
-                </form>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <%- include('../partials/footer.ejs') %> -->
-
 <%- include('../partials/user-header.ejs') %>
 
   <div class="container d-flex justify-content-center align-items-center h-100vh mt-50 mb-200">
@@ -75,38 +13,44 @@
                 <div class="heading_s1 text-center">
                     <h3 class="mt-50 mb-30">Sign Up</h3>
                 </div>
-                <form id="registrationForm" action="" method="post">
+                <form id="registrationForm" method="post" novalidate>
 
                     <div class="form-group">
                       <label class="form-label" for="name">Name</label>
-                      <input type="text" name="name" class="form-control form-control-lg" required/>
+                      <input type="text" name="name" class="form-control form-control-lg" value="<%= typeof formData !== 'undefined' ? formData.name : '' %>" >
+                      <p id="nameErrorMessages" class="text-danger"></p>
                     </div>
 
                     <div class="form-group">
                       <label class="form-label" for="email">Email</label>
-                      <input type="email" name="email" class="form-control form-control-lg" required/>
+                      <input type="email" name="email" class="form-control form-control-lg" value="<%= typeof formData !== 'undefined' ? formData.email : '' %>" >
+                      <p id="emailErrorMessages" class="text-danger"></p>
                     </div>
 
                     <div class="form-group">
                       <label class="form-label" for="password">Password</label>
-                      <input type="password" name="password" class="form-control form-control-lg" required/>
+                      <input type="password" name="password" class="form-control form-control-lg" value="<%= typeof formData !== 'undefined' ? formData.password : '' %>" >
+                      <p id="passwordErrorMessages" class="text-danger"></p>
                     </div>
 
                     <div class="form-group">
                       <label class="form-label" for="mno">Mobile</label>
-                      <input type="text" name="mno" class="form-control form-control-lg" required/>
+                      <input type="text" name="mno" class="form-control form-control-lg" value="<%= typeof formData !== 'undefined' ? formData.mno : '' %>">
+                      <p id="mobileErrorMessages" class="text-danger"></p>
                     </div>
 
                     
                     
-                    <% if(typeof message !== 'undefined'){
-                      %>
-                          <p style="color: green;"><%= message %></p>
-                      <%
-                    } %>
+                    <% if(typeof message !== 'undefined'){%>
+                    
+                      <h6 class="text-danger"><br>
+                        <%= message %>
+                      </h6>
+                    
+                    <%} %>
                     <p id="errorMessages" class="text-danger"></p>
                     <div class="form-group mt-30">
-                        <input type="submit"  value="Register" class=" btn btn-fill-out btn-block hover-up">
+                        <input type="submit"  value="Register" class=" btn btn-main btn-fill-out btn-block hover-up">
                     </div>
 
                     <div class="text-center">
@@ -121,10 +65,109 @@
 
   </div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const registrationForm = document.getElementById("registrationForm");
+  
+      registrationForm.addEventListener("submit", function (event) {
+        // Clear previous error messages and remove border-danger class
+        clearErrorMessages();
+  
+        // Validate each form field
+        const name = registrationForm.elements["name"];
+        const email = registrationForm.elements["email"];
+        const password = registrationForm.elements["password"];
+        const mobile = registrationForm.elements["mno"];
+  
+        let formIsValid = true;
+  
+        // Name validation
+        if (name.value.trim() === "") {
+          displayErrorMessage("nameErrorMessages", "Please enter your name");
+          addErrorClass(name);
+          formIsValid = false;
+        }
+  
+        // Email validation
+        if (email.value.trim() === "") {
+          displayErrorMessage("emailErrorMessages", "Please enter your email");
+          addErrorClass(email);
+          formIsValid = false;
+        } else if (!isValidEmail(email.value.trim())) {
+          displayErrorMessage("emailErrorMessages", "Please enter a valid email address");
+          addErrorClass(email);
+          formIsValid = false;
+        }
+  
+        // Password validation
+        if (password.value.trim() === "") {
+          displayErrorMessage("passwordErrorMessages", "Please enter your password");
+          addErrorClass(password);
+          formIsValid = false;
+        } else if (password.value.trim().length < 6) {
+          displayErrorMessage("passwordErrorMessages", "Password must contain at least 6 characters");
+          addErrorClass(password);
+          formIsValid = false;
+        }
+  
+        // Mobile validation
+        if (mobile.value.trim() === "") {
+          displayErrorMessage("mobileErrorMessages", "Please enter your mobile number");
+          addErrorClass(mobile);
+          formIsValid = false;
+        } else if (!isValidMobileNumber(mobile.value.trim())) {
+          displayErrorMessage("mobileErrorMessages", "Mobile number must have exactly 10 digits");
+          addErrorClass(mobile);
+          formIsValid = false;
+        }
+  
+        // If form is not valid, prevent submission
+        if (!formIsValid) {
+          event.preventDefault();
+        }
+      });
+  
+      function displayErrorMessage(elementId, message) {
+        const errorMessageElement = document.getElementById(elementId);
+        errorMessageElement.textContent = message;
+      }
+  
+      function clearErrorMessages() {
+        const errorMessages = document.querySelectorAll(".text-danger");
+        errorMessages.forEach((element) => (element.textContent = ""));
+  
+        // Remove border-danger class
+        const inputFields = registrationForm.querySelectorAll(".form-control");
+        inputFields.forEach((field) => removeErrorClass(field));
+      }
+  
+      function addErrorClass(field) {
+        field.classList.add("border-danger");
+      }
+  
+      function removeErrorClass(field) {
+        field.classList.remove("border-danger");
+      }
+  
+      function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+  
+      function isValidMobileNumber(mobile) {
+        return /^\d{10}$/.test(mobile);
+      }
+    });
+  </script>
+  
+  
+  
+  
+
 
 <%- include('../partials/user-footer.ejs') %>
 
-  <script>
+  <!-- <script>
     document.getElementById('registrationForm').addEventListener('submit', function (event) {
       const name = document.getElementsByName('name')[0].value;
       const email = document.getElementsByName('email')[0].value;
@@ -154,4 +197,4 @@
         event.preventDefault();
       }
     });
-  </script>
+  </script> -->

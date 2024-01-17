@@ -10,41 +10,39 @@
         </div>
         <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
           
-            <form action="" method="post">
+          <form action="" method="post" id="loginForm" novalidate>
   
-            <!-- Email input -->
-            <div class="form-outline mb-4">
-              <label class="form-label">Email address</label>
-              <input type="email" name="email" class="form-control form-control-lg" required/>
-              
-            </div>
-  
-            <!-- Password input -->
-            <div class="form-outline mb-4">
-              <label class="form-label">Password</label>
-              <input type="password" name="password" class="form-control form-control-lg" required/>
-              
-            </div>
-  
-            <% 
-              if(typeof message !== 'undefined'){
-                  %>
-                      <p style="color: red;"><%= message %></p>
-                  <%
-              }   
-            %>
-            <!-- Submit button -->
-  
-            <div class="row mt-3">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <a href="/register" class="btn btn-danger btn-lg">Back</a>
-                </div>
-                <div>
-                  <input type="submit" value="Login" class="btn btn-primary btn-lg btn-block">
+              <!-- Email input -->
+              <div class="form-outline mb-4">
+                <label class="form-label">Email address</label>
+                <input type="email" name="email" class="form-control form-control-lg" id="emailField">
+                <p id="emailErrorMessages" class="text-danger"></p>
+              </div>
+    
+              <!-- Password input -->
+              <div class="form-outline mb-4">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control form-control-lg" id="passwordField">
+                <p id="passwordErrorMessages" class="text-danger"></p>       
+              </div>
+    
+              <%if(typeof message !== 'undefined'){%>
+
+                <h5 class="text-danger"><%= message %></h5>
+      
+              <%}%>
+              <!-- Submit button -->
+    
+              <div class="row mt-3">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <a href="/register" class="btn btn-danger btn-lg">Back</a>
+                  </div>
+                  <div>
+                    <input type="submit" value="Login" class="btn btn-primary btn-lg btn-block">
+                  </div>
                 </div>
               </div>
-            </div>
   
   
           </form>
@@ -52,5 +50,52 @@
       </div>
     </div>
   </section>
+
+  <script>
+
+      document.getElementById('loginForm').addEventListener('submit', function (event) {
+          const emailElement = document.getElementById('emailField');
+          const passwordElement = document.getElementById('passwordField');
+
+          const email = emailElement.value;
+          const password = passwordElement.value;
+
+          const emailErrorMessages = document.getElementById('emailErrorMessages');
+          const passwordErrorMessages = document.getElementById('passwordErrorMessages');
+
+          resetFieldBorders([emailElement, passwordElement]);
+
+          emailErrorMessages.innerHTML = '';
+          passwordErrorMessages.innerHTML = '';
+
+          // Email validation using regular expression
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+          if (email.length < 1 || !emailRegex.test(email)) {
+              emailErrorMessages.innerHTML += 'Please enter a valid email address<br>';
+              addRedBorder(emailElement);
+          }
+
+          if (password.length < 1) {
+              passwordErrorMessages.innerHTML += 'Password field should not be empty<br>';
+              addRedBorder(passwordElement);
+          }
+
+          if (emailErrorMessages.innerHTML !== '' || passwordErrorMessages.innerHTML !== '') {
+              event.preventDefault();
+          }
+      });
+
+      function addRedBorder(element) {
+          element.classList.add('is-invalid');
+      }
+
+      function resetFieldBorders(elements) {
+          elements.forEach(element => {
+              element.classList.remove('is-invalid');
+          });
+      }
+
+  </script>
 
 <%- include('../partials/footer.ejs') %>

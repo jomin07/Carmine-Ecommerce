@@ -141,7 +141,10 @@ const insertUser = async(req,res) =>{
         const existingUser = await User.findOne({ email: req.body.email });
 
         if (existingUser) { 
-            return res.render('registration', { message: "Email already exists, try another one" });
+            return res.render('registration', {
+                 message: "Email already exists, try another one",
+                 formData: req.body // Retain form data 
+            });
         }
 
         const user = new User({
@@ -276,7 +279,11 @@ const editProfile = async(req,res) =>{
 
         // Check if the email already exists and belongs to a different user
         if (existingUser && existingUser._id.toString() !== userId) {
-            return res.render('profile-edit', { user: userData, message: "Email already exists, try another one" });
+            return res.render('profile-edit', { 
+                user: userData,
+                message: "Email already exists, try another one",
+                formData: req.body // Retain form data 
+            });
         } else {
             // Update user data
             await User.findByIdAndUpdate({ _id: userId }, { $set: { name: req.body.name, email: newEmail, mobile: req.body.mno } });

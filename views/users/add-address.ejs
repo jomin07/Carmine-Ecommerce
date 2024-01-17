@@ -1,104 +1,217 @@
 <%- include('../partials/user-header.ejs') %>
 
-<section class="content-main " >
-    <div class="content-header d-flex align-items-center justify-content-between" style="margin-top: 60px; margin-left: 60px;margin-right: 60px;" >
-        <div>
-            <h2 class="content-title card-title">Add Address</h2>
+    <section class="content-main " >
+        <div class="content-header d-flex align-items-center justify-content-between" style="margin-top: 60px; margin-left: 60px;margin-right: 60px;" >
+            <div>
+                <h2 class="content-title card-title">Add Address</h2>
+            </div>
+            <!-- <div>
+                <a href="/profile/addresses" class="btn btn-secondary">Go Back</a>
+            </div> -->
         </div>
-        <!-- <div>
-            <a href="/profile/addresses" class="btn btn-secondary">Go Back</a>
-        </div> -->
-    </div>
-    <div class="content-wrapper">
-        <div class="container-fluid">
-    
-            <div class="row mt-2 mb-20">
-                <div class="col-lg-6">
-                    <div class="card" style="margin-top: 20px; margin-left: 60px;margin-bottom: 60px;">
-                        <div class="card-body">
-                            <hr>
-                            <form id="addAddressForm" action="" method="POST" >
-                                
-
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" >
-                                    <p id="nameErrorMessages" class="text-danger"></p>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="mno" class="form-label">Mobile Number</label>
-                                    <input type="text" class="form-control" id="mno" name="mno" >
-                                    <p id="mnoErrorMessages" class="text-danger"></p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">PIN Code</label>
-                                    <input type="number" class="form-control" id="pincode" name="pincode" >
-                                    <p id="pincodeErrorMessages" class="text-danger"></p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Locality</label>
-                                    <input type="text" class="form-control" id="locality" name="locality" >
-                                    <p id="localityErrorMessages" class="text-danger"></p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address" >
-                                    <p id="addressErrorMessages" class="text-danger"></p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">City</label>
-                                    <input type="text" class="form-control" id="city" name="city" >
-                                    <p id="cityErrorMessages" class="text-danger"></p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">State</label>
-                                    <input type="text" class="form-control" id="state" name="state" >
-                                    <p id="stateErrorMessages" class="text-danger"></p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Country</label>
-                                    <input type="text" class="form-control" id="country" name="country" >
-                                    <p id="countryErrorMessages" class="text-danger"></p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Landmark</label>
-                                    <input type="text" class="form-control" id="landmark" name="landmark" >
-                                    <p id="landmarkErrorMessages" class="text-danger"></p>
-                                </div>
-
-                                <br><br>
-                                
-                                <button type="submit" class="btn btn-main">Add</button>
-
-                                <% if(typeof message !=='undefined' ){ %>
-                                    <h6><br>
-                                        <%= message %>
-                                    </h6>
-                                <% } %>
-                                <div class="mt-3">
-                                    <p id="errorMessages" class="text-danger"></p>
-                                </div>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+        
+                <div class="row mt-2 mb-20">
+                    <div class="col-lg-6">
+                        <div class="card" style="margin-top: 20px; margin-left: 60px;margin-bottom: 60px;">
+                            <div class="card-body">
+                                <hr>
+                                <form id="addAddressForm" action="" method="POST" >
                                     
 
-                            </form>
-                            
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" >
+                                        <p id="nameErrorMessages" class="text-danger"></p>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="mno" class="form-label">Mobile Number</label>
+                                        <input type="text" class="form-control" id="mno" name="mno" >
+                                        <p id="mnoErrorMessages" class="text-danger"></p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">PIN Code</label>
+                                        <input type="number" class="form-control" id="pincode" name="pincode" >
+                                        <p id="pincodeErrorMessages" class="text-danger"></p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Locality</label>
+                                        <input type="text" class="form-control" id="locality" name="locality" >
+                                        <p id="localityErrorMessages" class="text-danger"></p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="address" name="address" >
+                                        <p id="addressErrorMessages" class="text-danger"></p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="city" name="city" >
+                                        <p id="cityErrorMessages" class="text-danger"></p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">State</label>
+                                        <input type="text" class="form-control" id="state" name="state" >
+                                        <p id="stateErrorMessages" class="text-danger"></p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Country</label>
+                                        <input type="text" class="form-control" id="country" name="country" >
+                                        <p id="countryErrorMessages" class="text-danger"></p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Landmark</label>
+                                        <input type="text" class="form-control" id="landmark" name="landmark" >
+                                        <p id="landmarkErrorMessages" class="text-danger"></p>
+                                    </div>
+
+                                    <br><br>
+                                    
+                                    <button type="submit" class="btn btn-main">Add</button>
+
+                                    <% if(typeof message !=='undefined' ){ %>
+                                        <h6><br>
+                                            <%= message %>
+                                        </h6>
+                                    <% } %>
+                                    <div class="mt-3">
+                                        <p id="errorMessages" class="text-danger"></p>
+                                    </div>
+                                        
+
+                                </form>
+                                
+                            </div>
                         </div>
                     </div>
+        
                 </div>
-    
-            </div>
-    </div>
-</section> <!-- content-main end// -->
+        </div>
+    </section> <!-- content-main end// -->
 
-<script>
+    <script>
+        console.log("Script executed");
+
+        document.getElementById('addAddressForm').addEventListener('submit', function (event) {
+            const nameElement = document.getElementsByName('name')[0];
+            const mobileElement = document.getElementsByName('mno')[0];
+            const pincodeElement = document.getElementsByName('pincode')[0];
+            const localityElement = document.getElementsByName('locality')[0];
+            const addressElement = document.getElementsByName('address')[0];
+            const cityElement = document.getElementsByName('city')[0];
+            const stateElement = document.getElementsByName('state')[0];
+            const countryElement = document.getElementsByName('country')[0];
+            const landmarkElement = document.getElementsByName('landmark')[0];
+
+            const name = nameElement.value;
+            const mobile = mobileElement.value;
+            const pincode = pincodeElement.value;
+            const locality = localityElement.value;
+            const address = addressElement.value;
+            const city = cityElement.value;
+            const state = stateElement.value;
+            const country = countryElement.value;
+            const landmark = landmarkElement.value;
+
+            const errorMessages = document.getElementById('errorMessages');
+            const nameErrorMessages = document.getElementById('nameErrorMessages');
+            const mnoErrorMessages = document.getElementById('mnoErrorMessages');
+            const pincodeErrorMessages = document.getElementById('pincodeErrorMessages');
+            const localityErrorMessages = document.getElementById('localityErrorMessages');
+            const addressErrorMessages = document.getElementById('addressErrorMessages');
+            const cityErrorMessages = document.getElementById('cityErrorMessages');
+            const stateErrorMessages = document.getElementById('stateErrorMessages');
+            const countryErrorMessages = document.getElementById('countryErrorMessages');
+            const landmarkErrorMessages = document.getElementById('landmarkErrorMessages');
+
+            const containsNumbers = /\d/.test(name);          
+
+            resetFieldBorders([
+                nameElement, mobileElement, pincodeElement, localityElement,
+                addressElement, cityElement, stateElement, countryElement, landmarkElement
+            ]);
+
+            errorMessages.innerHTML = '';
+            nameErrorMessages.innerHTML = '';
+            mnoErrorMessages.innerHTML = '';
+            pincodeErrorMessages.innerHTML = '';
+            localityErrorMessages.innerHTML = '';
+            addressErrorMessages.innerHTML = '';
+            cityErrorMessages.innerHTML = '';
+            stateErrorMessages.innerHTML = '';
+            countryErrorMessages.innerHTML = '';
+            landmarkErrorMessages.innerHTML = '';
+
+            if (name.length < 1) {
+                nameErrorMessages.innerHTML += 'Name field should not be empty<br>';
+                addRedBorder(nameElement);
+            }
+            if (containsNumbers) {
+                nameErrorMessages.innerHTML += 'Name should not contain numbers<br>';
+                addRedBorder(nameElement);
+            }
+            if (mobile.length !== 10) {
+                mnoErrorMessages.innerHTML += 'Mobile number should have 10 digits.<br>';
+                addRedBorder(mobileElement);
+            }
+            if (pincode.length < 1) {
+                pincodeErrorMessages.innerHTML += 'Pincode field should not be empty<br>';
+                addRedBorder(pincodeElement);
+            }
+            if (locality.length < 1) {
+                localityErrorMessages.innerHTML += 'Locality field should not be empty<br>';
+                addRedBorder(localityElement);
+            }
+            if (address.length < 1) {
+                addressErrorMessages.innerHTML += 'Address field should not be empty<br>';
+                addRedBorder(addressElement);
+            }
+            if (city.length < 1) {
+                cityErrorMessages.innerHTML += 'City field should not be empty<br>';
+                addRedBorder(cityElement);
+            }
+            if (state.length < 1) {
+                stateErrorMessages.innerHTML += 'State field should not be empty<br>';
+                addRedBorder(stateElement);
+            }
+            if (country.length < 1) {
+                countryErrorMessages.innerHTML += 'Country field should not be empty<br>';
+                addRedBorder(countryElement);
+            }
+            if (landmark.length < 1) {
+                landmarkErrorMessages.innerHTML += 'Landmark field should not be empty<br>';
+                addRedBorder(landmarkElement);
+            }
+
+            if ((errorMessages.innerHTML !== '')||(nameErrorMessages.innerHTML !== '')||(mnoErrorMessages.innerHTML !== '')||(pincodeErrorMessages.innerHTML !== '')||(localityErrorMessages.innerHTML !== '')||(addressErrorMessages.innerHTML !== '')||(cityErrorMessages.innerHTML !== '')||(stateErrorMessages.innerHTML !== '')||(countryErrorMessages.innerHTML !== '')||(landmarkErrorMessages.innerHTML !== '')) 
+            
+            {
+                event.preventDefault();
+            }
+        });
+
+        function addRedBorder(element) {
+            element.style.border = '1px solid red';
+        }
+
+        function resetFieldBorders(elements) {
+            elements.forEach(element => {
+                element.style.border = ''; // Resetting to default
+            });
+        }
+    </script>
+
+
+<!-- <script>
     console.log("Script executed");
 
     document.getElementById('addAddressForm').addEventListener('submit', function (event) {
@@ -173,7 +286,7 @@
             event.preventDefault();
         }
     });
-</script>
+</script> -->
 
 
 <%- include('../partials/user-footer.ejs') %>

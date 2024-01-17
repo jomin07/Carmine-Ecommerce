@@ -1,62 +1,123 @@
 <%- include('../partials/user-header.ejs') %>
 
-<section class="content-main " >
-    <div class="content-header d-flex align-items-center justify-content-between" style="margin-top: 60px; margin-left: 60px;margin-right: 60px;" >
-        <div>
-            <h2 class="content-title card-title">Edit Details</h2>
+    <section class="content-main " >
+        <div class="content-header d-flex align-items-center justify-content-between" style="margin-top: 60px; margin-left: 60px;margin-right: 60px;" >
+            <div>
+                <h2 class="content-title card-title">Edit Details</h2>
+            </div>
+            <div>
+                <a href="/profile" class="btn btn-secondary">Go Back</a>
+            </div>
         </div>
-        <div>
-            <a href="/profile" class="btn btn-secondary">Go Back</a>
-        </div>
-    </div>
-    <div class="content-wrapper">
-        <div class="container-fluid">
-    
-            <div class="row mt-2 mb-20">
-                <div class="col-lg-6">
-                    <div class="card" style="margin-top: 20px; margin-left: 60px;margin-bottom: 60px;">
-                        <div class="card-body">
-                            <div class="card-title">Edit Profile details</div>
-                            <hr>
-                            <form id="profileEditForm" action="" method="POST" >
-                                <input type="hidden" name="user_id" value="<%= user._id %>">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" >
-                                    <p id="nameErrorMessages" class="text-danger"></p>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" >
-                                    <p id="emailErrorMessages" class="text-danger"></p>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="mno" class="form-label">Mobile Number</label>
-                                    <input type="text" class="form-control" id="mno" name="mno" value="<%= user.mobile %>"  >
-                                    <p id="mnoErrorMessages" class="text-danger"></p>
-                                </div>
-                                <br><br>
-                                <button type="submit" class="btn btn-main">Update Profile</button>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+        
+                <div class="row mt-2 mb-20">
+                    <div class="col-lg-6">
+                        <div class="card" style="margin-top: 20px; margin-left: 60px;margin-bottom: 60px;">
+                            <div class="card-body">
+                                <div class="card-title">Edit Profile details</div>
+                                <hr>
+                                <form id="profileEditForm" action="" method="POST" novalidate>
+                                    <input type="hidden" name="user_id" value="<%= user._id %>">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" value="<%= typeof formData !== 'undefined' ? formData.name : user.name %>" >
+                                        <p id="nameErrorMessages" class="text-danger"></p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="<%= typeof formData !== 'undefined' ? formData.email : user.email %>" >
+                                        <p id="emailErrorMessages" class="text-danger"></p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="mno" class="form-label">Mobile Number</label>
+                                        <input type="text" class="form-control" id="mno" name="mno" value="<%= typeof formData !== 'undefined' ? formData.mno : user.mobile %>"  >
+                                        <p id="mnoErrorMessages" class="text-danger"></p>
+                                    </div>
+                                    <br><br>
+                                    <button type="submit" class="btn btn-main">Update Profile</button>
 
-                                <% if(typeof message !=='undefined' ){ %>
-                                    <h6 class="text-danger"><br>
-                                        <%= message %>
-                                    </h6>
-                                <% } %>
-                                    <p id="errorMessages" class="text-danger"></p>
+                                    <% if(typeof message !=='undefined' ){ %>
+                                        <h6 class="text-danger"><br>
+                                            <%= message %>
+                                        </h6>
+                                    <% } %>
+                                        <p id="errorMessages" class="text-danger"></p>
 
-                            </form>
-                            
+                                </form>
+                                
+                            </div>
                         </div>
                     </div>
+        
                 </div>
-    
-            </div>
-    </div>
-</section> <!-- content-main end// -->
-
+        </div>
+    </section> <!-- content-main end// -->
 
     <script>
+        document.getElementById('profileEditForm').addEventListener('submit', function (event) {
+            const nameElement = document.getElementsByName('name')[0];
+            const emailElement = document.getElementsByName('email')[0];
+            const mnoElement = document.getElementsByName('mno')[0];
+    
+            const name = nameElement.value;
+            const email = emailElement.value;
+            const mobile = mnoElement.value;
+    
+            const errorMessages = document.getElementById('errorMessages');
+            const nameErrorMessages = document.getElementById('nameErrorMessages');
+            const emailErrorMessages = document.getElementById('emailErrorMessages');
+            const mnoErrorMessages = document.getElementById('mnoErrorMessages');
+    
+            const containsNumbers = /\d/.test(name);  // Check if name contains numbers   
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isEmailValid = emailRegex.test(email);
+    
+            resetFieldBorders([nameElement, emailElement, mnoElement]);
+    
+            errorMessages.innerHTML = '';
+            nameErrorMessages.innerHTML = '';
+            emailErrorMessages.innerHTML = '';
+            mnoErrorMessages.innerHTML = '';
+    
+            if (name.length < 1) {
+                nameErrorMessages.innerHTML += 'Name field should not be empty<br>';
+                addRedBorder(nameElement);
+            }
+            if (containsNumbers) {
+                nameErrorMessages.innerHTML += 'Name should not contain numbers<br>';
+                addRedBorder(nameElement);
+            }
+            if (!isEmailValid) {
+                emailErrorMessages.innerHTML += 'Please enter a valid email<br>';
+                addRedBorder(emailElement);
+            }
+            if (mobile.length !== 10) {
+                mnoErrorMessages.innerHTML += 'Mobile number should have 10 digits<br>';
+                addRedBorder(mnoElement);
+            }
+    
+            if ((errorMessages.innerHTML !== '') || (nameErrorMessages.innerHTML !== '') || (emailErrorMessages.innerHTML !== '') || (mnoErrorMessages.innerHTML !== '')) {
+                event.preventDefault();
+            }
+        });
+    
+        function addRedBorder(element) {
+            element.style.border = '1px solid red';
+        }
+    
+        function resetFieldBorders(elements) {
+            elements.forEach(element => {
+                element.style.border = ''; // Resetting to default
+            });
+        }
+    </script>
+    
+
+
+
+    <!-- <script>
 
         document.getElementById('profileEditForm').addEventListener('submit', function (event) {
             const name = document.getElementsByName('name')[0].value;
@@ -95,6 +156,6 @@
                 event.preventDefault();
             }
         });
-    </script>
+    </script> -->
 
 <%- include('../partials/user-footer.ejs') %>
