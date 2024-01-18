@@ -23,7 +23,8 @@
                                     <th>User</th>
                                     <th> Payment</th>
                                     <th>Status</th>
-                                    <th>Delivery Status</th>
+                                    <th class="text-center">Delivery Status</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,19 +36,34 @@
                                         <td><%= order._id %></td>
                                         <td><%= order.orderedDate.toDateString() %></td>
                                         <td><%= order.userId.name %></td>
-                                        <td><%= order.paymentMethod %></td>
+                                        <td ><%= order.paymentMethod %></td>
                                         <td id="order-status-<%= order._id %>"> <% if(order.orderStatus) { %> <%= order.orderStatus %> <% } else { %> Pending <% } %> </td>
-                                        <td >
+                                        <td class="text-center">
                                             <% if(order.orderStatus === 'Confirmed') { %> 
                                                 <% if(order.deliveryStatus) { %> <%= order.deliveryStatus %> <% } else { %> Pending <% } %> 
-                                                
-
-                                                    <a href="/admin/orders/edit-order-deliveryStatus?id=<%= order._id %>">
-                                                        <i class="fa-solid fa-pen-to-square fa-xl" style="color: #0055ff;margin-left: 30px;"></i>
-                                                    </a>
                                             
                                             <% } %>
                                             
+                                        </td>
+
+                                        <td class="text-center">
+                                            <% if(order.orderStatus === 'Confirmed') { %> 
+                                                <% if(order.deliveryStatus) { %>  
+                                                
+
+                                                    <a href="/admin/orders/edit-order-deliveryStatus?id=<%= order._id %>">
+                                                        <i class="fa-solid fa-pen-to-square fa-xl" style="color: #0055ff;"></i>
+                                                    </a>
+                                                    
+                                                <% } %>
+                                            
+                                            <% } else if(order.orderStatus === 'Return Pending') { %>
+                                            
+                                                <a href="/admin/orders/view-order-returnReason?id=<%= order._id %>">
+                                                    <i class="fa-solid fa-eye fa-xl" style="color: #0000ff;"></i>
+                                                </a>
+
+                                            <% } %>
                                         </td>
                                         
                                     </tr>

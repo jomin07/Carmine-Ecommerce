@@ -280,29 +280,27 @@ const returnOrder = async(req,res) =>{
         const { orderId,status,returnReason } = req.body;
         const orderData = await Order.findById({_id: orderId});
 
-        console.log(returnReason);
-
         //Increment stock quantity of the products as order is returned
-        for(let items of orderData.items){
-            await Product.updateOne({_id: items.productId},{$inc: {quantity: items.quantity}});
-        }
+        // for(let items of orderData.items){
+        //     await Product.updateOne({_id: items.productId},{$inc: {quantity: items.quantity}});
+        // }
 
         //Return Money to wallet as order is returned
-        await User.updateOne({_id: userId},{
-            $inc: {
-                wallet: orderData.totalPrice
-            },
-            $push : {
-                walletHistory : {
-                    date : Date.now(),
-                    amount : orderData.totalPrice,
-                    message : "Deposited while returned order"
-                }
-            }
-        }); 
+        // await User.updateOne({_id: userId},{
+        //     $inc: {
+        //         wallet: orderData.totalPrice
+        //     },
+        //     $push : {
+        //         walletHistory : {
+        //             date : Date.now(),
+        //             amount : orderData.totalPrice,
+        //             message : "Deposited while returned order"
+        //         }
+        //     }
+        // }); 
         
 
-        //Change order status to Returned and update Return Reason
+        //Change order status to Return Pending and update Return Reason
         await Order.findOneAndUpdate({_id: orderId},{$set: {orderStatus: status,returnReason: returnReason}});
 
         const newStatus = await Order.findOne({_id: orderId});
@@ -365,6 +363,60 @@ const updateDeliveryStatus = async(req,res) =>{
     }
 }
 
+const getReturnApprove = async(req,res) =>{
+    try {
+        const id = req.query.id;
+        const orderData = await Order.findById({_id: id});
+
+        if (orderData) {
+            res.render('return-approve',{order: orderData});
+        } else {
+            res.redirect('/admin/orders');
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const returnApprove = async(req,res) =>{
+    try {
+        
+        const { orderId } = req.body;
+        const orderData = await Order.findById({_id: orderId});
+        const userId = orderData.userId;
+        const status = 'Returned';
+
+        //Increment stock quantity of the products as order is returned
+        for(let items of orderData.items){
+            await Product.updateOne({_id: items.productId},{$inc: {quantity: items.quantity}});
+        }
+
+        //Return Money to wallet as order is returned
+        await User.updateOne({_id: userId},{
+            $inc: {
+                wallet: orderData.totalPrice
+            },
+            $push : {
+                walletHistory : {
+                    date : Date.now(),
+                    amount : orderData.totalPrice,
+                    message : "Deposited while returned order"
+                }
+            }
+        }); 
+        
+
+        //Change order status to Returned and update Return Reason
+        await Order.findOneAndUpdate({_id: orderId},{$set: {orderStatus: status}});
+
+        res.redirect('/admin/orders');
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = {
 
     placeOrder,
@@ -376,6 +428,8 @@ module.exports = {
     getUserOrderProducts,
     loadOrders,
     editDeliveryStatus,
-    updateDeliveryStatus
+    updateDeliveryStatus,
+    getReturnApprove,
+    returnApprove
 
 }

@@ -65,6 +65,8 @@ adminRoute.get('/coupons/unlist-coupon',auth.isLogin,couponController.unListCoup
 adminRoute.get('/orders',auth.isLogin,orderController.loadOrders);
 adminRoute.get('/orders/edit-order-deliveryStatus',auth.isLogin,orderController.editDeliveryStatus);
 adminRoute.post('/orders/edit-order-deliveryStatus',auth.isLogin,orderController.updateDeliveryStatus);
+adminRoute.get('/orders/view-order-returnReason',auth.isLogin,orderController.getReturnApprove);
+adminRoute.post('/orders/view-order-returnReason',orderController.returnApprove);
 
 adminRoute.get('/products',auth.isLogin,productController.loadProducts);
 adminRoute.get('/products/add-product',auth.isLogin,productController.loadAddProduct);

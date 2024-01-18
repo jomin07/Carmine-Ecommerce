@@ -56,7 +56,7 @@
                                             
                                                     <button style="font-size: 14px;" id="cancel-<%= order._id %>" onclick="cancelOrder('<%= order._id %>')" class="btn btn-danger">Cancel</button>
                                             
-                                                <% } else if ((order.deliveryStatus === 'Delivered')&&(order.orderStatus !== 'Returned')&& (days < 30)) { %>
+                                                <% } else if ((order.deliveryStatus === 'Delivered')&&(order.orderStatus !== 'Returned')&&(order.orderStatus !== 'Return Pending')&& (days < 30)) { %>
                                                     <button style="font-size: 14px;" id="return-<%= order._id %>" onclick="returnOrder('<%= order._id %>')" class="btn btn-danger">Return</button>
                                                 <% } %>
                                             
@@ -119,7 +119,7 @@
             const shouldReturn = await showConfirmationDialog("Are you sure you want to return this order?");
             if (!shouldReturn) return;
 
-            const status = 'Returned';
+            const status = 'Return Pending';
             const response = await axios.patch( '/return-order',{
                 orderId,status,returnReason
             });

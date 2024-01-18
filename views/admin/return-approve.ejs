@@ -1,0 +1,52 @@
+<%- include('../partials/admin-header.ejs') %>
+
+<section class="content-main">
+  <div class="content-header">
+    <div>
+        <h2 class="content-title card-title">Approve Return</h2>
+    </div>
+    <div>
+        <a href="/admin/orders/" class="btn btn-outline-dark">Go Back</a>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+
+      <!-- ======= Form ======== -->
+
+      <div class="col-6 grid-margin stretch-card">
+          <div class="card" style="margin-top: 60px; margin-left: 60px;">
+            <div class="card-body">
+              <div class="card-title mb-3">Return Details</div>
+              <form class="forms-sample my-3" action="" method="POST">
+                 <!-- Error container -->
+                <div class="form-group my-3">
+                    <div class="return-reason-box">
+                        
+                        <div class="mb-10">
+                            <p>Order ID: </p>
+                        </div>
+                        <div class="mb-30">
+                            <%= order._id %>
+                        </div>
+
+                        <div class="mb-10">
+                            <p>Return Reason:</p>
+                        </div>
+                        
+                        <div class="mb-30">
+                            <%= order.returnReason %>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" value="<%= order._id %>" name="orderId">
+                <button type="submit" class="btn btn-primary mr-5">Approve</button>    
+                <a class="btn btn-outline-danger mr-2" href="/admin/orders/">Cancel</a>
+              </form>
+            </div>
+          </div>
+        </div>
+  </div>
+</section> <!-- content-main end// -->   
+
+<%- include('../partials/admin-footer.ejs') %>
