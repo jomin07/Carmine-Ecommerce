@@ -168,18 +168,24 @@ const insertUser = async(req,res) =>{
 
             if (validReferralCode) {
 
-                await User.updateOne({ email : req.body.email},{
-                    $inc : {
-                        wallet : 40
-                    },
-                    $push : {
-                        walletHistory : {
-                            date : Date.now(),
-                            amount : 40,
-                            message : 'Join bonus'
+                await User.updateOne(
+                    { email: req.body.email },
+                    {
+                        $inc: {
+                            wallet: 40
+                        },
+                        $push: {
+                            walletHistory: {
+                                date: Date.now(),
+                                amount: 40,
+                                message: 'Join bonus'
+                            }
+                        },
+                        $set: {
+                            isReferred: true
                         }
                     }
-                });
+                );
 
                 await User.updateOne({ referralCode : enteredReferralCode },{
                     $inc : {

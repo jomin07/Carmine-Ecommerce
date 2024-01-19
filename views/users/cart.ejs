@@ -51,7 +51,10 @@
                                                         <span class="qty-val"><%= cartItems.items[i].quantity %></span>
                                                         <!-- <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a> -->
 
-                                                        <a href="#" class="qty-up" onclick="updateQuantity('<%- cartItems.items[i].productId._id %>', 1)"><i class="fi-rs-angle-small-up"></i></a>
+                                                        <% if (cartItems.items[i].quantity < cartItems.items[i].productId.quantity ) { %>
+                                                            <a href="#" class="qty-up" onclick="updateQuantity('<%- cartItems.items[i].productId._id %>', 1)"><i class="fi-rs-angle-small-up"></i></a>
+                                                        <% } %>
+                                                        
                                                     </div>
                                                 </td>
                                                 <td class="text-right" data-title="Cart">
