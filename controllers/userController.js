@@ -96,12 +96,15 @@ const verifyOtp = async(req, res)=> {
             const updateInfo = await User.updateOne({ email: recipientEmail},{$set: {isVerified: 1}});
             console.log(email);
             console.log(updateInfo);
-            res.redirect('/login');
+            // res.redirect('/login');
+            res.json({ success: true, message: 'Verification successful' });
         } else {
-            res.render('registration-confirmation', { message: 'OTP is incorrect' });
+            // res.render('registration-confirmation', { message: 'OTP is incorrect' });
+            res.json({ success: false, message: 'OTP is incorrect'  });
         }
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 }
 
@@ -127,7 +130,7 @@ const resendOtp = async(req, res)=> {
             console.log('Message sent: %s', info.messageId);
             console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
             console.log(otp);
-            res.render('registration-confirmation',{message:'Registration Successfull.Please Verify Your Mail'});
+            res.render('registration-confirmation',{message:'New OTP has been sent.Please Verify Your Mail'});
         });
 
     } catch (error) {

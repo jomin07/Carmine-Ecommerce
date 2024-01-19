@@ -1,233 +1,132 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign-up Confirmation</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-</head>
-<body style="margin-top: 30px;">
-    <div class="container register">
-        <div class="d-flex justify-content-center">
-            <div class="contact">
-                <%= message %>
-                <form method="POST" action="verify">
-                    <p>
-                        <label>Enter otp</label>
-                        <input type="text" name="otp" required>
-                    </p>
-                    <p class="full">
-                        <button type="submit">Submit</button>
-                    </p>
-                </form>
-                <br>
-                <form method="POST" action="resend">
-                    <p class="full">
-                        <button type="submit">resend otp</button>
-                    </p>
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
-</html> -->
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign-up Confirmation</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-            margin-top: 30px;
-        }
-
-        .container.register {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
-        }
-
-        .contact {
-            text-align: center;
-            color: #007bff;
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            display: block;
-            color: #495057;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #495057;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-
-        button {
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            border-radius: 0.25rem;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <div class="container register">
-
-        <div class="heading">
-            <div class="text-center mb-30">
-                <h2>CARMINE</h2>
-              </div>
-              <div class="heading_s1 text-center">
-                  <h4 class="mt-50 mb-30">VERIFY YOUR ACCOUNT</h4>
-              </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            
-            <div class="contact">
-                <%= message %>
-                <form method="POST" action="verify">
-                    <div class="form-group">
-                        <label for="otp">Enter OTP</label>
-                        <input type="text" name="otp" id="otp" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-                <br>
-                <form method="POST" action="resend">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-secondary">Resend OTP</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
-</html> -->
-
-
 <%- include('../partials/user-header.ejs') %>
 
-<div class="container d-flex justify-content-center align-items-center h-100vh mt-50 mb-200">
+    <div class="container d-flex justify-content-center align-items-center h-100vh mt-50 mb-200">
 
-  <div class="col-lg-5 mx-auto">
+    <div class="col-lg-5 mx-auto">
 
-    <div class="col-lg-5 " style="width: 500px;">
-      <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
-          <div class="padding_eight_all bg-white">
-              <div class="text-center mb-30">
-                <h2>CARMINE</h2>
-              </div>
-              <div class="heading_s1 text-center">
-                  <h3 class="mt-50 mb-30">VERIFY YOUR ACCOUNT</h3>
-              </div>
-              <div class="d-flex justify-content-center mt-30">
-                    <div class="contact">
-                        <%= message %>
-                        <form method="POST" action="verify">
-                            <p>
-                                <label>Enter otp</label>
-                                <input type="text" name="otp" required>
-                            </p>
-                            <div id="otpTimer" class="text-center mt-3 text-dark">
+        <div class="col-lg-5 " style="width: 500px;">
+        <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+            <div class="padding_eight_all bg-white">
+                <div class="text-center mb-30">
+                    <h2>CARMINE</h2>
+                </div>
+                <div class="heading_s1 text-center">
+                    <h3 class="mt-50 mb-30">VERIFY YOUR ACCOUNT</h3>
+                </div>
+                <div class="d-flex justify-content-center mt-30">
+                        <div class="contact">
+                            <%= message %>
+                            <form method="POST" action="verify" id="verifyForm">
+                                <p>
+                                    <label>Enter OTP</label>
+                                    <input type="text" name="otp" id="otpInput" required>
+                                </p>
+                                <p id="otpErrorMessages" class="text-danger"></p>
+                                <div id="otpTimer" class="text-center mt-3 text-dark">
 
-                            </div>
+                                </div>
 
-                            <p class="full d-flex justify-content-center align-items-center mt-30">
-                                <button type="submit" class="btn btn-primary ">Submit</button>
-                            </p>
-                        </form>
-                        <br>
-                        <form method="POST" action="resend">
-                            <p class="full d-flex justify-content-center align-items-center mt-30">
-                                <button id="resendButton" type="submit" class="btn btn-secondary" style="display: none;">Resend OTP</button>
-                            </p>
-                        </form>
-                    </div>
-              </div>
-              
-          </div>
-      </div>
+                                <p class="full d-flex justify-content-center align-items-center mt-30">
+                                    <button type="submit" class="btn btn-main ">Submit</button>
+                                </p>
+                            </form>
+                            <br>
+                            <form method="POST" action="resend">
+                                <p class="full d-flex justify-content-center align-items-center mt-30">
+                                    <button id="resendButton" type="submit" class="btn btn-secondary" style="display: none;">Resend OTP</button>
+                                </p>
+                            </form>
+                        </div>
+                </div>
+                
+            </div>
+        </div>
+        </div>
+
     </div>
 
-  </div>
+    </div>
 
-</div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        // Set the OTP duration in seconds
+        const otpDuration = 60;
 
-  
-  
-
- <script>
-    // Set the OTP duration in seconds
-    const otpDuration = 60;
-  
-    // Function to update the timer display
-    function updateTimer(seconds) {
-      document.getElementById('otpTimer').innerHTML = `Time remaining: ${seconds}s`;
-    }
-
-    // Function to show the Resend OTP button
-    function showResendButton() {
-        document.getElementById('resendButton').style.display = 'block';
-    }
-  
-    // Function to start the countdown
-    function startCountdown() {
-      let seconds = otpDuration;
-  
-      // Update the timer every second
-      const countdownInterval = setInterval(() => {
-        updateTimer(seconds);
-  
-        // Decrease the remaining time
-        seconds--;
-  
-        // Check if the timer has reached zero
-        if (seconds < 0) {
-          clearInterval(countdownInterval);
-          document.getElementById('otpTimer').innerHTML = 'Time expired';
-          showResendButton(); // Show the Resend OTP button
+        // Function to update the timer display
+        function updateTimer(seconds) {
+            $('#otpTimer').html(`Time remaining: ${seconds}s`);
         }
-      }, 1000);
-    }
-  
-    // Start the countdown when the page is loaded
-    document.addEventListener('DOMContentLoaded', startCountdown);
-</script> 
-  
+
+        // Function to show the Resend OTP button
+        function showResendButton() {
+            $('#resendButton').show();
+        }
+
+        // Function to start the countdown
+        function startCountdown() {
+            let seconds = otpDuration;
+
+            // Update the timer every second
+            const countdownInterval = setInterval(() => {
+                updateTimer(seconds);
+
+                // Decrease the remaining time
+                seconds--;
+
+                // Check if the timer has reached zero
+                if (seconds < 0) {
+                    clearInterval(countdownInterval);
+                    $('#otpTimer').html('Time expired');
+                    showResendButton(); // Show the Resend OTP button
+                }
+            }, 1000);
+        }
+
+        // Start the countdown when the page is loaded
+        $(document).ready(function () {
+            startCountdown();
+
+            // Add submit event for the form
+            $('#verifyForm').submit(async function (event) {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+
+                // Get the OTP value
+                const otpValue = $('#otpInput').val();
+
+                // Use AJAX to submit the form
+                try {
+                    const response = await $.ajax({
+                        type: 'POST',
+                        url: '/verify',
+                        contentType: 'application/json;charset=UTF-8',
+                        data: JSON.stringify({ otp: otpValue }),
+                    });
+
+                    if (response.success) {
+                        window.location.href = '/login'; // Redirect on success
+                    } else {
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Verification Failed',
+                            text: response.message
+                        });
+
+                        $('#message').html(response.message);
+                        $('#otpInput').val(''); // Clear the input field
+                    }
+                } catch (error) {
+                    console.error('AJAX error:', error);
+                }
+            });
+        });
+    </script>
+
+    
+
 
 <%- include('../partials/user-footer.ejs') %>
 
