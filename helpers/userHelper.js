@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Product = require('../models/productModel');
+const User = require('../models/userModel');
 const Category = require('../models/categoryModel');
 const Cart = require('../models/cartModel'); 
 
@@ -65,10 +66,53 @@ async function cartTotalCount(userId) {
     }
 }
 
+async function generateReferralCode() {
+
+    try {
+        
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const codeLength = 8; // You can adjust the length of the referral code as needed
+        let referralCode = '';
+    
+        // Generate random characters
+        for (let i = 0; i < codeLength; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            referralCode += characters.charAt(randomIndex);
+        }
+    
+        // Add a timestamp to ensure uniqueness
+        const timestamp = Date.now();
+        referralCode += timestamp.toString().slice(-4); // Use the last 4 digits of the timestamp
+    
+        return referralCode;
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+async function isValidReferralCode(enteredReferralCode) {
+
+    try {
+
+        const existingUser = await User.findOne({referralCode: enteredReferralCode});
+
+        // If the user with the entered referral code exists, it's valid
+        return !!existingUser;
+
+    } catch (error) {
+        console.log(error.message);
+        return false;
+    }   
+}
+
+
 
 module.exports = {
 
     cartTotalPrice,
-    cartTotalCount
+    cartTotalCount,
+    generateReferralCode,
+    isValidReferralCode
 
 }

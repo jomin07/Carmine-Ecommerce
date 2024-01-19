@@ -58,7 +58,16 @@ const userSchema = new mongoose.Schema({
             type : String
         }
 
-    }]
+    }],
+    
+    referralCode : {
+        type : String
+    },
+
+    isReferred : {
+        type: Boolean,
+        default: false
+    }
     
 });
 

@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 const session = require('express-session');
 const randomstring = require('randomstring');
 const config = require('../config/config');
+const userHelper = require('../helpers/userHelper');
 
 const securePassword = async(password) =>{
     try {
@@ -139,6 +140,7 @@ const insertUser = async(req,res) =>{
     try {
         const secPassword = await securePassword(req.body.password);
         const existingUser = await User.findOne({ email: req.body.email });
+        const enteredReferralCode = req.body.referral;
 
         if (existingUser) { 
             return res.render('registration', {
@@ -147,15 +149,53 @@ const insertUser = async(req,res) =>{
             });
         }
 
+        const referralCode = await userHelper.generateReferralCode();
+
         const user = new User({
             name:req.body.name,
             email:req.body.email,
             mobile:req.body.mno,
             password:secPassword,
-            isAdmin:0
+            isAdmin:0,
+            referralCode:referralCode
         });
 
         const userData = await user.save();
+
+        // Check if the enteredReferralCode is valid
+        if (enteredReferralCode) {
+            const validReferralCode = await userHelper.isValidReferralCode(enteredReferralCode);
+
+            if (validReferralCode) {
+
+                await User.updateOne({ email : req.body.email},{
+                    $inc : {
+                        wallet : 40
+                    },
+                    $push : {
+                        walletHistory : {
+                            date : Date.now(),
+                            amount : 40,
+                            message : 'Join bonus'
+                        }
+                    }
+                });
+
+                await User.updateOne({ referralCode : enteredReferralCode },{
+                    $inc : {
+                        wallet : 100
+                    },
+                    $push : {
+                        walletHistory : {
+                            date : Date.now(),
+                            amount : 100,
+                            message : 'Referral bonus'
+                        }
+                    }
+                });
+
+            }
+        }
 
         if (userData) {
             await sendOtp(req, res);
