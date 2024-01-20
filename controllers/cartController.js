@@ -187,8 +187,9 @@ const getCheckout = async(req,res) =>{
         const cartItems = await Cart.findOne({userId: userId}).populate('items.productId');
         const addressData = await Address.find({user: userId,status: true});
         const totalPrice = await userHelper.cartTotalPrice(userId);
+        const cartTotalMRP = await userHelper.cartTotalMRP(userId);
 
-        res.render('checkout',{userId,user: userData,cartItems,address: addressData,totalPrice});
+        res.render('checkout',{userId,user: userData,cartItems,address: addressData,totalPrice,cartTotalMRP});
         
     } catch (error) {
         console.log(error.message);

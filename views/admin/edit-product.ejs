@@ -65,6 +65,12 @@
                                         <label for="floatingSelect">Select Category</label>
                                         <p id="categoryErrorMessages" class="text-danger"></p>
                                     </div>
+
+                                    <div class="form-group mt-3">
+                                        <label for="offer">Offer</label>
+                                        <input type="number" name="offer" class="form-control" value="<%= product.offer %>" id="offer">
+                                        <p id="offerErrorMessages" class="text-danger"></p>
+                                    </div>
         
                                     <input type="hidden" value="<%= product._id %>" name="productId">
 
@@ -124,6 +130,7 @@
             var quantityInput = document.getElementById('input-4');
             var descriptionInput = document.getElementById('input-5');
             var categorySelect = document.getElementById('floatingSelect');
+            var offerInput = document.getElementById('offer');
 
             // Get the message div
             var messageDiv = document.getElementById('validation-message');
@@ -163,6 +170,13 @@
                 displayErrorMessage(descriptionInput, 'descriptionErrorMessages', 'Please enter a valid Description.');
                 isValid = false;
             }
+
+            // Validate Quantity
+            if (isNaN(offerInput.value) || parseInt(offerInput.value) < 0) {
+                displayErrorMessage(offerInput, 'offerErrorMessages', 'Please enter a valid Offer.');
+                isValid = false;
+            }
+
 
             // Validate Category
             if (categorySelect.value.trim() === '') {

@@ -56,6 +56,7 @@ const addProduct = async(req,res) =>{
             description: req.body.description,
             image: img,
             quantity: req.body.quantity,
+            offer: req.body.offer
         });
 
         const productData = await product.save();
@@ -149,7 +150,8 @@ const updateProduct = async(req,res) =>{
                         category : categoryId,
                         quantity : req.body.quantity,
                         price : req.body.price,
-                        image : img
+                        image : img,
+                        offer: req.body.offer
                     }
                 })
 

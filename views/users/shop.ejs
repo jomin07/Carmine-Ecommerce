@@ -82,24 +82,43 @@
                                                     <% } %>
                             
                                                 </div>
-                                                <div class="product-badges product-badges-position product-badges-mrg">
-                                                    <span class="hot">Hot</span>
-                                                </div>
+                                                <% if ( products[i].offer > 0) { %>
+                                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                                        <span class="hot"><%= products[i].offer %>% Off</span>
+                                                    </div>
+                                                <% }else{ %>
+
+                                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                                        <span class="hot">Hot</span>
+                                                    </div>
+                                                    
+                                                <% } %>
+                                                
                                             </div>
                                             <div class="product-content-wrap">
                                                 <div class="product-category">
                                                     <h2><span><%= products[i].brand %></span></h2>
                                                 </div>
                                                 <span><%= products[i].name %></span>
-                                                <div class="rating-result" title="90%">
+                                                <!-- <div class="rating-result" title="90%">
                                                     <span>
                                                         <span>90%</span>
                                                     </span>
-                                                </div>
-                                                <div class="product-price">
-                                                    <span>₹<%= products[i].price %> </span>
-                                                    <!-- <span class="old-price">$245.8</span> -->
-                                                </div>
+                                                </div> -->
+
+                                                <% if ( products[i].offer > 0) { %>
+                                                    <div class="product-price">
+                                                        <span>₹<%= (products[i].price-(products[i].price*products[i].offer/100)) %> </span>
+                                                        <span class="old-price">₹<%= products[i].price %></span>
+                                                    </div>
+                                                <% }else{ %>
+
+                                                    <div class="product-price">
+                                                        <span>₹<%= products[i].price %> </span>
+                                                    </div>
+                                                    
+                                                <% } %>
+
                                                 <div class="product-action-1 show">
                                                     
                                                     <% if(locals.user) { %>

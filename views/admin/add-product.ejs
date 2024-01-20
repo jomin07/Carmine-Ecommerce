@@ -64,6 +64,12 @@
                                         <label for="floatingSelect">Select Category</label>
                                         <p id="categoryErrorMessages" class="text-danger"></p>
                                     </div>
+
+                                    <div class="form-group mt-3">
+                                        <label for="offer">Offer</label>
+                                        <input type="number" name="offer" class="form-control" id="offer">
+                                        <p id="offerErrorMessages" class="text-danger"></p>
+                                    </div>
         
         
                                     <div id="preview"></div>
@@ -120,6 +126,7 @@
             document.getElementById('descriptionErrorMessages').innerText = '';
             document.getElementById('categoryErrorMessages').innerText = '';
             document.getElementById('imageErrorMessages').innerText = '';
+            document.getElementById('offerErrorMessages').innerText = '';
         }
     
         function validateForm() {
@@ -163,6 +170,14 @@
             if (!description) {
                 document.getElementById('descriptionErrorMessages').innerText = 'Description is required';
                 document.getElementById('input-5').classList.add('border', 'border-danger');
+                isValid = false;
+            }
+
+            // Validate Offer
+            const offer = document.getElementById('offer').value.trim();
+            if (isNaN(offer) || parseInt(offer) < 0) {
+                document.getElementById('offerErrorMessages').innerText = 'Please enter a valid Offer';
+                document.getElementById('offer').classList.add('border', 'border-danger');
                 isValid = false;
             }
     

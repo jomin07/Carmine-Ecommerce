@@ -100,7 +100,7 @@
                                                             <td>
                                                                 <h5><a href="shop-product-full.html"><%= cartItems.items[i].productId.name %></a></h5> <span class="product-qty">x <%= cartItems.items[i].quantity %></span>
                                                             </td>
-                                                            <td>₹<%= (cartItems.items[i].productId.price * cartItems.items[i].quantity).toFixed(2) %></td>
+                                                            <td>₹<%= ((cartItems.items[i].productId.price-(cartItems.items[i].productId.price*cartItems.items[i].productId.offer/100)) * cartItems.items[i].quantity).toFixed(2) %></td>
                                                         </tr>
         
         
@@ -111,13 +111,23 @@
                                                     </tr>
     
                                                     <tr>
+                                                        <th>Total MRP</th>
+                                                        <td class="product-subtotal" colspan="2">₹<%= cartTotalMRP %></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th>Discount on MRP</th>
+                                                        <td class="product-subtotal text-success" colspan="2">₹<%= cartTotalMRP-totalPrice %></td>
+                                                    </tr>
+
+                                                    <tr>
                                                         <th>Subtotal</th>
                                                         <td class="product-subtotal" colspan="2">₹<%= totalPrice %></td>
                                                     </tr>
 
                                                     <tr>
                                                         <th>Coupon Discount</th>
-                                                        <td class="product-subtotal" id="discount" colspan="2">₹ 0</td>
+                                                        <td class="product-subtotal text-success" id="discount" colspan="2">₹ 0</td>
                                                     </tr>
         
                                                     <tr>
@@ -272,7 +282,7 @@
                                     title: 'Order Placed!',
                                     text: 'Your order has been placed successfully.',
                                     confirmButtonText: 'OK',
-                                    onClose: () => {
+                                    willClose: () => {
                                         location.href = '/confirm-order';
                                     }
                                 });
