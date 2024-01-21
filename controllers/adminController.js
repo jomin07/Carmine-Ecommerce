@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const Order = require('../models/orderModel');
 const Product = require('../models/productModel');
+const adminHelper = require('../helpers/adminHelper');
 
 const loadLogin = async(req,res) =>{
     try {
@@ -43,8 +44,12 @@ const verifyLogin = async(req,res) =>{
 
 const loadHome = async(req,res) =>{
     try {
+
+        const bestSellingProducts = await adminHelper.getBestSellingProducts();
+        const totalProductsSold = await adminHelper.getTotalProductsSold();
+        console.log(totalProductsSold);
         // res.render('home');
-        res.render('dashboard');
+        res.render('dashboard',{bestSellingProducts,totalProductsSold});
     } catch (error) {
         console.log(error.message);
     }
