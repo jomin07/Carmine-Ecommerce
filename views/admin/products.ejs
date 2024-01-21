@@ -22,6 +22,7 @@
                         <th>Category</th>
                         <th>Brand</th>
                         <th>Price</th>
+                        <th>Offer</th>
                         <th>Stock</th>
                         <th>Status</th>
                         <th>List/Unlist</th>
@@ -39,6 +40,13 @@
                             <td><%= products[i].category.name %></td>
                             <td><%= products[i].brand %></td>
                             <td><%= products[i].price %></td>
+                            <% if (products[i].offer > 0) { %>
+                                    
+                                <td ><%= products[i].offer %>%</td>
+                            
+                            <% } else { %>
+                                <td>No Offer</td>
+                            <% } %>
                             <td><%= products[i].quantity %></td>
                             <% if (products[i].status === true) { %>
                                 <td>Listed</td>

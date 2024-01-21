@@ -41,11 +41,12 @@
                                                     </p>
                                                 </td>
 
-                                                <% if ( cartItems.items[i].productId.offer > 0) { %>
+                                                <% var totalOffer = (cartItems.items[i].productId.offer || 0) + ((cartItems.items[i].productId.category && cartItems.items[i].productId.category.offer) || 0); %>
+                                                <% if ( totalOffer > 0) { %>
 
                                                     <td class="price" data-title="Price">
                                                         <span class="fw-lighter"><del>₹<%= cartItems.items[i].productId.price %></del></span>
-                                                        <span class="fw-bold"> ₹<%= (cartItems.items[i].productId.price-(cartItems.items[i].productId.price*cartItems.items[i].productId.offer/100)) %> </span>
+                                                        <span class="fw-bold"> ₹<%= (cartItems.items[i].productId.price-(cartItems.items[i].productId.price*totalOffer/100)) %> </span>
                                                         
                                                     </td>
 
@@ -55,9 +56,9 @@
                                                     
                                                 <% } %>
 
-                                                <% if (cartItems.items[i].productId.offer > 0) { %>
+                                                <% if (totalOffer > 0) { %>
                                                     <td class="discount" data-title="Discount">
-                                                        <span >₹ <%= ((cartItems.items[i].productId.price*cartItems.items[i].productId.offer/100) * cartItems.items[i].quantity) %></span>
+                                                        <span >₹ <%= ((cartItems.items[i].productId.price*totalOffer/100) * cartItems.items[i].quantity) %></span>
                                                     </td>
                                                 <% } else { %>
                                                     <td class="discount" data-title="Discount">
@@ -84,14 +85,14 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-right" data-title="Cart">
-                                                    <span class="fw-bold">₹<%= ((cartItems.items[i].productId.price-(cartItems.items[i].productId.price*cartItems.items[i].productId.offer/100)) * cartItems.items[i].quantity).toFixed(2) %> </span>
+                                                    <span class="fw-bold">₹<%= ((cartItems.items[i].productId.price-(cartItems.items[i].productId.price*totalOffer/100)) * cartItems.items[i].quantity).toFixed(2) %> </span>
                                                 </td>
 
                                                 <td class="action" data-title="Remove"><a onclick="deleteCartItem('<%- cartItems.items[i].productId._id %> ')" href="#" class="text-muted"><i class="fi-rs-trash"></i></a></td>
 
                                             </tr>
                                         
-                                            <% cartTotal += ((cartItems.items[i].productId.price-(cartItems.items[i].productId.price*cartItems.items[i].productId.offer/100)) * cartItems.items[i].quantity); %>
+                                            <% cartTotal += ((cartItems.items[i].productId.price-(cartItems.items[i].productId.price*totalOffer/100)) * cartItems.items[i].quantity); %>
 
                                             <% totalMRP += (cartItems.items[i].productId.price * cartItems.items[i].quantity); %>
                                         

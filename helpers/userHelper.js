@@ -40,6 +40,61 @@ async function cartTotalMRP(userId) {
     }
 }
 
+// async function cartTotalPrice(userId) {
+//     try {
+//         const totalPriceResult = await Cart.aggregate([
+//             { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+//             { $unwind: '$items' },
+//             {
+//                 $lookup: {
+//                     from: 'products',
+//                     localField: 'items.productId',
+//                     foreignField: '_id',
+//                     as: 'productDetails'
+//                 }
+//             },
+//             { $unwind: '$productDetails' },
+//             {
+//                 $group: {
+//                     _id: null,
+//                     totalPrice: {
+//                         $sum: {
+//                             $multiply: [
+//                                 {
+//                                     $subtract: [
+//                                         '$productDetails.price',
+//                                         {
+//                                             $multiply: [
+//                                                 '$productDetails.price',
+//                                                 {
+//                                                     $divide: [
+//                                                         { $ifNull: ['$productDetails.offer', 0] },
+//                                                         100
+//                                                     ]
+//                                                 }
+//                                             ]
+//                                         }
+//                                     ]
+//                                 },
+//                                 '$items.quantity'
+//                             ]
+//                         }
+//                     }
+//                 }
+//             }
+//         ]);
+
+//         if (totalPriceResult.length === 0) {
+//             return 0;
+//         }
+
+//         return totalPriceResult[0].totalPrice;
+//     } catch (error) {
+//         console.error('Error calculating total price:', error.message);
+//         throw error;
+//     }
+// }
+
 async function cartTotalPrice(userId) {
     try {
         const totalPriceResult = await Cart.aggregate([
@@ -55,6 +110,15 @@ async function cartTotalPrice(userId) {
             },
             { $unwind: '$productDetails' },
             {
+                $lookup: {
+                    from: 'categories',
+                    localField: 'productDetails.category',
+                    foreignField: '_id',
+                    as: 'categoryDetails'
+                }
+            },
+            { $unwind: { path: '$categoryDetails', preserveNullAndEmptyArrays: true } },
+            {
                 $group: {
                     _id: null,
                     totalPrice: {
@@ -64,12 +128,27 @@ async function cartTotalPrice(userId) {
                                     $subtract: [
                                         '$productDetails.price',
                                         {
-                                            $multiply: [
-                                                '$productDetails.price',
+                                            $add: [
                                                 {
-                                                    $divide: [
-                                                        { $ifNull: ['$productDetails.offer', 0] },
-                                                        100
+                                                    $multiply: [
+                                                        '$productDetails.price',
+                                                        {
+                                                            $divide: [
+                                                                { $ifNull: ['$productDetails.offer', 0] },
+                                                                100
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    $multiply: [
+                                                        '$productDetails.price',
+                                                        {
+                                                            $divide: [
+                                                                { $ifNull: ['$categoryDetails.offer', 0] },
+                                                                100
+                                                            ]
+                                                        }
                                                     ]
                                                 }
                                             ]
@@ -94,8 +173,6 @@ async function cartTotalPrice(userId) {
         throw error;
     }
 }
-
-
 
 async function cartTotalCount(userId) {
     try {

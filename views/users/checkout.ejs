@@ -94,14 +94,23 @@
                                                 <tbody>
         
                                                     <% for (let i = 0; i < cartItems.items.length; i++) { %>
+
+                                                        <% var totalOffer = (cartItems.items[i].productId.offer || 0) + ((cartItems.items[i].productId.category && cartItems.items[i].productId.category.offer) || 0); %>
         
                                                         <tr>
                                                             <td class="image product-thumbnail"><img src="/images/cropped/<%= cartItems.items[i].productId.image[0] %>" alt="#"></td>
                                                             <td>
                                                                 <h5><a href="shop-product-full.html"><%= cartItems.items[i].productId.name %></a></h5> <span class="product-qty">x <%= cartItems.items[i].quantity %></span>
                                                             </td>
-                                                            <td>₹<%= ((cartItems.items[i].productId.price-(cartItems.items[i].productId.price*cartItems.items[i].productId.offer/100)) * cartItems.items[i].quantity).toFixed(2) %></td>
-                                                        </tr>
+                                                            <td>
+                                                                <% if (totalOffer > 0) { %>
+                                                                    <span class="fw-lighter"><del>₹<%= cartItems.items[i].productId.price*cartItems.items[i].quantity %></del></span>
+                                                                    <span class="fw-bold"> ₹<%= ((cartItems.items[i].productId.price - (cartItems.items[i].productId.price * totalOffer / 100))* cartItems.items[i].quantity).toFixed(2) %> </span>
+                                                                <% } else { %>
+                                                                    <span class="price fw-bold">₹<%= (cartItems.items[i].productId.price* cartItems.items[i].quantity).toFixed(2) %> </span>
+                                    
+                                                                <% } %>
+                                                            </td>
         
         
                                                     <% } %>                                        

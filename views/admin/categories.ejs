@@ -24,6 +24,7 @@
                         <tr>
                             <th class="small-column">S.No.</th>
                             <th>Name</th>
+                            <th>Offer</th>
                             <th>Status</th>
                             <th>List/Unlist</th>
                             <th>Actions</th>
@@ -34,6 +35,15 @@
                             <tr>
                                 <td class="small-column text-center"><%= i+1 %></td>
                                 <td><%= categories[i].name %></td>
+                                <% if (categories[i].offer > 0) { %>
+                                    
+                                    <td ><%= categories[i].offer %>%</td>
+                                
+                                <% } else { %>
+                                    <td>No Offer</td>
+                                <% } %>
+
+                                
                                 <% if (categories[i].status === true) { %>
                                     <td>Listed</td>
                                 

@@ -10,7 +10,14 @@ const getCartPage = async(req,res) =>{
         
         const userId = req.session.user_id;
         const userData = await User.findById({_id:req.session.user_id});
-        const cartItems = await Cart.findOne({userId: userId}).populate('items.productId');
+        // const cartItems = await Cart.findOne({userId: userId}).populate('items.productId')
+        const cartItems = await Cart.findOne({ userId: userId }).populate({
+            path: 'items.productId',
+            populate: {
+                path: 'category',
+                model: 'Category',
+            }
+        });
 
         if (userData && cartItems) {
             res.render('cart',{user: userData,cartItems: cartItems}); 
@@ -184,7 +191,14 @@ const getCheckout = async(req,res) =>{
 
         const userId = req.session.user_id;
         const userData = await User.findById({_id: userId});
-        const cartItems = await Cart.findOne({userId: userId}).populate('items.productId');
+        // const cartItems = await Cart.findOne({userId: userId}).populate('items.productId');
+        const cartItems = await Cart.findOne({ userId: userId }).populate({
+            path: 'items.productId',
+            populate: {
+                path: 'category',
+                model: 'Category',
+            }
+        });
         const addressData = await Address.find({user: userId,status: true});
         const totalPrice = await userHelper.cartTotalPrice(userId);
         const cartTotalMRP = await userHelper.cartTotalMRP(userId);

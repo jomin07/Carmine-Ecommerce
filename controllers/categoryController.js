@@ -34,6 +34,7 @@ const insertCategory = async(req,res) =>{
 
         const category = new Category({
             name: req.body.name,
+            offer: req.body.offer,
             status: true
         });
 
@@ -85,10 +86,10 @@ const updateCategory = async(req,res) =>{
             });
         }
 
-        // Update the category name
+        // Update the category
         const categoryData = await Category.findByIdAndUpdate(
             { _id: categoryId },
-            { $set: { name: newName } }
+            { $set: { name: newName,offer: req.body.offer } }
         );
 
         res.redirect('/admin/categories');

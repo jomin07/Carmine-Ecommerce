@@ -24,6 +24,12 @@
                     <label for="category-field">Category Name</label>
                     <input type="text" name="name" class="form-control my-3" value="<%= category.name %>" id="category-field">
                     <p id="nameErrorMessages" class="text-danger"></p>
+
+                    <div class="form-group my-3">
+                      <label for="offer">Offer</label>
+                      <input type="number" name="offer" class="form-control" value="<%= category.offer %>" id="offer">
+                      <p id="offerErrorMessages" class="text-danger"></p>
+                    </div>
                     <!-- <label for="category-status">Category Status</label>
                     <input type="text" name="status" class="form-control" value="<%= category.status ? 'listed' : 'unlisted' %>" id="category-status"> -->
                     <input type="hidden" value="<%= category._id %>" name="categoryId">
@@ -55,17 +61,22 @@
     document.getElementById('editCategoryForm').addEventListener('submit', function (event) {
         const nameInput = document.getElementsByName('name')[0];
         const name = nameInput.value;
+        const offerInput = document.getElementById('offer');
+        const offer = offerInput.value;
 
         const errorMessages = document.getElementById('errorMessages');
         const nameErrorMessages = document.getElementById('nameErrorMessages');
+        const offerErrorMessages = document.getElementById('offerErrorMessages');
     
         const containsNumbers = /\d/.test(name);          
     
         // Reset borders
         nameInput.classList.remove('border', 'border-danger');
+        offerInput.classList.remove('border', 'border-danger');
 
         errorMessages.innerHTML = '';
         nameErrorMessages.innerHTML = '';
+        offerErrorMessages.innerHTML = '';
 
         if (name.length < 1) {
             nameErrorMessages.innerHTML += 'Name field should not be empty<br>';
@@ -75,8 +86,12 @@
             nameErrorMessages.innerHTML += 'Name should not contain numbers<br>';
             nameInput.classList.add('border', 'border-danger');
         }
+        if (isNaN(offer) || parseInt(offer) < 0) {
+            offerErrorMessages.innerHTML += 'Please enter a valid Offer<br>';
+            offerInput.classList.add('border', 'border-danger');
+        }
 
-        if (errorMessages.innerHTML !== '' || nameErrorMessages.innerHTML !== '') {
+        if (errorMessages.innerHTML !== '' || nameErrorMessages.innerHTML !== '' || offerErrorMessages.innerHTML !== '') {
             event.preventDefault();
         }
     });

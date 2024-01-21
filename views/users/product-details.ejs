@@ -75,10 +75,12 @@
                                         </div>
                                         <div class="clearfix product-price-cover">
                                             <div class="product-price primary-color float-left">
-                                                <% if ( product.offer > 0) { %>
-                                                    <ins><span class="text-brand">₹<%= (product.price-(product.price*product.offer/100)) %> </span></ins>
+
+                                                <% var totalOffer = (product.offer || 0) + ((product.category && product.category.offer) || 0); %>
+                                                <% if ( totalOffer > 0 || (product.category && product.category.offer > 0)) { %>
+                                                    <ins><span class="text-brand">₹<%= (product.price-(product.price*totalOffer/100)) %> </span></ins>
                                                     <ins><span class="old-price font-md ml-15">₹<%= product.price %></span></ins>
-                                                    <span class="save-price  font-md color3 ml-15"><%= product.offer %>% Off</span>
+                                                    <span class="save-price  font-md color3 ml-15"><%= totalOffer %>% Off</span>
                                                 <% }else{ %>
 
                                                     <ins><span class="text-brand">₹<%= product.price %></span></ins>

@@ -64,77 +64,101 @@
                             <div class="row product-grid-3">
     
                                 <% for (let i = 0; i < products.length; i++) { %>
+
+                                    <% const product = products[i]; %>
+
+                                    <% if (product.category && product.category.status) { %>
     
-                                    <div class="col-lg-4 col-md-4 col-12 col-sm-6">
-                                        <div class="product-cart-wrap mb-30">
-                                            <div class="product-img-action-wrap">
-                                                <div class="product-img product-img-zoom">
-                                                    <a href="/shop/<%= products[i]._id %>">
-                                                    <!-- <a href="/shop/product-details"> -->
-                                                        <img class="default-img" src="/images/cropped/<%= products[i].image[0] %>" alt="">
-                                                        <img class="hover-img" src="/images/cropped/<%= products[i].image[1] %>" alt="">
-                                                    </a>
-                                                </div>
-                                                <div class="product-action-1">
-                                        
-                                                    <% if(locals.user) { %>
-                                                        <a onclick="addToWishlist('<%- products[i]._id %>')" aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i class="fi-rs-heart"></i></a>
-                                                    <% } %>
-                            
-                                                </div>
-                                                <% if ( products[i].offer > 0) { %>
-                                                    <div class="product-badges product-badges-position product-badges-mrg">
-                                                        <span class="hot"><%= products[i].offer %>% Off</span>
+                                        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                            <div class="product-cart-wrap mb-30">
+                                                <div class="product-img-action-wrap">
+                                                    <div class="product-img product-img-zoom">
+                                                        <a href="/shop/<%= products[i]._id %>">
+                                                        <!-- <a href="/shop/product-details"> -->
+                                                            <img class="default-img" src="/images/cropped/<%= products[i].image[0] %>" alt="">
+                                                            <img class="hover-img" src="/images/cropped/<%= products[i].image[1] %>" alt="">
+                                                        </a>
                                                     </div>
-                                                <% }else{ %>
-
-                                                    <div class="product-badges product-badges-position product-badges-mrg">
-                                                        <span class="hot">Hot</span>
-                                                    </div>
-                                                    
-                                                <% } %>
-                                                
-                                            </div>
-                                            <div class="product-content-wrap">
-                                                <div class="product-category">
-                                                    <h2><span><%= products[i].brand %></span></h2>
-                                                </div>
-                                                <span><%= products[i].name %></span>
-                                                <!-- <div class="rating-result" title="90%">
-                                                    <span>
-                                                        <span>90%</span>
-                                                    </span>
-                                                </div> -->
-
-                                                <% if ( products[i].offer > 0) { %>
-                                                    <div class="product-price">
-                                                        <span>₹<%= (products[i].price-(products[i].price*products[i].offer/100)) %> </span>
-                                                        <span class="old-price">₹<%= products[i].price %></span>
-                                                    </div>
-                                                <% }else{ %>
-
-                                                    <div class="product-price">
-                                                        <span>₹<%= products[i].price %> </span>
-                                                    </div>
-                                                    
-                                                <% } %>
-
-                                                <div class="product-action-1 show">
-                                                    
-                                                    <% if(locals.user) { %>
-                                                        
-                                                        <% if(products[i].quantity<=0) { %>
-                                                            <span>Out of Stock</span>
-                                                        
-                                                        <% } else { %>
-                                                            <a  onclick="addToCart('<%- products[i]._id %>')" aria-label="Add To Cart" class="action-btn hover-up"><i class="fi-rs-shopping-bag-add"></i></a>
+                                                    <div class="product-action-1">
+                                            
+                                                        <% if(locals.user) { %>
+                                                            <a onclick="addToWishlist('<%- products[i]._id %>')" aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i class="fi-rs-heart"></i></a>
                                                         <% } %>
-    
+                                
+                                                    </div>
+
+                                                    <% if ( products[i].offer > 0 || (products[i].category && products[i].category.offer > 0)) { %>
+                                                        
+                                                        <div class="product-badges product-badges-position product-badges-mrg">
+                                                            <% var totalOffer = (products[i].offer || 0) + ((products[i].category && products[i].category.offer) || 0); %>
+
+                                                            <% if (totalOffer > 0) { %>
+                                                                <span class="hot"><%= totalOffer %>% Off</span>
+                                                            <% } else { %>
+                                                                <span class="hot">Hot</span>
+                                                            <% } %>
+
+                                                        </div>
+
+                                                    <% }else{ %>
+
+                                                        <div class="product-badges product-badges-position product-badges-mrg">
+                                                            <span class="hot">Hot</span>
+                                                        </div>
+                                                        
                                                     <% } %>
+                                                    
+                                                </div>
+                                                <div class="product-content-wrap">
+                                                    <div class="product-category">
+                                                        <h2><span><%= products[i].brand %></span></h2>
+                                                    </div>
+                                                    <span><%= products[i].name %></span>
+                                                    <!-- <div class="rating-result" title="90%">
+                                                        <span>
+                                                            <span>90%</span>
+                                                        </span>
+                                                    </div> -->
+
+                                                    <% if ( products[i].offer > 0 || (products[i].category && products[i].category.offer > 0)) { %>
+
+                                                        <% if (totalOffer > 0) { %>
+                                                            <div class="product-price">
+                                                                <span>₹<%= (products[i].price-(products[i].price*totalOffer/100)) %> </span>
+                                                                <span class="old-price">₹<%= products[i].price %></span>
+                                                            </div>
+                                                        <% } else { %>
+                                                            <div class="product-price">
+                                                                <span>₹<%= products[i].price %> </span>
+                                                            </div>
+                                                        <% } %>
+
+                                                    <% }else{ %>
+
+                                                        <div class="product-price">
+                                                            <span>₹<%= products[i].price %> </span>
+                                                        </div>
+                                                        
+                                                    <% } %>
+
+                                                    <div class="product-action-1 show">
+                                                        
+                                                        <% if(locals.user) { %>
+                                                            
+                                                            <% if(products[i].quantity<=0) { %>
+                                                                <span>Out of Stock</span>
+                                                            
+                                                            <% } else { %>
+                                                                <a  onclick="addToCart('<%- products[i]._id %>')" aria-label="Add To Cart" class="action-btn hover-up"><i class="fi-rs-shopping-bag-add"></i></a>
+                                                            <% } %>
+        
+                                                        <% } %>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    
+                                    <% } %>
                                 
                                 <% } %>
     
