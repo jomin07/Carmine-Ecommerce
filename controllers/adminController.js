@@ -1,5 +1,7 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const Order = require('../models/orderModel');
+const Product = require('../models/productModel');
 
 const loadLogin = async(req,res) =>{
     try {
@@ -41,13 +43,12 @@ const verifyLogin = async(req,res) =>{
 
 const loadHome = async(req,res) =>{
     try {
-        res.render('home');
+        // res.render('home');
+        res.render('dashboard');
     } catch (error) {
         console.log(error.message);
     }
 }
-
-
 
 const loadUsers = async(req,res) =>{
     try {
