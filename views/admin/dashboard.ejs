@@ -9,9 +9,60 @@
             </div>
         </div>
 
-        <div>
-            <canvas id="myChart"></canvas>
+        <div class="container-fluid">
+            <!-- Display Total Users Card -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-white">Total Users</h5>
+                            <p class="card-text"><%= totalUsers %></p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Display Total Revenue Card -->
+                <div class="col-lg-4">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-white">Total Revenue</h5>
+                            <p class="card-text">₹<%= totalRevenue %></p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Display Total Products Sold Card -->
+                <div class="col-lg-4">
+                    <div class="card bg-secondary text-white">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-white">Total Products Sold</h5>
+                            <p class="card-text"><%= totalProductsSold %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-30 mb-30">
+                <div class="col-lg-4">
+                    <div>
+                        <h4 class="text-center">Confirmed Orders</h4>                 
+                    </div>
+                    <div>
+                        <canvas id="confirmedOrdersDeliveryStatus"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div>
+                        <h4 class="text-center">Best Selling Products</h4>                 
+                    </div>
+                    <div>
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        
 
     </section> <!-- content-main end// -->  
 
@@ -19,10 +70,15 @@
 
     <script>
         const ctx = document.getElementById('myChart');
+        const confirmedOrdersDeliveryStatus = document.getElementById('confirmedOrdersDeliveryStatus');
 
         // Extract product names and quantities from bestSellingProducts
         let productNames = JSON.parse('<%- JSON.stringify(bestSellingProducts.map(item => item.product.name)) %>');
         let productQuantities = JSON.parse('<%- JSON.stringify(bestSellingProducts.map(item => item.totalQuantity)) %>');
+
+        // Extract data from confirmedOrdersWithDeliveryStatus
+        let deliveryStatusLabels = JSON.parse('<%- JSON.stringify(confirmedOrdersWithDeliveryStatus.labels) %>');
+        let deliveryStatusData = JSON.parse('<%- JSON.stringify(confirmedOrdersWithDeliveryStatus.data) %>');
 
         new Chart(ctx, {
             type: 'bar',
@@ -31,6 +87,7 @@
             datasets: [{
                 label: 'Number of Sales',
                 data: productQuantities,
+                backgroundColor:'#FF6384',
                 borderWidth: 1
             }]
             },
@@ -42,6 +99,35 @@
                 }
             }
         });
+
+        new Chart(confirmedOrdersDeliveryStatus, {
+        type: 'doughnut',
+        data: {
+            labels: deliveryStatusLabels,
+            datasets: [{
+                label: 'Orders',
+                data: deliveryStatusData,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Customize colors as needed
+                borderWidth: 1
+            }]
+        },
+        options: {
+            cutout: '70%', // Adjust the cutout percentage as needed
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Delivery Status'
+                    }
+                }
+            }
+        });
+
     </script>
 
 <%- include('../partials/admin-footer.ejs') %>
