@@ -10,6 +10,7 @@ const Razorpay = require('razorpay');
 const { RAZORPAY_KEY_ID,RAZORPAY_KEY_SECRET } = process.env;
 const crypto = require('crypto');
 const PDFDocument = require('pdfkit');
+const ExcelJS = require('exceljs');
 const fs = require('fs');
 const path = require('path');
 
@@ -446,11 +447,16 @@ const loadSales = async(req,res) =>{
         // Determine the format of the response (HTML or PDF)
         const format = req.query.format || 'html';
 
-        // Render HTML or generate PDF based on the format
+        // Render generateExcel  or generatePDF based on the format
         if (format === 'pdf') {
             generatePDF(ordersData, res);
+        } else if (format === 'excel') {
+            generateExcel(ordersData, res);
         } else {
-            res.render('sales', { orders: ordersData });
+            res.render('sales', { 
+                orders: ordersData,
+                formData: { startDate, endDate } // Retain form data 
+            });
         }
 
         // res.render('sales',{orders: ordersData});
@@ -475,7 +481,7 @@ const generatePDF = (ordersData, res) => {
         doc.text(`Order ID: ${order._id}`);
         doc.text(`Ordered Date: ${order.orderedDate.toDateString()}`);
         doc.text(`User Name: ${order.userId.name}`);
-        doc.text(`Total Price: ${order.totalPrice}`);
+        doc.text(`Total Price: Rs.${order.totalPrice}`);
         doc.text(`Payment Method: ${order.paymentMethod}`);
         doc.text(`Order Status: ${order.orderStatus}`);
         doc.text(`Delivery Status: ${order.deliveryStatus}`);
@@ -497,6 +503,43 @@ const generatePDF = (ordersData, res) => {
             fs.unlinkSync(filePath);
         });
     });
+};
+
+const generateExcel = async (ordersData, res) => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sales');
+
+    // Add headers
+    worksheet.addRow([
+        'Order ID',
+        'Ordered Date',
+        'User Name',
+        'Total Price',
+        'Payment Method',
+        'Order Status',
+        'Delivery Status',
+        // ... add more headers as needed
+    ]);
+
+    // Add data rows
+    ordersData.forEach((order) => {
+        worksheet.addRow([
+            order._id,
+            order.orderedDate.toDateString(),
+            order.userId.name,
+            order.totalPrice,
+            order.paymentMethod,
+            order.orderStatus || 'Pending',
+            order.deliveryStatus,
+            // ... add more data fields as needed
+        ]);
+    });
+
+    const excelBuffer = await workbook.xlsx.writeBuffer();
+    
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename="sales.xlsx"');
+    res.send(excelBuffer);
 };
 
 module.exports = {
