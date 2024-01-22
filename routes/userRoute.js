@@ -133,4 +133,8 @@ userRoute.get('/shop/:id',cartCountMiddleware.getCartCount,userController.getPro
 
 userRoute.get('/wallet',auth.isBlocked,auth.isLogin,cartCountMiddleware.getCartCount,userController.getWallet);
 
+userRoute.get('/about',cartCountMiddleware.getCartCount,userController.getAbout);
+
+userRoute.get('/blog',cartCountMiddleware.getCartCount,userController.getBlog);
+
 module.exports = userRoute;

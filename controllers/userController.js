@@ -739,6 +739,55 @@ const getWallet = async(req,res) =>{
     }
 }
 
+const getAbout = async(req,res) =>{
+    try{
+
+        if(!req.session.user_id){
+
+            res.render('about'); 
+
+        }
+        else{
+
+            const userData = await User.findById({_id:req.session.user_id});
+    
+            if (userData) {
+                res.render('about',{user: userData}); 
+            }
+            else {
+                res.render('about'); 
+            }           
+        }
+        
+    }catch(error){
+        console.log(error.message);
+    }
+}
+
+const getBlog = async(req,res) =>{
+    try{
+
+        if(!req.session.user_id){
+
+            res.render('blog'); 
+
+        }
+        else{
+
+            const userData = await User.findById({_id:req.session.user_id});
+    
+            if (userData) {
+                res.render('blog',{user: userData}); 
+            }
+            else {
+                res.render('blog'); 
+            }           
+        }
+        
+    }catch(error){
+        console.log(error.message);
+    }
+}
 
 module.exports = {
     loadRegister,
@@ -768,5 +817,7 @@ module.exports = {
     getProductDetails,
     getSearch,
     getFilter,
-    getWallet
+    getWallet,
+    getAbout,
+    getBlog
 }
