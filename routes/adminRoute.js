@@ -14,6 +14,7 @@ const flash = require('connect-flash');
 const multer = require('multer');
 
 
+
 adminRoute.use(session({secret:config.sessionSecret,resave:false,saveUninitialized:true}));
 
 adminRoute.use(bodyParser.json());
@@ -81,6 +82,8 @@ adminRoute.get('/products/delete-product',auth.isLogin,productController.deleteP
 adminRoute.get('/users',auth.isLogin,adminController.loadUsers);
 adminRoute.get('/users/block-user',auth.isLogin,adminController.blockUser);
 adminRoute.get('/users/unblock-user',auth.isLogin,adminController.unblockUser);
+
+adminRoute.get('/sales',auth.isLogin,orderController.loadSales);
 
 adminRoute.get('/logout',auth.isLogin,adminController.logout);
 

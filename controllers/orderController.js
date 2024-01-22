@@ -9,6 +9,9 @@ const paymentHelper = require('../helpers/paymentHelper');
 const Razorpay = require('razorpay');
 const { RAZORPAY_KEY_ID,RAZORPAY_KEY_SECRET } = process.env;
 const crypto = require('crypto');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const path = require('path');
 
 const razorpayInstance = new Razorpay({
     key_id: RAZORPAY_KEY_ID,
@@ -417,6 +420,85 @@ const returnApprove = async(req,res) =>{
     }
 }
 
+const loadSales = async(req,res) =>{
+    try {
+
+        let startDate = req.query.startDate;
+        let endDate = req.query.endDate;
+
+        // Validate and convert startDate and endDate to Date objects if provided
+        startDate = startDate ? new Date(startDate) : null;
+        endDate = endDate ? new Date(endDate) : null;
+
+        // Construct the query object
+        const query = {};
+
+        // Add date range to the query if provided
+        if (startDate && endDate) {
+            query.orderedDate = { $gte: startDate, $lte: endDate };
+        } else if (startDate) {
+            query.orderedDate = { $gte: startDate };
+        } else if (endDate) {
+            query.orderedDate = { $lte: endDate };
+        }
+
+        const ordersData = await Order.find(query).populate( 'userId' ).populate( 'items.productId' ).populate( 'address' );
+        // Determine the format of the response (HTML or PDF)
+        const format = req.query.format || 'html';
+
+        // Render HTML or generate PDF based on the format
+        if (format === 'pdf') {
+            generatePDF(ordersData, res);
+        } else {
+            res.render('sales', { orders: ordersData });
+        }
+
+        // res.render('sales',{orders: ordersData});
+    
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const generatePDF = (ordersData, res) => {
+    const doc = new PDFDocument();
+    const filePath = path.join(__dirname, 'sales.pdf');
+    const stream = fs.createWriteStream(filePath);
+
+    doc.pipe(stream);
+
+    // PDF content generation
+    doc.fontSize(14).text('Sales Report', { align: 'center' }).moveDown(0.5);
+
+    // Iterate through ordersData and add content to the PDF
+    ordersData.forEach((order) => {
+        doc.text(`Order ID: ${order._id}`);
+        doc.text(`Ordered Date: ${order.orderedDate.toDateString()}`);
+        doc.text(`User Name: ${order.userId.name}`);
+        doc.text(`Total Price: ${order.totalPrice}`);
+        doc.text(`Payment Method: ${order.paymentMethod}`);
+        doc.text(`Order Status: ${order.orderStatus}`);
+        doc.text(`Delivery Status: ${order.deliveryStatus}`);
+
+        // ... (add more order details as needed)
+        doc.moveDown();
+    });
+
+    doc.end();
+
+    stream.on('finish', () => {
+        res.download(filePath, 'sales.pdf', (err) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Internal Server Error'); // Handle the error appropriately
+            }
+
+            // Remove the generated PDF file after sending it
+            fs.unlinkSync(filePath);
+        });
+    });
+};
+
 module.exports = {
 
     placeOrder,
@@ -430,6 +512,7 @@ module.exports = {
     editDeliveryStatus,
     updateDeliveryStatus,
     getReturnApprove,
-    returnApprove
+    returnApprove,
+    loadSales
 
 }
