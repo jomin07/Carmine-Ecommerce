@@ -13,6 +13,7 @@ const PDFDocument = require('pdfkit');
 const ExcelJS = require('exceljs');
 const fs = require('fs');
 const path = require('path');
+const easyinvoice = require('easyinvoice');
 
 const razorpayInstance = new Razorpay({
     key_id: RAZORPAY_KEY_ID,
@@ -331,6 +332,83 @@ const getUserOrderProducts = async(req,res) =>{
     }
 }
 
+const downloadInvoice = async(req, res) => {
+    try {
+
+        const { id } = req.params;
+        console.log(id);
+        
+        // Fetch the order data from the database
+        const orderData = await Order.findById(id)
+            .populate('items.productId')
+            .populate('address')
+            .populate('userId');
+
+        
+        // Replace this with your actual invoice data
+        const data = {
+            documentTitle: 'Invoice', // optional
+            currency: 'INR', // optional
+            taxNotation: 'vat', // optional
+            marginTop: 25, // optional
+            marginRight: 25, // optional
+            marginLeft: 25, // optional
+            marginBottom: 25, // optional
+            // logo: '/public/assets/imgs/theme/logo.svg', // optional
+            images: {
+                logo: "https://public.budgetinvoice.com/img/logo_en_original.png",
+                background: "https://public.budgetinvoice.com/img/watermark-draft.jpg"
+            },
+            sender: {
+            company: 'Carmine',
+            address: '1234 Mumbai',
+            zip: '123456',
+            city: 'Mumbai',
+            country: 'India',
+            },
+            client: {
+            company: orderData.address.name,
+            address: orderData.address.address,
+            zip: orderData.address.pincode,
+            city: orderData.address.city,
+            country: orderData.address.country,
+            },
+            information: {
+                // Invoice number
+                "number": orderData._id.toString(),
+                // Invoice data
+                "date": orderData.orderedDate.toISOString().split('T')[0],
+            },
+            products: orderData.items.map((item) => ({
+                quantity:  parseInt(item.quantity),
+                description: item.productId.name,
+                "tax-rate": 0, // Set the appropriate tax percentage
+                price:  parseInt(item.price)
+            })),
+            total:orderData.totalPrice,
+            bottomNotice: 'Thank you for your business!', // optional
+            // Settings to customize your invoice
+            settings: {
+                currency: "INR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
+            }
+        };
+
+        // Generate the invoice
+        easyinvoice.createInvoice(data, (result) => {
+            // Set the response header for PDF content
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+
+            // Send the generated PDF to the response
+            res.send(Buffer.from(result.pdf, 'base64'));
+        });
+
+    } catch (error) {
+        console.log(error.message);
+    }
+
+}
+
 const loadOrders = async(req,res) =>{
     try {
         const ordersData = await Order.find({}).populate( 'userId' ).populate( 'items.productId' ).populate( 'address' );
@@ -541,6 +619,7 @@ const generateExcel = async (ordersData, res) => {
     res.setHeader('Content-Disposition', 'attachment; filename="sales.xlsx"');
     res.send(excelBuffer);
 };
+  
 
 module.exports = {
 
@@ -556,6 +635,7 @@ module.exports = {
     updateDeliveryStatus,
     getReturnApprove,
     returnApprove,
-    loadSales
+    loadSales,
+    downloadInvoice
 
 }

@@ -109,6 +109,8 @@ userRoute.patch('/return-order',auth.isBlocked,auth.isLogin,orderController.retu
 
 userRoute.get('/view-order-products/:id',auth.isBlocked,cartCountMiddleware.getCartCount,orderController.getUserOrderProducts);
 
+userRoute.get('/download-invoice/:id',auth.isBlocked,cartCountMiddleware.getCartCount,orderController.downloadInvoice);
+
 
 
 
