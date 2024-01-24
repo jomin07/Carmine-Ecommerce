@@ -9,7 +9,7 @@ const paymentHelper = require('../helpers/paymentHelper');
 const Razorpay = require('razorpay');
 const { RAZORPAY_KEY_ID,RAZORPAY_KEY_SECRET } = process.env;
 const crypto = require('crypto');
-const PDFDocument = require('pdfkit');
+const puppeteer = require('puppeteer');
 const ExcelJS = require('exceljs');
 const fs = require('fs');
 const path = require('path');
@@ -544,44 +544,79 @@ const loadSales = async(req,res) =>{
     }
 }
 
-const generatePDF = (ordersData, res) => {
-    const doc = new PDFDocument();
-    const filePath = path.join(__dirname, 'sales.pdf');
-    const stream = fs.createWriteStream(filePath);
+const generatePDF = async (ordersData, res) => {
+    const browser = await puppeteer.launch({ headless: 'new' });
+    const page = await browser.newPage();
 
-    doc.pipe(stream);
+    // Calculate total revenue for confirmed orders
+    const totalRevenueConfirmed = ordersData
+        .filter(order => order.orderStatus === 'Confirmed')
+        .reduce((sum, order) => sum + order.totalPrice, 0);
 
-    // PDF content generation
-    doc.fontSize(14).text('Sales Report', { align: 'center' }).moveDown(0.5);
+    // HTML content generation
+    const htmlContent = `
+        <html>
+            <head>
+                <style>
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                    }
+                    th, td {
+                        border: 1px solid black;
+                        padding: 8px;
+                        text-align: left;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Sales Report</h1>
+                <p>Total Revenue Generated: Rs.${totalRevenueConfirmed}</p>
+                <table>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Ordered Date</th>
+                        <th>User Name</th>
+                        <th>Total Price</th>
+                        <th>Payment Method</th>
+                        <th>Order Status</th>
+                        <th>Delivery Status</th>
+                    </tr>
+                    ${ordersData.map(order => `
+                        <tr>
+                            <td>${order._id}</td>
+                            <td>${order.orderedDate.toDateString()}</td>
+                            <td>${order.userId.name}</td>
+                            <td>Rs.${order.totalPrice}</td>
+                            <td>${order.paymentMethod}</td>
+                            <td>${order.orderStatus || 'Pending'}</td>
+                            <td>${order.deliveryStatus}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+            </body>
+        </html>
+    `;
 
-    // Iterate through ordersData and add content to the PDF
-    ordersData.forEach((order) => {
-        doc.text(`Order ID: ${order._id}`);
-        doc.text(`Ordered Date: ${order.orderedDate.toDateString()}`);
-        doc.text(`User Name: ${order.userId.name}`);
-        doc.text(`Total Price: Rs.${order.totalPrice}`);
-        doc.text(`Payment Method: ${order.paymentMethod}`);
-        doc.text(`Order Status: ${order.orderStatus}`);
-        doc.text(`Delivery Status: ${order.deliveryStatus}`);
+    // Set content and generate PDF
+    await page.setContent(htmlContent);
+    const pdfFile = path.join(__dirname, 'sales.pdf');
+    await page.pdf({ path: pdfFile, format: 'A4' });
 
-        // ... (add more order details as needed)
-        doc.moveDown();
-    });
+    await browser.close();
 
-    doc.end();
+    // Serve or download the generated PDF
+    res.download(pdfFile, 'sales.pdf', (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error'); // Handle the error appropriately
+        }
 
-    stream.on('finish', () => {
-        res.download(filePath, 'sales.pdf', (err) => {
-            if (err) {
-                console.error(err);
-                res.status(500).send('Internal Server Error'); // Handle the error appropriately
-            }
-
-            // Remove the generated PDF file after sending it
-            fs.unlinkSync(filePath);
-        });
+        // Remove the generated PDF file after sending it
+        fs.unlinkSync(pdfFile);
     });
 };
+
 
 const generateExcel = async (ordersData, res) => {
     const workbook = new ExcelJS.Workbook();
