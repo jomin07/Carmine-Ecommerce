@@ -344,6 +344,8 @@ const downloadInvoice = async(req, res) => {
             .populate('address')
             .populate('userId');
 
+        // Generate an 8-digit random number as the invoice number
+        const uniqueInvoiceNumber = Math.floor(10000000 + Math.random() * 90000000); 
         
         // Replace this with your actual invoice data
         const data = {
@@ -361,8 +363,8 @@ const downloadInvoice = async(req, res) => {
             },
             sender: {
             company: 'Carmine',
-            address: '1234 Mumbai',
-            zip: '123456',
+            address: ' Empire Business Centre, 712, Lower Parel, Mumbai, Maharashtra',
+            zip: '403015',
             city: 'Mumbai',
             country: 'India',
             },
@@ -375,7 +377,7 @@ const downloadInvoice = async(req, res) => {
             },
             information: {
                 // Invoice number
-                "number": orderData._id.toString(),
+                "number": uniqueInvoiceNumber,
                 // Invoice data
                 "date": orderData.orderedDate.toISOString().split('T')[0],
             },
