@@ -37,6 +37,10 @@ const productSchema = new mongoose.Schema({
     offer:{
         type: Number,
         default: 0
+    },
+    isFeatured: {
+        type: Boolean,
+        default: false
     }
 });
 

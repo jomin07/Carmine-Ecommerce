@@ -259,14 +259,15 @@ const loadHome = async(req,res) =>{
     try {
         const userData = await User.findById({_id:req.session.user_id});
         const latestProducts = await Product.find({status: true}).sort({_id: -1}).limit(8).populate('category');
+        const featuredProducts = await Product.find({isFeatured: true,status: true}).limit(8).populate('category');
         const productsData = await Product.find({status: true}).populate('category');
         const categoriesData = await Category.find({status: true});
 
         if (userData) {
-            res.render('home',{user: userData,latestProducts}); 
+            res.render('home',{user: userData,latestProducts,featuredProducts}); 
         }
         else {
-            res.render('home',{latestProducts}); 
+            res.render('home',{latestProducts,featuredProducts}); 
         }
         
 
@@ -278,10 +279,11 @@ const loadHome = async(req,res) =>{
 const getLanding = async(req,res) =>{
     try {
         const latestProducts = await Product.find({status: true}).sort({_id: -1}).limit(8).populate('category');
+        const featuredProducts = await Product.find({isFeatured: true,status: true}).limit(8).populate('category');
         const productsData = await Product.find({status: true}).populate('category');
         const categoriesData = await Category.find({status: true});
              
-        res.render('home',{latestProducts});
+        res.render('home',{latestProducts,featuredProducts});
         
     } catch (error) {
         console.log(error);
