@@ -26,7 +26,6 @@ const addCoupon = async(req,res) =>{
         const exist = await Coupon.findOne({name: name.toUpperCase()});
         if (exist) {
             
-            console.log('exist');
             return res.render('add-coupon',{
                 message: 'Coupon already exists',
                 formData: req.body // Retain form data
@@ -140,7 +139,7 @@ const applyCoupon = async (req, res) => {
         // Remove non-numeric characters, including ₹ symbol, from the amount
         const amountString = req.body.amount.replace(/[^\d.]/g, ''); // Remove non-numeric characters, including ₹ symbol
         const amount = Number(amountString);
-        console.log('amount is',amount);
+        
         const userId = req.session.user_id;
         const userExist = await Coupon.findOne({ name: code, users: { $in: [userId] } });
 
@@ -148,7 +147,6 @@ const applyCoupon = async (req, res) => {
             res.json({ user: true });
         } else {
             const couponData = await Coupon.findOne({ name: code });
-            console.log(couponData);
             
             if (couponData) {
                 if (couponData.limit <= 0) {
@@ -175,8 +173,7 @@ const applyCoupon = async (req, res) => {
                                     if (perAmount <= maxDiscountAmount) {
                                         const disAmount = perAmount;
                                         const disTotal = Math.round(amount - disAmount);
-                                        console.log('disAmount is:',disAmount);
-                                        console.log('disTotal is:',disTotal);
+                                        
                                         return res.json({ amountOkey: true, disAmount, disTotal });
                                     }
                                 } else {

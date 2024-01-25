@@ -345,7 +345,6 @@
             try {
                 
                 const res = await axios.post(`/add-to-cart/${productId}`);
-                console.log(res);
 
                 if (res.status === 200 && res.data.success) {
 
@@ -359,13 +358,10 @@
 
                     // Update the cart count dynamically after adding the product to the cart
                     const cartCountElement = document.getElementById('cart-count');
-                    console.log(cartCountElement);
                     if (cartCountElement) {
 
                         const currentCartCount = Number(cartCountElement.innerHTML);
                         const updatedCartCount = currentCartCount + 1;
-
-                        console.log(updatedCartCount);
 
                         // Update the cart count in the UI
                         cartCountElement.innerText = updatedCartCount;
@@ -373,11 +369,8 @@
                     else{
 
                         const newCartCountElement = document.getElementById('new-cart-count');
-                        console.log(newCartCountElement);
                         const currentCartCount = Number(newCartCountElement.innerHTML);
                         const updatedCartCount = currentCartCount + 1;
-
-                        console.log(updatedCartCount);
 
                         // Update the cart count in the UI
                         newCartCountElement.innerText = updatedCartCount;
@@ -408,7 +401,6 @@
             try {    
                 
                 const res = await axios.post(`/add-to-wishlist/${productId}`);
-                console.log(res);
 
                 if (res.status === 200 && res.data.success) {
                     // Display SweetAlert notification on success

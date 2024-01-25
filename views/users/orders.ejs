@@ -95,12 +95,10 @@
 
                 const shouldCancel = await showConfirmationDialog("Are you sure you want to cancel this order?");
                 if (!shouldCancel) return;
-                console.log(orderId);
 
                 const status = 'Cancelled';
                 const cancel = await axios.patch('/cancel-order',{orderId,status,cancellationReason});
                 if (cancel.data.success){
-                    console.log(cancel.data);
                     const cancelButton = document.getElementById(`cancel-${orderId}`);
                     const order_status = document.getElementById(`order-status-${orderId}`);
                     cancelButton.style.display = 'none';
@@ -124,7 +122,6 @@
                 orderId,status,returnReason
             });
             if (response.data.success) {
-                console.log(response.data);
                 const returnButton = document.getElementById(`return-${orderId}`);
                 const order_status = document.getElementById(`order-status-${orderId}`);
                 returnButton.style.display = 'none';

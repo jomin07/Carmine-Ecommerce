@@ -50,10 +50,7 @@ const loadHome = async(req,res) =>{
         const totalProductsSold = await adminHelper.getTotalProductsSold();
         const bestSellingProducts = await adminHelper.getBestSellingProducts();
         const confirmedOrdersWithDeliveryStatus = await adminHelper.getConfirmedOrdersWithDeliveryStatus();
-        console.log(totalProductsSold);
-        console.log(totalRevenue);
-        console.log(totalUsers);
-        // res.render('home');
+        
         res.render('dashboard',{
             totalUsers,totalRevenue,bestSellingProducts,totalProductsSold,confirmedOrdersWithDeliveryStatus
         });

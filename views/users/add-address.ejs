@@ -99,7 +99,6 @@
     </section> <!-- content-main end// -->
 
     <script>
-        console.log("Script executed");
 
         document.getElementById('addAddressForm').addEventListener('submit', function (event) {
             const nameElement = document.getElementsByName('name')[0];
@@ -209,84 +208,5 @@
             });
         }
     </script>
-
-
-<!-- <script>
-    console.log("Script executed");
-
-    document.getElementById('addAddressForm').addEventListener('submit', function (event) {
-        const name = document.getElementsByName('name')[0].value;
-        const mobile = document.getElementsByName('mno')[0].value;
-        const pincode = document.getElementsByName('pincode')[0].value;
-        const locality = document.getElementsByName('locality')[0].value;
-        const address = document.getElementsByName('address')[0].value;
-        const city = document.getElementsByName('city')[0].value;
-        const state = document.getElementsByName('state')[0].value;
-        const country = document.getElementsByName('country')[0].value;
-        const landmark = document.getElementsByName('landmark')[0].value;
-
-        const errorMessages = document.getElementById('errorMessages');
-        const nameErrorMessages = document.getElementById('nameErrorMessages');
-        const mnoErrorMessages = document.getElementById('mnoErrorMessages');
-        const pincodeErrorMessages = document.getElementById('pincodeErrorMessages');
-        const localityErrorMessages = document.getElementById('localityErrorMessages');
-        const addressErrorMessages = document.getElementById('addressErrorMessages');
-        const cityErrorMessages = document.getElementById('cityErrorMessages');
-        const stateErrorMessages = document.getElementById('stateErrorMessages');
-        const countryErrorMessages = document.getElementById('countryErrorMessages');
-        const landmarkErrorMessages = document.getElementById('landmarkErrorMessages');
-
-        const containsNumbers = /\d/.test(name);          
-
-        errorMessages.innerHTML = '';
-        nameErrorMessages.innerHTML = '';
-        mnoErrorMessages.innerHTML = '';
-        pincodeErrorMessages.innerHTML = '';
-        localityErrorMessages.innerHTML = '';
-        addressErrorMessages.innerHTML = '';
-        cityErrorMessages.innerHTML = '';
-        stateErrorMessages.innerHTML = '';
-        countryErrorMessages.innerHTML = '';
-        landmarkErrorMessages.innerHTML = '';
-
-        if (name.length < 1) {
-            nameErrorMessages.innerHTML += 'Name field should not be empty<br>';
-        }
-        if (containsNumbers) {
-            nameErrorMessages.innerHTML += 'Name should not contain numbers<br>';
-        }
-        if (mobile.length !== 10) {
-            mnoErrorMessages.innerHTML += 'Mobile number should have 10 digits.<br>';
-        }
-        if (pincode.length < 1) {
-            pincodeErrorMessages.innerHTML += 'Pincode field should not be empty<br>';
-        }
-        if (locality.length < 1) {
-            localityErrorMessages.innerHTML += 'Locality field should not be empty<br>';
-        }
-        if (address.length < 1) {
-            addressErrorMessages.innerHTML += 'Address field should not be empty<br>';
-        }
-        if (city.length < 1) {
-            cityErrorMessages.innerHTML += 'City field should not be empty<br>';
-        }
-        if (state.length < 1) {
-            stateErrorMessages.innerHTML += 'State field should not be empty<br>';
-        }
-        if (country.length < 1) {
-            countryErrorMessages.innerHTML += 'Country field should not be empty<br>';
-        }
-        if (landmark.length < 1) {
-            landmarkErrorMessages.innerHTML += 'Landmark field should not be empty<br>';
-        }
-
-        if ((errorMessages.innerHTML !== '')||(nameErrorMessages.innerHTML !== '')||(mnoErrorMessages.innerHTML !== '')||(pincodeErrorMessages.innerHTML !== '')||(localityErrorMessages.innerHTML !== '')||(addressErrorMessages.innerHTML !== '')||(cityErrorMessages.innerHTML !== '')||(stateErrorMessages.innerHTML !== '')||(countryErrorMessages.innerHTML !== '')||(landmarkErrorMessages.innerHTML !== '')) 
-        
-        {
-            event.preventDefault();
-        }
-    });
-</script> -->
-
 
 <%- include('../partials/user-footer.ejs') %>

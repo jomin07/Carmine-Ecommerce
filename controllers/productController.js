@@ -29,7 +29,6 @@ const cropImage = async (inputPath, outputPath, width, height) => {
         await sharp(inputPath)
             .resize(width, height)
             .toFile(outputPath);
-        console.log('Image cropped successfully.');
     } catch (error) {
         console.error('Error cropping image:', error);
     }

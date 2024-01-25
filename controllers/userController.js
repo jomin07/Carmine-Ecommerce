@@ -49,7 +49,7 @@ const transporter = nodemailer.createTransport({
 const sendOtp = async(req, res)=> {
     email = req.body.email;
     recipientEmail = email;
-    console.log(email);
+    
     // Generate a new OTP and set the timestamp
     otp = Math.floor(Math.random() * 1000000);
     otpTimestamp = Date.now();
@@ -67,9 +67,6 @@ const sendOtp = async(req, res)=> {
             if (error) {
                 return console.log(error);
             }
-            console.log('Message sent: %s', info.messageId);
-            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-            console.log(otp);
         });
         // transporter.sendMail(mailOptions, function (error, info) {
         //     if (error) {
@@ -94,8 +91,7 @@ const verifyOtp = async(req, res)=> {
     try {
         if (req.body.otp == otp && currentTimestamp - otpTimestamp <= otpValidityDuration) {
             const updateInfo = await User.updateOne({ email: recipientEmail},{$set: {isVerified: 1}});
-            console.log(email);
-            console.log(updateInfo);
+
             // res.redirect('/login');
             res.json({ success: true, message: 'Verification successful' });
         } else {
@@ -113,8 +109,7 @@ const resendOtp = async(req, res)=> {
         // Generate a new OTP and set the timestamp
         otp = Math.floor(Math.random() * 1000000);
         otpTimestamp = Date.now();
-        console.log('inside resend');
-        console.log(recipientEmail);
+        
         // send mail with defined transport object
         let mailOptions = {
             from: "carmine@gmail.com",
@@ -127,9 +122,7 @@ const resendOtp = async(req, res)=> {
             if (error) {
                 return console.log(error);
             }
-            console.log('Message sent: %s', info.messageId);
-            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-            console.log(otp);
+            
             res.render('registration-confirmation',{message:'New OTP has been sent.Please Verify Your Mail'});
         });
 
@@ -465,8 +458,6 @@ const sendResetPasswordMail = async(name,email,token)=> {
             if (error) {
                 return console.log(error);
             }
-            console.log('Message sent: %s', info.messageId);
-            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
         });
        
     } catch (error) {

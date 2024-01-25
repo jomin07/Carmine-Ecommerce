@@ -263,8 +263,6 @@
                 if(walletCheckbox){
                     walletAmount = walletCheckbox.value;
                 }
-                console.log('checkoutTotal is ',checkoutTotal);
-                console.log('wallet amount is ',walletAmount);
 
                 if (!addressRadio || !paymentMethodRadio) {
 
@@ -274,9 +272,7 @@
                 
                 const addressId = addressRadio.value;
                 const paymentMethod = paymentMethodRadio.value;
-                console.log(paymentMethod);
-                      
-                
+                          
                 $("#checkout-form").submit((e) => {
                     e.preventDefault();
                     $.ajax({
@@ -284,7 +280,6 @@
                         method: 'post',
                         data: { addressId, paymentMethod,checkoutTotal,walletAmount },
                         success: (order) => {
-                            console.log(order);
                             if (order.success) {
                                 Swal.fire({
                                     icon: 'success',
@@ -296,9 +291,7 @@
                                     }
                                 });
                             }else{
-                                console.log("Before razorpayPayment");
                                 razorpayPayment( order.payment );
-                                console.log("After razorpayPayment");
 
                             }
                         },
@@ -322,9 +315,7 @@
 
         function razorpayPayment( order ) {
 
-            console.log('Razorpay Payment Function Called');
-            const rzp_key = '<%= process.env.RAZORPAY_KEY_ID %>'
-            console.log(rzp_key);
+            const rzp_key = '<%= process.env.RAZORPAY_KEY_ID %>';
 
             var options = {
                 "key": rzp_key, // Enter the Key ID generated from the Dashboard
@@ -349,7 +340,7 @@
         }
 
         function verifyPayment(response, order) {
-            console.log('Inside verify fn');
+
             // const amount = document.getElementById("total1").innerHTML;
             
             $.ajax({
@@ -384,7 +375,6 @@
             if (amountElement) {
                 
                 const amount = amountElement.innerHTML;
-                console.log('Amount is',amount);
 
                 $.ajax({
                     url: "/applyCoupon",
@@ -394,7 +384,6 @@
                     },
                     method: "post",
                     success: (response) => {
-                        console.log(response);
                         if (response.user) {
                             console.log("You have already used this coupon");
                             Swal.fire({

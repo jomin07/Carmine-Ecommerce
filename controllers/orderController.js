@@ -34,9 +34,6 @@ const placeOrder = async(req,res) =>{
             walletBalance = Number(walletAmount);
         }
 
-        console.log('amount is',checkoutTotal);
-        console.log('checkoutTotalAmount is',checkoutTotalAmount);
-        console.log('walletAmount is',walletAmount);
         let orderStatus;
         const items = cartData.items;
 
@@ -54,9 +51,6 @@ const placeOrder = async(req,res) =>{
         } else {
             amountPayable = checkoutTotalAmount;
         }
-        console.log('walletBalance is',walletBalance);
-        console.log('amountPayable is',amountPayable);
-        console.log('walletUsed is',walletUsed);
 
         
         // Check if any product in the cart has a quantity less than the required quantity
@@ -114,8 +108,6 @@ const placeOrder = async(req,res) =>{
         // Deleting cart
         await Cart.deleteOne({userId: userId});
 
-        console.log(paymentMethod);
-
         if( paymentMethod === 'COD' || amountPayable === 0){
 
             if( walletAmount ) {
@@ -137,7 +129,6 @@ const placeOrder = async(req,res) =>{
 
         }else if( paymentMethod === 'razorpay'){
             // Razorpay 
-            console.log('razorpay method');
             const payment = await paymentHelper.razorpayPayment( orderData._id, amountPayable );
             res.json({ payment : payment , success : false  })
         }
@@ -150,12 +141,9 @@ const placeOrder = async(req,res) =>{
 }
 
 const razorpayVerifyPayment = async( req, res ) => {
-
-    console.log('Inside razorpayVerifyPayment');
     
     const { response , order } = req.body
     const userId = req.session.user_id;
-    console.log(userId);
     let hmac = crypto.createHmac( 'sha256', RAZORPAY_KEY_SECRET )
     hmac.update( response.razorpay_order_id + '|' + response.razorpay_payment_id )
     hmac = hmac.digest( 'hex' );
@@ -222,8 +210,6 @@ const cancelOrder = async(req,res) =>{
         const orderData = await Order.findById({_id: orderId});
         const paymentMethod = orderData.paymentMethod;
         const orderStatus = orderData.orderStatus;
-
-        console.log(cancellationReason);
 
         //Increment stock quantity of the products as order is cancelled
         for(let items of orderData.items){
@@ -336,7 +322,6 @@ const downloadInvoice = async(req, res) => {
     try {
 
         const { id } = req.params;
-        console.log(id);
         
         // Fetch the order data from the database
         const orderData = await Order.findById(id)
