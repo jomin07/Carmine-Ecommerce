@@ -258,12 +258,15 @@ const verifyLogin = async(req,res) =>{
 const loadHome = async(req,res) =>{
     try {
         const userData = await User.findById({_id:req.session.user_id});
+        const latestProducts = await Product.find({status: true}).sort({_id: -1}).limit(8).populate('category');
+        const productsData = await Product.find({status: true}).populate('category');
+        const categoriesData = await Category.find({status: true});
 
         if (userData) {
-            res.render('home',{user: userData}); 
+            res.render('home',{user: userData,latestProducts}); 
         }
         else {
-            res.render('home'); 
+            res.render('home',{latestProducts}); 
         }
         
 
@@ -274,7 +277,12 @@ const loadHome = async(req,res) =>{
 
 const getLanding = async(req,res) =>{
     try {
-        res.render('home');
+        const latestProducts = await Product.find({status: true}).sort({_id: -1}).limit(8).populate('category');
+        const productsData = await Product.find({status: true}).populate('category');
+        const categoriesData = await Category.find({status: true});
+             
+        res.render('home',{latestProducts});
+        
     } catch (error) {
         console.log(error);
     }
