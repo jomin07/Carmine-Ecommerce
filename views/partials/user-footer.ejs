@@ -4,22 +4,47 @@
             <div class="row align-items-center">
                 <div class="col-lg-7 mb-md-3 mb-lg-0">
                     <div class="row align-items-center">
-                        <div class="col flex-horizontal-center">
-                            <img class="icon-email" src="/assets/imgs/theme/icons/icon-email.svg" alt="">
-                            <h4 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h4>
-                        </div>
-                        <div class="col my-4 my-md-0 des">
-                            <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$25 coupon for first shopping.</strong></h5>
-                        </div>
+                        <% if (locals.user) { %>
+
+                            <div class="col flex-horizontal-center">
+                                <img class="icon-email" src="/assets/imgs/theme/icons/icon-email.svg" alt="">
+                                <h4 class="font-size-20 mb-0 ml-3">Refer a New User</h4>
+                            </div>
+                            <div class="col my-4 my-md-0 des">
+                                <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>₹ 100 bonus in your wallet</strong></h5>
+                            </div>
+
+                        <% } else { %>
+
+                            <div class="col flex-horizontal-center">
+                                <img class="icon-email" src="/assets/imgs/theme/icons/icon-email.svg" alt="">
+                                <h4 class="font-size-20 mb-0 ml-3">Sign up using Referral Code</h4>
+                            </div>
+                            <div class="col my-4 my-md-0 des">
+                                <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>₹ 50 bonus in your wallet</strong></h5>
+                            </div>
+
+                        <% } %>
+
                     </div>
                 </div>
-                <div class="col-lg-5">
+                <div class="col-lg-5 text-lg-end">
                     <!-- Subscribe Form -->
-                    <form class="form-subcriber d-flex wow fadeIn animated">
+                    <!-- <form class="form-subcriber d-flex wow fadeIn animated">
                         <input type="email" class="form-control bg-white font-small" placeholder="Enter your email">
                         <button class="btn bg-dark text-white" type="submit">Subscribe</button>
-                    </form>
+                    </form> -->
+
                     <!-- End Subscribe Form -->
+                    <% if (locals.user) { %>
+                    
+                        <a href="/profile" class="btn btn-dark btn-lg text-white" type="submit">Go to Profile</a>
+
+                    <% } else { %>
+                        
+                        <a href="/register" class="btn btn-dark btn-lg text-white" type="submit">Sign Up</a>
+                    
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -55,23 +80,23 @@
                 <div class="col-lg-2 col-md-3">
                     <h5 class="widget-title wow fadeIn animated">About</h5>
                     <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Delivery Information</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms &amp; Conditions</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Support Center</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/about">Privacy Policy</a></li>
+                        <li><a href="/about">Terms &amp; Conditions</a></li>
+                        <li><a href="/about">Contact Us</a></li>
+                        <li><a href="/about">Support Center</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2  col-md-3">
                     <h5 class="widget-title wow fadeIn animated">My Account</h5>
                     <ul class="footer-list wow fadeIn animated">
-                        <li><a href="#">Sign In</a></li>
-                        <li><a href="#">View Cart</a></li>
-                        <li><a href="#">My Wishlist</a></li>
-                        <li><a href="#">Track My Order</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Order</a></li>
+                        <li><a href="/login">Sign In</a></li>
+                        <li><a href="/cart">View Cart</a></li>
+                        <li><a href="/wishlist">My Wishlist</a></li>
+                        <li><a href="/orders">Track My Order</a></li>
+                        <li><a href="/about">Help</a></li>
+                        <li><a href="/orders">Order</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
@@ -99,7 +124,7 @@
                 <div class="footer-bottom"></div>
             </div>
             <div class="col-lg-6">
-                <p class="float-md-left font-sm text-muted mb-0">&copy; 2021, <strong class="text-brand">Evara</strong> - HTML Ecommerce Template </p>
+                <p class="float-md-left font-sm text-muted mb-0">&copy; 2024, <strong class="text-brand">Evara</strong> - Carmine Ecommerce </p>
             </div>
             <div class="col-lg-6">
                 <p class="text-lg-end text-start font-sm text-muted mb-0">
