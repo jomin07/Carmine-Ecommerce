@@ -62,8 +62,8 @@
           const emailElement = document.getElementById('emailField');
           const passwordElement = document.getElementById('passwordField');
 
-          const email = emailElement.value;
-          const password = passwordElement.value;
+          const email = emailElement.value.trim();
+          const password = passwordElement.value.trim();
 
           const emailErrorMessages = document.getElementById('emailErrorMessages');
           const passwordErrorMessages = document.getElementById('passwordErrorMessages');

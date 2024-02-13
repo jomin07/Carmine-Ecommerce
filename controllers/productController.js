@@ -37,6 +37,9 @@ const cropImage = async (inputPath, outputPath, width, height) => {
 
 const addProduct = async(req,res) =>{
     try {
+
+        const categoriesData = await Category.find({status: true});
+
         const img = [];
 
         for(i=0;i<req.files.length;i++){
@@ -46,6 +49,16 @@ const addProduct = async(req,res) =>{
         // Find the ObjectId of the selected category
         const selectedCategory = await Category.findOne({ name: req.body.category });
         const categoryId = selectedCategory._id;
+
+        // Check if the sum of product offer and category offer exceeds 100
+        const totalOffer = parseFloat(req.body.offer) + parseFloat(selectedCategory.offer);
+        if (totalOffer >= 100) {
+            return res.render('add-product', { 
+                categories: categoriesData, 
+                message: 'Total offer cannot exceed 100%',
+                formData: req.body // Retain form data 
+            });
+        }
 
         const product = new Product({
             name: req.body.name,
@@ -118,10 +131,23 @@ const deleteImage = async (req, res) => {
 const updateProduct = async(req,res) =>{
     try {
             const existingProduct = await Product.findById( req.body.productId );
+            const id = req.body.productId;
+            const productData = await Product.findById({_id: id}).populate('category');
+            const categoriesData = await Category.find({status: true});
             
             // Find the ObjectId of the selected category
             const selectedCategory = await Category.findOne({ name: req.body.category });
             const categoryId = selectedCategory._id;
+
+            // Check if the sum of product offer and category offer exceeds 100
+            const totalOffer = parseFloat(req.body.offer) + parseFloat(selectedCategory.offer);
+            if (totalOffer >= 100) {
+                return res.render('edit-product', { 
+                    product: productData,
+                    categories: categoriesData,
+                    message: 'Total offer cannot exceed 100%'
+                });
+            }
 
             if( req.files ) {
                 for( let file of req.files ) {

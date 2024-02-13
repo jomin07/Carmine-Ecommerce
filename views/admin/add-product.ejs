@@ -21,31 +21,31 @@
                                 <form id="addProductForm" method="post" enctype="multipart/form-data">
                                     <div class="form-group mt-3">
                                         <label for="input-1">Product Name</label>
-                                        <input type="text" name="name" class="form-control" id="input-1">
+                                        <input type="text" name="name" class="form-control" id="input-1" value="<%= typeof formData !== 'undefined' ? formData.name : '' %>">
                                         <p id="nameErrorMessages" class="text-danger"></p>
                                     </div>
         
                                     <div class="form-group mt-3">
                                         <label for="input-2">Brand Name</label>
-                                        <input type="text" name="brand" class="form-control" id="input-2">
+                                        <input type="text" name="brand" class="form-control" id="input-2" value="<%= typeof formData !== 'undefined' ? formData.brand : '' %>">
                                         <p id="brandErrorMessages" class="text-danger"></p>
                                     </div>
         
                                     <div class="form-group mt-3">
                                         <label for="input-3">Price</label>
-                                        <input type="number" name="price" class="form-control" id="input-3">
+                                        <input type="number" name="price" class="form-control" id="input-3" value="<%= typeof formData !== 'undefined' ? formData.price : '' %>">
                                         <p id="priceErrorMessages" class="text-danger"></p>
                                     </div>
         
                                     <div class="form-group mt-3">
                                         <label for="input-4">Quantity</label>
-                                        <input type="number" name="quantity" class="form-control" id="input-4">
+                                        <input type="number" name="quantity" class="form-control" id="input-4" value="<%= typeof formData !== 'undefined' ? formData.quantity : '' %>">
                                         <p id="quantityErrorMessages" class="text-danger"></p>
                                     </div>
         
                                     <div class="form-group mt-3">
                                         <label for="input-5">Description</label>
-                                        <input type="text" name="description" class="form-control" id="input-5">
+                                        <input type="text" name="description" class="form-control" id="input-5" value="<%= typeof formData !== 'undefined' ? formData.description : '' %>">
                                         <p id="descriptionErrorMessages" class="text-danger"></p>
                                     </div>
         
@@ -67,7 +67,7 @@
 
                                     <div class="form-group mt-3">
                                         <label for="offer">Offer</label>
-                                        <input type="number" name="offer" class="form-control" id="offer">
+                                        <input type="number" name="offer" class="form-control" id="offer" value="<%= typeof formData !== 'undefined' ? formData.offer : '' %>">
                                         <p id="offerErrorMessages" class="text-danger"></p>
                                     </div>
         
@@ -85,7 +85,7 @@
                                     </div>
                                 </form>
                                 <% if(typeof message !=='undefined' ){ %>
-                                    <h6><br>
+                                    <h6 class="text-danger"><br>
                                         <%= message %>
                                     </h6>
                                 <% } %>
@@ -175,7 +175,7 @@
 
             // Validate Offer
             const offer = document.getElementById('offer').value.trim();
-            if (isNaN(offer) || parseInt(offer) < 0) {
+            if (isNaN(offer) || parseInt(offer) < 0 || parseInt(offer) >= 100) {
                 document.getElementById('offerErrorMessages').innerText = 'Please enter a valid Offer';
                 document.getElementById('offer').classList.add('border', 'border-danger');
                 isValid = false;

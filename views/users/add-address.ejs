@@ -111,15 +111,15 @@
             const countryElement = document.getElementsByName('country')[0];
             const landmarkElement = document.getElementsByName('landmark')[0];
 
-            const name = nameElement.value;
-            const mobile = mobileElement.value;
+            const name = nameElement.value.trim();
+            const mobile = mobileElement.value.trim();
             const pincode = pincodeElement.value;
-            const locality = localityElement.value;
-            const address = addressElement.value;
-            const city = cityElement.value;
-            const state = stateElement.value;
-            const country = countryElement.value;
-            const landmark = landmarkElement.value;
+            const locality = localityElement.value.trim();
+            const address = addressElement.value.trim();
+            const city = cityElement.value.trim();
+            const state = stateElement.value.trim();
+            const country = countryElement.value.trim();
+            const landmark = landmarkElement.value.trim();
 
             const errorMessages = document.getElementById('errorMessages');
             const nameErrorMessages = document.getElementById('nameErrorMessages');

@@ -107,9 +107,9 @@
                                     </div>
                                 </form>
                                 <% if(typeof message !=='undefined' ){ %>
-                                <h6><br>
-                                    <%= message %>
-                                </h6>
+                                    <h6 class="text-danger"><br>
+                                        <%= message %>
+                                    </h6>
                                 <% } %>
                             </div>
                         </div>
@@ -143,44 +143,44 @@
 
             // Validate Product Name
             if (!nameInput.value.trim()) {
-                displayErrorMessage(nameInput, 'nameErrorMessages', 'Please enter a valid Product Name.');
+                displayErrorMessage(nameInput, 'nameErrorMessages', 'Please enter a valid Product Name');
                 isValid = false;
             }
 
             // Validate Brand Name
             if (!brandInput.value.trim()) {
-                displayErrorMessage(brandInput, 'brandErrorMessages', 'Please enter a valid Brand Name.');
+                displayErrorMessage(brandInput, 'brandErrorMessages', 'Please enter a valid Brand Name');
                 isValid = false;
             }
 
             // Validate Price
             if (priceInput.value.trim() === '' || isNaN(priceInput.value) || parseFloat(priceInput.value) <= 0) {
-                displayErrorMessage(priceInput, 'priceErrorMessages', 'Please enter a valid Price.');
+                displayErrorMessage(priceInput, 'priceErrorMessages', 'Please enter a valid Price');
                 isValid = false;
             }
 
             // Validate Quantity
             if (quantityInput.value.trim() === '' || isNaN(quantityInput.value) || parseInt(quantityInput.value) <= 0) {
-                displayErrorMessage(quantityInput, 'quantityErrorMessages', 'Please enter a valid Quantity.');
+                displayErrorMessage(quantityInput, 'quantityErrorMessages', 'Please enter a valid Quantity');
                 isValid = false;
             }
 
             // Validate Description
             if (!descriptionInput.value.trim()) {
-                displayErrorMessage(descriptionInput, 'descriptionErrorMessages', 'Please enter a valid Description.');
+                displayErrorMessage(descriptionInput, 'descriptionErrorMessages', 'Please enter a valid Description');
                 isValid = false;
             }
 
-            // Validate Quantity
-            if (isNaN(offerInput.value) || parseInt(offerInput.value) < 0) {
-                displayErrorMessage(offerInput, 'offerErrorMessages', 'Please enter a valid Offer.');
+            // Validate Offer
+            if (isNaN(offerInput.value) || parseInt(offerInput.value) < 0 || parseInt(offerInput.value) >= 100) {
+                displayErrorMessage(offerInput, 'offerErrorMessages', 'Please enter a valid Offer');
                 isValid = false;
             }
 
 
             // Validate Category
             if (categorySelect.value.trim() === '') {
-                displayErrorMessage(categorySelect, 'categoryErrorMessages', 'Please select a valid Category.');
+                displayErrorMessage(categorySelect, 'categoryErrorMessages', 'Please select a valid Category');
                 isValid = false;
             }
 
@@ -192,7 +192,7 @@
 
             // Check if there are no images associated with the product
             if (!productImagesDiv.innerHTML.trim() && fileInput.files.length === 0) {
-                displayErrorMessage(fileInput, 'validation-message', 'Please upload at least one image for the product.');
+                displayErrorMessage(fileInput, 'validation-message', 'Please upload at least one image for the product');
                 isValid = false;
             }
 

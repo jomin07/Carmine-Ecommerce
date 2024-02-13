@@ -164,42 +164,5 @@
       }
     });
   </script>
-  
-  
-  
-  
-
 
 <%- include('../partials/user-footer.ejs') %>
-
-  <!-- <script>
-    document.getElementById('registrationForm').addEventListener('submit', function (event) {
-      const name = document.getElementsByName('name')[0].value;
-      const email = document.getElementsByName('email')[0].value;
-      const password = document.getElementsByName('password')[0].value;
-      const mobile = document.getElementsByName('mno')[0].value;
-      const errorMessages = document.getElementById('errorMessages');   
-  
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const isEmailValid = emailRegex.test(email);
-  
-      errorMessages.innerHTML = '';
-  
-      if (name.length < 1) {
-        errorMessages.innerHTML += 'Name should have at least 1 character.<br>';
-      }
-      if (!isEmailValid) {
-        errorMessages.innerHTML += 'Please enter a valid email.<br>';
-      }
-      if (password.length < 6) {
-        errorMessages.innerHTML += 'Password should contain at least 6 characters.<br>';
-      }
-      if (mobile.length !== 10) {
-        errorMessages.innerHTML += 'Mobile number should have 10 digits.<br>';
-      }
-  
-      if (errorMessages.innerHTML !== '') {
-        event.preventDefault();
-      }
-    });
-  </script> -->

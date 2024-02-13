@@ -58,7 +58,7 @@
 
     document.getElementById('editCategoryForm').addEventListener('submit', function (event) {
         const nameInput = document.getElementsByName('name')[0];
-        const name = nameInput.value;
+        const name = nameInput.value.trim();
         const offerInput = document.getElementById('offer');
         const offer = offerInput.value;
 
@@ -84,7 +84,7 @@
             nameErrorMessages.innerHTML += 'Name should not contain numbers<br>';
             nameInput.classList.add('border', 'border-danger');
         }
-        if (isNaN(offer) || parseInt(offer) < 0) {
+        if (isNaN(offer) || parseInt(offer) < 0 || parseInt(offer) >= 100) {
             offerErrorMessages.innerHTML += 'Please enter a valid Offer<br>';
             offerInput.classList.add('border', 'border-danger');
         }

@@ -100,7 +100,7 @@
             const discountElement = document.getElementsByName('discount')[0];
             const limitElement = document.getElementsByName('limit')[0];
     
-            const name = nameElement.value;
+            const name = nameElement.value.trim();
             const startingDate = startingDateElement.value;
             const expiryDate = expiryDateElement.value;
             const minimumAmount = minimumAmountElement.value;
@@ -199,88 +199,5 @@
             });
         }
     </script>
-    
-    
-    <!-- <script>
-
-        document.getElementById('addCouponForm').addEventListener('submit', function (event) {
-          
-            const name = document.getElementsByName('name')[0].value;
-            const startingDate = document.getElementsByName('startingDate')[0].value;
-            const expiryDate = document.getElementsByName('expiryDate')[0].value;
-            const minimumAmount = document.getElementsByName('minimumAmount')[0].value;
-            const discountType = document.getElementsByName('discountType')[0].value;
-            const discount = document.getElementsByName('discount')[0].value;
-            const limit = document.getElementsByName('limit')[0].value;
-    
-            const errorMessages = document.getElementById('errorMessages');
-            const nameErrorMessages = document.getElementById('nameErrorMessages');
-            const startingDateErrorMessages = document.getElementById('startingDateErrorMessages');
-            const expiryDateErrorMessages = document.getElementById('expiryDateErrorMessages');
-            const minimumAmountErrorMessages = document.getElementById('minimumAmountErrorMessages');
-            const discountTypeErrorMessages = document.getElementById('discountTypeErrorMessages');
-            const discountErrorMessages = document.getElementById('discountErrorMessages');
-            const limitErrorMessages = document.getElementById('limitErrorMessages');
-    
-            const containsNumbers = /\d/.test(name);          
-    
-            errorMessages.innerHTML = '';
-            nameErrorMessages.innerHTML = '';
-            startingDateErrorMessages.innerHTML = '';
-            expiryDateErrorMessages.innerHTML = '';
-            minimumAmountErrorMessages.innerHTML = '';
-            discountTypeErrorMessages.innerHTML = '';
-            discountErrorMessages.innerHTML = '';
-            limitErrorMessages.innerHTML = '';
-    
-            if (name.length < 1) {
-                nameErrorMessages.innerHTML += 'Name field should not be empty<br>';
-            }
-            if (containsNumbers) {
-                nameErrorMessages.innerHTML += 'Name should not contain numbers<br>';
-            }
-            if (startingDate.length < 1) {
-                startingDateErrorMessages.innerHTML += 'Starting Date field should not be empty<br>';
-            }
-            if (startingDate && startingDate >= expiryDate) {
-                startingDateErrorMessages.innerHTML += 'Starting Date should not be greater than Expiry Date<br>';
-            }
-            if (expiryDate.length < 1) {
-                expiryDateErrorMessages.innerHTML += 'Expiry Date field should not be empty<br>';
-            }
-            if (minimumAmount.length < 1) {
-                minimumAmountErrorMessages.innerHTML += 'Minimum Amount field should not be empty<br>';
-            }
-            if (minimumAmount&& minimumAmount < 1) {
-                minimumAmountErrorMessages.innerHTML += 'Minimum Amount should be a postive value<br>';
-            }
-            if (discountType.length < 1) {
-                discountTypeErrorMessages.innerHTML += 'Discount Type field should not be empty<br>';
-            }
-            if (discountType === 'percentage' && discount && discount > 100) {
-                discountErrorMessages.innerHTML += 'Discount percentage should not be greater than 100<br>';
-            }
-            if (discount.length < 1) {
-                discountErrorMessages.innerHTML += 'Discount field should not be empty<br>';
-            }
-            if (discount && discount < 1) {
-                discountErrorMessages.innerHTML += 'Discount should be a postive value<br>';
-            }
-            if (limit.length < 1) {
-                limitErrorMessages.innerHTML += 'Limit field should not be empty<br>';
-            }
-            if (limit && limit < 1) {
-                limitErrorMessages.innerHTML += 'Limit should be a postive value<br>';
-            }
-            
-    
-            if ((errorMessages.innerHTML !== '')||(nameErrorMessages.innerHTML !== '')||(startingDateErrorMessages.innerHTML !== '')||(expiryDateErrorMessages.innerHTML !== '')||(minimumAmountErrorMessages.innerHTML !== '')||(discountTypeErrorMessages.innerHTML !== '')||(discountErrorMessages.innerHTML !== '')||(limitErrorMessages.innerHTML !== '')) 
-            
-            {
-                event.preventDefault();
-            }
-        });
-        
-    </script> -->
 
 <%- include('../partials/admin-footer.ejs') %>
