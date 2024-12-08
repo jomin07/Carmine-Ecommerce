@@ -1,28 +1,24 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 const mongoose = require("mongoose");
 mongoose.connect(process.env.MONGO);
-const path = require('path');
-const nocache = require('nocache');
-const flash = require('connect-flash');
+const path = require("path");
+const nocache = require("nocache");
 
 const express = require("express");
 const app = express();
 
 app.use(nocache());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
 
+app.use("/", userRoute);
 
-//for User Routes
-app.use('/',userRoute);
+app.use("/admin", adminRoute);
 
-//for Admin Routes
-app.use('/admin',adminRoute);
-
-app.listen(5000,() =>{
-    console.log('Server is running');
+app.listen(5000, () => {
+  console.log("Server is running");
 });
